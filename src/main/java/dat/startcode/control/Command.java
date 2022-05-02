@@ -17,6 +17,7 @@ abstract class Command
         commands.put("logout", new Logout());
         commands.put("about", new About());
     }
+    //hej med jer
 
     static Command from( HttpServletRequest request ) {
         String commandName = request.getParameter( "command" );

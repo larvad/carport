@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+Title Aktivitets Diagram (AS-IS)
+|#lightgrey|k| Kunde
+start
+:Gå til website;
+|#darkblue|w| Website
+:Valg af skræddersyet carport;
+:bestilling;
+|#lightgrey|s| Sælger/Admin
+:tjek noter,
+bestillinger;
+:lav pizza;
+|w|
+:pizza;
+|k|
+:pizza;
+stop
+@enduml

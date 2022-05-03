@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+Title Aktivitets Diagram (TO-BE)
+|k| Kunde
+start
+:Gå til website;
+|#003D76|w| Website
+:K: Valg af skræddersyet carport;
+:K: Indtast mål og kundeinfo;
+:K: Ser tegning og gem forespørgsel;
+:S: Sælger ser at der
+er kommet en bestilling;
+|s|Fog
+:Sælger snakker med kunde,
+giver vejledning,
+justerer ordre;
+:Giver pris;
+:Bekræfter ordre,
+laver bindende aftale med kunden;
+|w|
+:S: Bekræfter ordre;
+|k|
+:Betaler;
+:Får stykliste;
+|s|
+:Leverer materialer;
+|k|
+:Bygger carport;
+stop
+@enduml

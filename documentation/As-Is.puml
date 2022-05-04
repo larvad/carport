@@ -1,19 +1,55 @@
 @startuml
 'https://plantuml.com/activity-diagram-beta
 Title Aktivitets Diagram (AS-IS)
-|#lightgrey|k| Kunde
+|k| Kunde
 start
 :Gå til website;
-|#darkblue|w| Website
-:Valg af skræddersyet carport;
-:bestilling;
-|#lightgrey|s| Sælger/Admin
-:tjek noter,
-bestillinger;
-:lav pizza;
 |w|
-:pizza;
+:Vis hjemmeside;
 |k|
-:pizza;
-stop
+:Valg skræddersyet carport i menu;
+
+|#003D76|w| Website
+repeat
+|k|
+:Indtast mål og kunde info;
+|w|
+  :Valider input;
+repeat while (Mangler data) is (Ja)
+->nej;
+|w|
+:Opret oversigt over carport;
+|k|
+:Få oversigt og tegning på email;
+:Bekræft order;
+|w|
+:Verficere order;
+|s|
+:Gennemgå order fra kunde;
+:Beregn pris;
+
+|s|Fog
+if (Alt ser fint ud) then
+  :Send kunde tilbud på order;
+else
+  :Slet order;
+  end
+endif
+|k|
+:accepter tilbud;
+
+|w|
+:Lav kvittering;
+fork
+|k|
+  :Se kvittering;
+  :vent på materialer;
+fork again
+  |s|
+    :Pak materialer;
+    :Send materialer;
+  |k|
+end fork
+:Modtag materialer/håndværkere;
+end
 @enduml

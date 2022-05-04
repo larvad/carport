@@ -4,23 +4,54 @@ Title Aktivitets Diagram (TO-BE)
 |k| Kunde
 start
 :Gå til website;
-|#003D76|w| Website
-:K: Valg af skræddersyet carport;
-:K: Indtast mål og kundeinfo;
-:K: Ser tegning og gem forespørgsel;
-:S: Sælger ser at der
-er kommet en bestilling;
-|s|Fog
-:Sælger snakker med kunde,
-giver vejledning,
-justerer ordre;
-:Giver pris;
-:Bekræfter ordre,
-laver bindende aftale med kunden;
 |w|
-:S: Bekræfter ordre;
+:Vis hjemmeside;
+|k|
+:Valg skræddersyet carport i navbar;
+
+|#003D76|w| Website
+repeat
+|k|
+:Indtast mål;
+|w|
+  :valider input;
+repeat while (mangler data) is (yes)
+->no;
+
+|k|
+:opret eller login;
+|w|
+:opret forespørgsel/bestilling i DB;
+
+fork
+|w|
+:[hidden];
+|k|
+:Se tegning;
+end
+fork again
+  |s|
+  :Sælger ser at der er kommet en bestilling;
+end merge
+|w|
+:se tegning og stykliste;
+
+|s|Fog
+:Sælger snakker med kunde, giver vejledning, justerer ordre;
+:giver pris til kunde;
+|k|
+:modtager pris;
+|s|
+:Bekræfter/redigere ordre,
+laver bindende aftale med kunden;
+
+|w|
+:opdatere ordre i DB;
 |k|
 :Betaler;
+|w|
+:opdatere ordre i DB;
+|k|
 :Får stykliste;
 |s|
 :Leverer materialer;

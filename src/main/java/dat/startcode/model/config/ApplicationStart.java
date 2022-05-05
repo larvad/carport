@@ -78,3 +78,5 @@ public class ApplicationStart implements ServletContextListener
         }
     }
 }
+
+//TODO: Singleton statisk klasse, Connectionpool én gang.

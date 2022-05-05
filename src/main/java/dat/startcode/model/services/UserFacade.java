@@ -21,3 +21,5 @@ public class UserFacade
         return userMapper.createUser(username, password, role);
     }
 }
+
+//TODO: lave UserFacade om til Facade, og rykke den op i persistence mappen. Lade alle vores klasser i control køre deres metoder over facaden.

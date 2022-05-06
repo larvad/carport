@@ -17,25 +17,31 @@ public class UserMapper implements IUserMapper
     }
 
     @Override
-    public User login(String username, String password) throws DatabaseException
+    public User login(String email, String password) throws DatabaseException
     {
         Logger.getLogger("web").log(Level.INFO, "");
 
         User user = null;
 
-        String sql = "SELECT * FROM user WHERE username = ? AND password = ?";
+        String sql = "SELECT * FROM user " +
+                "WHERE email = ? AND password = ?";
 
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement ps = connection.prepareStatement(sql))
             {
-                ps.setString(1, username);
+                ps.setString(1, email);
                 ps.setString(2, password);
                 ResultSet rs = ps.executeQuery();
                 if (rs.next())
                 {
-                    String role = rs.getString("role");
-                    user = new User(username, password, role);
+
+                    int userId = rs.getInt("user_id");
+                    String username = rs.getString("username");
+                    int roleId = rs.getInt("role_id");
+                    int phoneNumber  = rs.getInt("phone_no");
+                    String adresse = rs.getString("adresse");
+                    user = new User(username, password, roleId, userId,email,phoneNumber,adresse);
                 } else
                 {
                     throw new DatabaseException("Wrong username or password");
@@ -49,23 +55,34 @@ public class UserMapper implements IUserMapper
     }
 
     @Override
-    public User createUser(String username, String password, String role) throws DatabaseException
+    public User createUser(String username, String password,String email,int phoneNr, String adresse) throws DatabaseException
     {
         Logger.getLogger("web").log(Level.INFO, "");
         User user;
+        int newId = 0;
         String sql = "insert into user (username, password, role) values (?,?,?)";
         try (Connection connection = connectionPool.getConnection())
         {
-            try (PreparedStatement ps = connection.prepareStatement(sql))
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
             {
                 ps.setString(1, username);
                 ps.setString(2, password);
-                ps.setString(3, role);
+                ps.setString(4, email);
+                ps.setInt(5, phoneNr);
+                ps.setString(6, adresse);
+
                 int rowsAffected = ps.executeUpdate();
+
                 if (rowsAffected == 1)
                 {
-                    user = new User(username, password, role);
-                } else
+
+                }
+                ResultSet idResultset = ps.getGeneratedKeys();
+                if (idResultset.next())
+                {
+                    newId = idResultset.getInt(1);
+                    user = new User(username, password, 1,newId, email,phoneNr,adresse);
+                }else
                 {
                     throw new DatabaseException("The user with username = " + username + " could not be inserted into the database");
                 }

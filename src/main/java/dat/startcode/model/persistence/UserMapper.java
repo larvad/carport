@@ -60,24 +60,24 @@ public class UserMapper implements IUserMapper
         Logger.getLogger("web").log(Level.INFO, "");
         User user;
         int newId = 0;
-        String sql = "insert into user (username, password, role) values (?,?,?)";
+        String sql = "insert into user (username, email, password, role_id, phone_no, adresse) values (?,?,?,?,?,?)";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
             {
                 ps.setString(1, username);
-                ps.setString(2, password);
-                ps.setString(4, email);
+                ps.setString(2, email);
+                ps.setString(3, password);
+                ps.setInt(4,1);
                 ps.setInt(5, phoneNr);
                 ps.setString(6, adresse);
 
+                ResultSet idResultset = ps.getGeneratedKeys();
                 int rowsAffected = ps.executeUpdate();
-
                 if (rowsAffected == 1)
                 {
 
                 }
-                ResultSet idResultset = ps.getGeneratedKeys();
                 if (idResultset.next())
                 {
                     newId = idResultset.getInt(1);
@@ -90,7 +90,7 @@ public class UserMapper implements IUserMapper
         }
         catch (SQLException ex)
         {
-            throw new DatabaseException(ex, "Could not insert username into database");
+            throw new DatabaseException(ex, "Could not insert user into database");
         }
         return user;
     }

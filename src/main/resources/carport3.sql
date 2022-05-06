@@ -1,3 +1,4 @@
+DROP SCHEMA if EXISTS`carport`;
 CREATE DATABASE  IF NOT EXISTS `carport` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `carport`;
 -- MySQL dump 10.13  Distrib 8.0.28, for Win64 (x86_64)

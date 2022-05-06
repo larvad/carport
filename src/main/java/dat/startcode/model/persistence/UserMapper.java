@@ -58,7 +58,7 @@ public class UserMapper implements IUserMapper
     public User createUser(String username, String password,String email,int phoneNr, String adresse) throws DatabaseException
     {
         Logger.getLogger("web").log(Level.INFO, "");
-        User user;
+        User user = null;
         int newId = 0;
         String sql = "insert into user (username, email, password, role_id, phone_no, adresse) values (?,?,?,?,?,?)";
         try (Connection connection = connectionPool.getConnection())
@@ -72,17 +72,17 @@ public class UserMapper implements IUserMapper
                 ps.setInt(5, phoneNr);
                 ps.setString(6, adresse);
 
-                ResultSet idResultset = ps.getGeneratedKeys();
                 int rowsAffected = ps.executeUpdate();
                 if (rowsAffected == 1)
                 {
-
+                    ResultSet idResultset = ps.getGeneratedKeys();
+                    if (idResultset.next())
+                    {
+                        newId = idResultset.getInt(1);
+                        user = new User(username, password, 1,newId, email,phoneNr,adresse);
+                    }
                 }
-                if (idResultset.next())
-                {
-                    newId = idResultset.getInt(1);
-                    user = new User(username, password, 1,newId, email,phoneNr,adresse);
-                }else
+                else
                 {
                     throw new DatabaseException("The user with username = " + username + " could not be inserted into the database");
                 }

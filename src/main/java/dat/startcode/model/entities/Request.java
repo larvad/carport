@@ -8,7 +8,7 @@ public class Request {
     private int carpWidth;
     private int carpLength;
     private String roofType;
-    private int slope;
+    private int roofSlope;
     private int shedWidth;
     private int shedLength;
     private Timestamp timestamp;
@@ -18,7 +18,7 @@ public class Request {
         this.carpWidth = carpWidth;
         this.carpLength = carpLength;
         this.roofType = roofType;
-        this.slope = slope;
+        this.roofSlope = slope;
         this.shedWidth = shedWidth;
         this.shedLength = shedLength;
         this.timestamp = timestamp;
@@ -56,12 +56,12 @@ public class Request {
         this.roofType = roofType;
     }
 
-    public int getSlope() {
-        return slope;
+    public int getRoofSlope() {
+        return roofSlope;
     }
 
-    public void setSlope(int slope) {
-        this.slope = slope;
+    public void setRoofSlope(int roofSlope) {
+        this.roofSlope = roofSlope;
     }
 
     public int getShedWidth() {
@@ -95,7 +95,7 @@ public class Request {
                 ", carpWidth=" + carpWidth +
                 ", carpLength=" + carpLength +
                 ", roofType='" + roofType + '\'' +
-                ", slope=" + slope +
+                ", slope=" + roofSlope +
                 ", shedWidth=" + shedWidth +
                 ", shedLength=" + shedLength +
                 ", timestamp=" + timestamp +

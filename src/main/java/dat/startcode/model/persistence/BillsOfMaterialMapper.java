@@ -31,17 +31,16 @@ public class BillsOfMaterialMapper {
                 if (rs.next()) {
 
                     int materialId = rs.getInt("material_id");
-                    int materialId = rs.getInt("order_id");
                     int orderId = rs.getInt("order_id");
                     int quantity = rs.getInt("quantity");
                     String description = rs.getString("description");
-                    billsOfMaterial = new BillsOfMaterial()
+                    billsOfMaterial = new BillsOfMaterial(bomId, materialId, orderId, quantity, description);
                 } else {
-                    throw new DatabaseException("Wrong username or password");
+                    throw new DatabaseException("Fejl. Kunne ikke finde styklisten.");
                 }
             }
         } catch (SQLException ex) {
-            throw new DatabaseException(ex, "Error logging in. Something went wrong with the database");
+            throw new DatabaseException(ex, "Something went wrong with the database");
         }
         return billsOfMaterial;
     }

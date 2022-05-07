@@ -12,18 +12,15 @@ import javax.servlet.http.HttpSession;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Login extends Command
-{
+public class Login extends Command {
     private ConnectionPool connectionPool;
 
-    public Login()
-    {
+    public Login() {
         this.connectionPool = ApplicationStart.getConnectionPool();
     }
 
     @Override
-    String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException
-    {
+    String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
         HttpSession session = request.getSession();
         session.setAttribute("user", null); // adding empty user object to session scope
         String email = request.getParameter("email");

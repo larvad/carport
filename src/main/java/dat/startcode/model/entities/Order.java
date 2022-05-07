@@ -10,7 +10,7 @@ public class Order {
     private String drawing;
     private double costPrice;
     private double finalPrice;
-    private int status;
+    private int statusId;
     private Timestamp timestamp;
 
     public Order(int orderId, int userId, int requestId, String drawing, double costPrice, double finalPrice, int status, Timestamp timestamp) {
@@ -20,7 +20,7 @@ public class Order {
         this.drawing = drawing;
         this.costPrice = costPrice;
         this.finalPrice = finalPrice;
-        this.status = status;
+        this.statusId = status;
         this.timestamp = timestamp;
     }
 
@@ -72,12 +72,12 @@ public class Order {
         this.finalPrice = finalPrice;
     }
 
-    public int getStatus() {
-        return status;
+    public int getStatusId() {
+        return statusId;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
     }
 
     public Timestamp getTimestamp() {
@@ -97,7 +97,7 @@ public class Order {
                 ", drawing='" + drawing + '\'' +
                 ", costPrice=" + costPrice +
                 ", finalPrice=" + finalPrice +
-                ", status=" + status +
+                ", status=" + statusId +
                 ", timestamp=" + timestamp +
                 '}';
     }

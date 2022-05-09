@@ -47,12 +47,7 @@ public class UserMapper implements IUserMapper {
     }
 
     @Override
-<<<<<<< HEAD
     public User createUser(String username, String email, String password, int phoneNr, String adresse) throws DatabaseException {
-=======
-    public User createUser(String username, String email, String password, int phoneNr, String adresse) throws DatabaseException
-    {
->>>>>>> 6a45ee1 (opret createUser jsp, object og link. Det virker)
         Logger.getLogger("web").log(Level.INFO, "");
         User user = null;
         int newId = 0;

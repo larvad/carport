@@ -12,6 +12,7 @@ public class CreateCarport extends Command {
         RequestCalculator requestCalculator = new RequestCalculator();
         requestCalculator.calculate();
 
+        //TODO: CHECK om redskabsrum er 30cm mindre i brede og længe! ellers send kunde tilbage i børnehaven.
         return "createCarport";
     }
 }

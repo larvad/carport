@@ -1,6 +1,7 @@
 package dat.startcode.logic;
 
 import dat.startcode.model.dto.MaterialDTO;
+import dat.startcode.model.entities.BillsOfMaterial;
 import dat.startcode.model.entities.CustomerRequest;
 
 import java.util.ArrayList;
@@ -22,33 +23,34 @@ public class RequestCalculator {
     private final int RAFTERSTHICKNESS = 45;
     private final int UNDERSTERNBRÆDDERTYKKELSE = 25;
 
+    //TODO: Hyggehejsa læser, dette skal ændres så det kommer fra et scope!
+    private int orderId = 0;
+    private int bomId = 0; //bliver auto gerenert
+
 
     // public void calculate(CustomerRequest customerRequest) {
     public void calculate() {
 
         List<MaterialDTO> listOfMaterial = new ArrayList<>();
+        List<BillsOfMaterial> billsOfMaterials = new ArrayList<>();
 
         // Finder antal stolper på baggrund af længden
 
         if (carpLengthInMm <= COLUMNBREAKPOINT) {
-
             // Stolpe = materialID 4
-
-            listOfMaterial.add(new MaterialDTO(4, 4));
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, 4, "Stolper nedgraves 90 cm. i jord"));
 
         } else {
-            listOfMaterial.add(new MaterialDTO(4, 6));
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, 6, "Stolper nedgraves 90 cm. i jord"));
         }
 
         // Finder remme //TODO: tager ikke højde for at der er remme i forskellige længder
 
         if (carpLengthInMm <= REMBREAKPOINT) {
-
-            listOfMaterial.add(new MaterialDTO(5, 2));
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, 2, "Remme i sider, sadles ned i stolper"));
 
         } else {
-
-            listOfMaterial.add(new MaterialDTO(5, 4));
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, 4, "Remme i sider, sadles ned i stolper"));
         }
 
         // Finder spær //TODO: tager pt ikke højde for at man kan få spær i forskellige længder
@@ -76,8 +78,10 @@ public class RequestCalculator {
 
         double raftersDistance = (double) newLength / spaceAmountBetweenRafters;
 
-        //TODO: der skal også sendes en beskrivelse med af hvad træstykkerne skal bruges til
-        listOfMaterial.add(new MaterialDTO(54, raftersAmount));
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 54, orderId, raftersAmount, "Spær, monteres på rem"));
+
+        System.out.println();
+        //TODO: Kald mapper der tager en List<BillsOfMaterials> som parameter, looper over dem og stempler dem ned i databasen.
 
     }
 

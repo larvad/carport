@@ -11,5 +11,39 @@ th, td {
     padding:15px;
 }
 
+.navbar-custom {
+
+    background-color: #003d76 !important;
+}
+.nav-item {
+    color: white !important;
+    font-family: "Arial Black" ,sans-serif;
+
+}
+.btn {
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 8px;
+    padding: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    background-size: 200% auto;
+    color: white !important;
+    box-shadow: 0 1px 3px rgb(0, 61, 118), 0 1px 2px rgb(0, 61, 118);
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 25px;
+    border-color: #ffcc03;
+}
+.btn-layer1 {
+    border: 3px solid #ffcc03 !important;
+    color: #ffcc03 !important;
+}
+.btn-layer2 {
+    background-color: #ffcc03 !important;
+    width: 200px !important;
+    margin-left: 20px;
+
+
+}
 
 

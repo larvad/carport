@@ -2,7 +2,7 @@ package dat.startcode.model.entities;
 
 import java.sql.Timestamp;
 
-public class Request {
+public class CustomerRequest {
 
     private int requestId;
     private int carpWidth;
@@ -13,7 +13,7 @@ public class Request {
     private int shedLength;
     private Timestamp timestamp;
 
-    public Request(int requestId, int carpWidth, int carpLength, String roofType, int slope, int shedWidth, int shedLength, Timestamp timestamp) {
+    public CustomerRequest(int requestId, int carpWidth, int carpLength, String roofType, int slope, int shedWidth, int shedLength, Timestamp timestamp) {
         this.requestId = requestId;
         this.carpWidth = carpWidth;
         this.carpLength = carpLength;
@@ -22,6 +22,12 @@ public class Request {
         this.shedWidth = shedWidth;
         this.shedLength = shedLength;
         this.timestamp = timestamp;
+    }
+
+    public CustomerRequest(int carpWidth, int carpLength, String roofType) {
+        this.carpWidth = carpWidth;
+        this.carpLength = carpLength;
+        this.roofType = roofType;
     }
 
     public int getRequestId() {

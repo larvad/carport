@@ -18,10 +18,10 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
             <a class="navbar-brand" href="index.jsp">
-                <img src="${pageContext.request.contextPath}/images/cphbusiness.png" width="400px;" class="img-fluid"/>
+                <img src="${pageContext.request.contextPath}/images/logo.svg" width="100px;" class="img-fluid"/>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,8 @@
                     <a class="nav-item nav-link" href="${pageContext.request.contextPath}/fc">Page 2</a>
                     <a class="nav-item nav-link" href="${pageContext.request.contextPath}/fc">Page 3</a>
                     <c:if test="${sessionScope.user == null }">
-                        <a class="nav-item nav-link" href="${pageContext.request.contextPath}/login.jsp">Login</a>
+                        <a class="btn btn-layer1" href="${pageContext.request.contextPath}/login.jsp">Login</a>
+                        <a class="btn btn-layer2" href="${pageContext.request.contextPath}/createUser.jsp">Opret bruger</a>
                     </c:if>
                     <c:if test="${sessionScope.user != null }">
                         <a class="nav-item nav-link" href="${pageContext.request.contextPath}/fc/logout?command=logout">Log out</a>

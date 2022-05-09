@@ -16,6 +16,7 @@ abstract class Command
         commands.put("login", new Login());
         commands.put("logout", new Logout());
         commands.put("about", new About());
+        commands.put("CreateCarport", new CreateCarport());
     }
     //hej med jer
 

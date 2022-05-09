@@ -17,7 +17,12 @@
         <p>Startcode for 2nd semester </p>
 
         <c:if test="${sessionScope.user != null}">
-            <p>You are logged in with the role of "${sessionScope.user.roleId}".</p>
+            <p>Du, ${sessionScope.user.username}, er logget ind nu.</p>
+
+            <form action="fc/" method="post">
+                <input type="hidden" name="command" value="CreateCarport"/>
+                <input type="submit"  value="Her kan du skabe dine egen carport"/>
+            </form>
         </c:if>
 
         <c:if test="${sessionScope.user == null}">

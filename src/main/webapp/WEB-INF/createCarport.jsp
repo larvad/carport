@@ -61,93 +61,99 @@
         <br><br>
         <c:if test="inLinedRadio.equals"></c:if>
         <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    <div class="dropdown">
-                        <h1 bold style="font-size: x-large">Tag - uden Rejsning</h1>
-                        <select name="tagUdenRejsning" class="form-select " id="number1"
-                                aria-label="Default select example">
-                            <option selected value="">Vælg fladt tag type</option>
-                            <option value="1">Plasttrapezplader</option>
-                            <option value="2">Stål</option>
-                            <option value="3">Tagpap</option>
-                        </select>
-                    </div>
+        <div class="row">
+            <div class="col-sm">
+                <div class="dropdown">
+                    <h1 bold style="font-size: x-large">Tag - uden Rejsning</h1>
+                    <select name="tagUdenRejsning" class="form-select " id="number1"
+                            aria-label="Default select example">
+                        <option selected value="">Vælg fladt tag type</option>
+                        <option value="1">Plasttrapezplader</option>
+                        <option value="2">Stål</option>
+                        <option value="3">Tagpap</option>
+                    </select>
                 </div>
-                <div class="col-sm">
-                    <div class="dropdown">
-                        <h1 bold style="font-size: x-large">Tag - med Rejsning</h1>
-                        <select name="tagMedRejsning" class="form-select " id="number2"
-                                aria-label="Default select example">
-                            <option selected>Vælg Tag Type</option>
-                            <option value="">Betontagsten - Rød</option>
-                            <option value="">Betontagsten - Teglrød</option>
-                            <option value="">Betontagsten - Brun</option>
-                            <option value="">Betontagsten - Sort</option>
-                            <option value="">Eternittag B6 - Grå</option>
-                            <option value="">Eternittag B6 - Sort</option>
-                            <option value="">Eternittag B6 - Mokka(brun)</option>
-                            <option value="">Eternittag B6 - Rødbrun</option>
-                            <option value="">Eternittag B6 - Teglrød</option>
-                            <option value="">Eternittag B7 - Grå</option>
-                            <option value="">Eternittag B7 - Sort</option>
-                            <option value="">Eternittag B7 - Mokka(brun)</option>
-                            <option value="">Eternittag B7 - Rødbrun</option>
-                            <option value="">Eternittag B7 - Teglrød</option>
-                            <option value="">Eternittag B7 - Rødflammet</option>
-                        </select>
-                    </div>
+            </div>
+            <div class="col-sm">
+                <div class="dropdown">
+                    <h1 bold style="font-size: x-large">Tag - med Rejsning</h1>
+                    <select name="tagMedRejsning" class="form-select " id="number2"
+                            aria-label="Default select example">
+                        <option selected>Vælg Tag Type</option>
+                        <option value="">Betontagsten - Rød</option>
+                        <option value="">Betontagsten - Teglrød</option>
+                        <option value="">Betontagsten - Brun</option>
+                        <option value="">Betontagsten - Sort</option>
+                        <option value="">Eternittag B6 - Grå</option>
+                        <option value="">Eternittag B6 - Sort</option>
+                        <option value="">Eternittag B6 - Mokka(brun)</option>
+                        <option value="">Eternittag B6 - Rødbrun</option>
+                        <option value="">Eternittag B6 - Teglrød</option>
+                        <option value="">Eternittag B7 - Grå</option>
+                        <option value="">Eternittag B7 - Sort</option>
+                        <option value="">Eternittag B7 - Mokka(brun)</option>
+                        <option value="">Eternittag B7 - Rødbrun</option>
+                        <option value="">Eternittag B7 - Teglrød</option>
+                        <option value="">Eternittag B7 - Rødflammet</option>
+                    </select>
                 </div>
-                <div class="col-sm">
-                    <div class="dropdown">
-                        <h1 bold style="font-size: x-large">Taghældning </h1>
-                        <select name="tagUdenRejsning" class="form-select " id="number3" aria-label="Default select example">
-                            <option selected value="">Vælg hældning på taget </option>
-                            <c:forEach var="i" begin="15" end="46" step="5">
-                                <option value="<c:out value="${i}"></c:out>"><c:out value="${i}"></c:out> Grader
-                                </option>
-                            </c:forEach>
-                        </select>
-                    </div>
+            </div>
+            <div class="col-sm">
+                <div class="dropdown">
+                    <h1 bold style="font-size: x-large">Taghældning </h1>
+                    <select name="tagUdenRejsning" class="form-select " id="number3"
+                            aria-label="Default select example">
+                        <option selected value="">Vælg hældning på taget</option>
+                        <c:forEach var="i" begin="15" end="46" step="5">
+                            <option value="<c:out value="${i}"></c:out>"><c:out value="${i}"></c:out> Grader
+                            </option>
+                        </c:forEach>
+                    </select>
                 </div>
-                <br><br><br><br><br>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onchange="visSkur()" >
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Skur
-                    </label>
-                </div>
-                <br><br>
-                <div id="skur" class="col-sm">
-                    <div>
-                        <div class="dropdown">
-                            <h1 bold style="font-size: x-large">Skur Længde</h1>
-                            <select name="skruLængde" class="form-select " aria-label="Default select example">
-                                <option selected>Vælg Skur Længde</option>
-                                <c:forEach var="i" begin="150" end="690" step="30">
-                                    <option value="<c:out value="${i * 10}"></c:out>"><c:out value="${i}"></c:out> cm
-                                    </option>
-                                </c:forEach>
-                            </select>
+            </div>
+            <br><br><br><br><br>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onchange="visSkur()">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Skur
+                </label>
+            </div>
+            <br><br>
+            <div class="container">
+                <div id="skur">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="dropdown">
+                                <h1 bold style="font-size: x-large">Skur Længde</h1>
+                                <select name="skruLængde" class="form-select " aria-label="Default select example">
+                                    <option selected>Vælg Skur Længde</option>
+                                    <c:forEach var="i" begin="150" end="690" step="30">
+                                        <option value="<c:out value="${i * 10}"></c:out>"><c:out value="${i}"></c:out>
+                                            cm
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <div class="dropdown">
-                            <h1 bold style="font-size: x-large">Skur Bredde</h1>
-                            <select name="skurBredde" class="form-select " aria-label="Default select example">
-                                <option selected>Vælg Skur Bredde</option>
-                                <c:forEach var="i" begin="210" end="720" step="30">
-                                    <option value="<c:out value="${i * 10}"></c:out>"><c:out value="${i}"></c:out> cm
-                                    </option>
-                                </c:forEach>
-                            </select>
+                        <div class="col-sm">
+                            <div class="dropdown">
+                                <h1 bold style="font-size: x-large">Skur Bredde</h1>
+                                <select name="skurBredde" class="form-select " aria-label="Default select example">
+                                    <option selected>Vælg Skur Bredde</option>
+                                    <c:forEach var="i" begin="210" end="720" step="30">
+                                        <option value="<c:out value="${i * 10}"></c:out>"><c:out value="${i}"></c:out>
+                                            cm
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
 
             </div>
         </div>
-        
+
         <br><br>
         <div class="container">
             <button type="submit" class="btn btn-primary" value="submit">Forespørgsel</button>

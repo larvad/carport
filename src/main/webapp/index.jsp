@@ -5,24 +5,33 @@
 
 <t:pagetemplate>
     <jsp:attribute name="header">
-         Welcome to the frontpage
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-        Welcome to the frontpage
     </jsp:attribute>
 
     <jsp:body>
 
-        <p>Startcode for 2nd semester </p>
 
         <c:if test="${sessionScope.user != null}">
-            <p>Du, ${sessionScope.user.username}, er logget ind nu.</p>
+<%--             <p>Du, ${sessionScope.user.username}, er logget ind nu.</p>--%>
 
-            <form action="fc/" method="post">
-                <input type="hidden" name="command" value="CreateCarport"/>
-                <input type="submit"  value="Her kan du skabe dine egen carport"/>
-            </form>
+<%--            <video id="background-video" autoplay loop muted poster="https://assets.codepen.io/6093409/river.jpg">--%>
+<%--                <source src="images/vid.mp4" type="video/mp4">--%>
+<%--            </video>--%>
+            <div id="outer">
+                <h1>Byg din egen carport</h1>
+                <form action="fc/" method="post">
+                    <input type="hidden" name="command" value="CreateCarport"/>
+                    <input type="submit" class="btn btn-layer3" value="send forspørgsel"/>
+                </form>
+                <div id="home-top-video">
+                    <video autoplay loop muted width="100%">
+                        <source src="images/vid.mp4" type="video/mp4" /> Your browser does not support the video tag. We suggest you upgrade your browser.
+                    </video>
+                </div>
+            </div>
+
         </c:if>
 
         <c:if test="${sessionScope.user == null}">

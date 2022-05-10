@@ -45,14 +45,15 @@
         <br><br>
         <div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked="checked">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked="checked" onchange="disableFunc()">
             <label class="form-check-label" for="inlineRadio1">Tag - Med rejsning</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" onchange="disableFunc2()">
             <label class="form-check-label" for="inlineRadio2">Tag - uden Rejsning</label>
         </div>
         </div>
+
         <br><br>
         <c:if test="inLinedRadio.equals"></c:if>
         <div class="container">
@@ -60,7 +61,7 @@
                 <div class="col-sm">
                     <div class="dropdown">
                         <h1 bold style="font-size: x-large">Tag - uden Rejsning</h1>
-                        <select name="tagUdenRejsning" class="form-select " aria-label="Default select example">
+                        <select name="tagUdenRejsning" class="form-select " id="number1" aria-label="Default select example">
                             <option selected value="">Vælg fladt tag type </option>
                             <option value="1">Plasttrapezplader </option>
                             <option value="2">Stål</option>
@@ -71,7 +72,7 @@
                 <div class="col-sm">
                     <div class="dropdown">
                         <h1 bold style="font-size: x-large">Tag - med Rejsning</h1>
-                        <select name="tagMedRejsning" class="form-select " aria-label="Default select example">
+                        <select name="tagMedRejsning" class="form-select " id="number2" aria-label="Default select example">
                             <option selected>Vælg Tag Type</option>
                             <option value="">Betontagsten - Rød</option>
                             <option value="">Betontagsten - Teglrød</option>
@@ -104,12 +105,13 @@
                 </div>
                 <br><br><br><br><br>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onchange="hideSkur()" >
                     <label class="form-check-label" for="flexCheckDefault">
                         Skur
                     </label>
                 </div>
                 <br><br>
+                <div id="skur">
                 <div class="col-sm">
                     <div class="dropdown">
                         <h1 bold style="font-size: x-large">Skur Længde</h1>
@@ -132,12 +134,40 @@
                         </select>
                     </div>
                 </div>
+                </div>
             </div>
             <br><br>
             <div class="col-sm">
                 <button type="submit" class="btn btn-primary" value="submit">Forespørgsel</button>
             </div>
         </div>
+        <script>
+
+            document.getElementById("number1").disabled = true;
+
+            function disableFunc() {
+                document.getElementById("number2").disabled = false;
+                document.getElementById("number1").disabled = true;
+            }
+            function disableFunc2() {
+                document.getElementById("number1").disabled = false;
+                document.getElementById("number2").disabled = true;
+            }
+
+            var f = document.getElementById("skur")
+            f.style.display = "none";
+
+            function hideSkur() {
+
+                var x = document.getElementById("skur");
+                if (x.style.display === "block") {
+                    x.style.display = "none";
+                } else {
+                    x.style.display = "block";
+                }
+
+            }
+        </script>
 
     </jsp:body>
 </t:pagetemplate>

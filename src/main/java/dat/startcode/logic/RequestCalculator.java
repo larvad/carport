@@ -125,7 +125,7 @@ public class RequestCalculator {
             int longRoofPlatesAmount = plateAmount;
             billsOfMaterials.add(new BillsOfMaterial(bomId, 28, orderId, longRoofPlatesAmount, "tagplader monteres på spær"));
         }
-        System.out.println();
+
 
         //DELE DER ALTID SKAL MED
 

@@ -66,7 +66,7 @@
                 <div class="dropdown">
                     <h1 bold style="font-size: x-large">Tag - uden Rejsning</h1>
                     <select name="tagUdenRejsning" class="form-select " id="number1"
-                            aria-label="Default select example">
+                            aria-label="Default select example" disabled="true">
                         <option selected value="">Vælg fladt tag type</option>
                         <option value="1">Plasttrapezplader</option>
                         <option value="2">Stål</option>
@@ -120,7 +120,7 @@
             </div>
             <br><br>
             <div class="container">
-                <div id="skur">
+                <div id="skur" style="display: none">
                     <div class="row">
                         <div class="col-sm">
                             <div class="dropdown">
@@ -158,36 +158,6 @@
         <div class="container">
             <button type="submit" class="btn btn-primary" value="submit">Forespørgsel</button>
         </div>
-        <script>
-
-            document.getElementById("number1").disabled = true;
-
-            function disableFunc() {
-                document.getElementById("number2").disabled = false;
-                document.getElementById("number3").disabled = false;
-                document.getElementById("number1").disabled = true;
-            }
-
-            function disableFunc2() {
-                document.getElementById("number1").disabled = false;
-                document.getElementById("number2").disabled = true;
-                document.getElementById("number3").disabled = true;
-            }
-
-            var skur = document.getElementById("skur")
-            skur.style.display = "none";
-
-            function visSkur() {
-
-                var x = document.getElementById("skur");
-                if (x.style.display === "block") {
-                    x.style.display = "none";
-                } else {
-                    x.style.display = "block";
-                }
-
-            }
-        </script>
 
     </jsp:body>
 </t:pagetemplate>

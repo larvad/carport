@@ -63,15 +63,14 @@
                         <select name="tagUdenRejsning" class="form-select " aria-label="Default select example">
                             <option selected value="">Vælg fladt tag type </option>
                             <option value="1">Plasttrapezplader </option>
-                            <option value="1">Stål</option>
-                            <option value="1">Tagpap </option>
+                            <option value="2">Stål</option>
+                            <option value="3">Tagpap </option>
                         </select>
                     </div>
                 </div>
                 <div class="col-sm">
                     <div class="dropdown">
                         <h1 bold style="font-size: x-large">Tag - med Rejsning</h1>
-
                         <select name="tagMedRejsning" class="form-select " aria-label="Default select example">
                             <option selected>Vælg Tag Type</option>
                             <option value="">Betontagsten - Rød</option>
@@ -89,6 +88,17 @@
                             <option value="">Eternittag B7 - Rødbrun</option>
                             <option value="">Eternittag B7 - Teglrød</option>
                             <option value="">Eternittag B7 - Rødflammet</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="dropdown">
+                        <h1 bold style="font-size: x-large">Taghældning </h1>
+                        <select name="tagUdenRejsning" class="form-select " aria-label="Default select example">
+                            <option selected value="">Vælg hældning på taget </option>
+                            <c:forEach var="i" begin="15" end="46" step="5">
+                                <option value="<c:out value="${i}"></c:out>"><c:out value="${i}"></c:out> Grader</option>
+                            </c:forEach>
                         </select>
                     </div>
                 </div>

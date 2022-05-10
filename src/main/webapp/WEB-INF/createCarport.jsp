@@ -95,7 +95,7 @@
                 <div class="col-sm">
                     <div class="dropdown">
                         <h1 bold style="font-size: x-large">Taghældning </h1>
-                        <select name="tagUdenRejsning" class="form-select " aria-label="Default select example">
+                        <select name="tagUdenRejsning" class="form-select " id="number3" aria-label="Default select example">
                             <option selected value="">Vælg hældning på taget </option>
                             <c:forEach var="i" begin="15" end="46" step="5">
                                 <option value="<c:out value="${i}"></c:out>"><c:out value="${i}"></c:out> Grader</option>
@@ -105,35 +105,37 @@
                 </div>
                 <br><br><br><br><br>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onchange="hideSkur()" >
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onchange="visSkur()" >
                     <label class="form-check-label" for="flexCheckDefault">
                         Skur
                     </label>
                 </div>
                 <br><br>
-                <div id="skur">
-                <div class="col-sm">
-                    <div class="dropdown">
-                        <h1 bold style="font-size: x-large">Skur Længde</h1>
-                        <select name="skruLængde" class="form-select " aria-label="Default select example">
-                            <option selected>Vælg Skur Længde</option>
-                            <c:forEach var="i" begin="150" end="690" step="30">
-                                <option value="<c:out value="${i * 10}"></c:out>"><c:out value="${i}"></c:out> cm</option>
-                            </c:forEach>
-                        </select>
+                <div id="skur" class="col-sm">
+                    <div>
+                        <div class="dropdown">
+                            <h1 bold style="font-size: x-large">Skur Længde</h1>
+                            <select name="skruLængde" class="form-select " aria-label="Default select example">
+                                <option selected>Vælg Skur Længde</option>
+                                <c:forEach var="i" begin="150" end="690" step="30">
+                                    <option value="<c:out value="${i * 10}"></c:out>"><c:out value="${i}"></c:out> cm
+                                    </option>
+                                </c:forEach>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm">
-                    <div class="dropdown">
-                        <h1 bold style="font-size: x-large">Skur Bredde</h1>
-                        <select name="skurBredde" class="form-select " aria-label="Default select example">
-                            <option selected>Vælg Skur Bredde</option>
-                            <c:forEach var="i" begin="210" end="720" step="30">
-                                <option value="<c:out value="${i * 10}"></c:out>"><c:out value="${i}"></c:out> cm</option>
-                            </c:forEach>
-                        </select>
+                    <div>
+                        <div class="dropdown">
+                            <h1 bold style="font-size: x-large">Skur Bredde</h1>
+                            <select name="skurBredde" class="form-select " aria-label="Default select example">
+                                <option selected>Vælg Skur Bredde</option>
+                                <c:forEach var="i" begin="210" end="720" step="30">
+                                    <option value="<c:out value="${i * 10}"></c:out>"><c:out value="${i}"></c:out> cm
+                                    </option>
+                                </c:forEach>
+                            </select>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
             <br><br>
@@ -147,17 +149,19 @@
 
             function disableFunc() {
                 document.getElementById("number2").disabled = false;
+                document.getElementById("number3").disabled = false;
                 document.getElementById("number1").disabled = true;
             }
             function disableFunc2() {
                 document.getElementById("number1").disabled = false;
                 document.getElementById("number2").disabled = true;
+                document.getElementById("number3").disabled = true;
             }
 
-            var f = document.getElementById("skur")
-            f.style.display = "none";
+            var skur = document.getElementById("skur")
+            skur.style.display = "none";
 
-            function hideSkur() {
+            function visSkur() {
 
                 var x = document.getElementById("skur");
                 if (x.style.display === "block") {

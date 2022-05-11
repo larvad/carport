@@ -1,6 +1,7 @@
 package dat.startcode.model.persistence;
 
 import dat.startcode.model.entities.CustomerRequest;
+import dat.startcode.model.entities.Order;
 import dat.startcode.model.exceptions.DatabaseException;
 
 import java.sql.*;
@@ -45,6 +46,43 @@ public class RequestMapper {
             throw new DatabaseException(ex, "Something went wrong with the database");
         }
         return request;
+    }
+
+    public CustomerRequest insertInquiryIntoDB(int carpWidth, int carpLength, String roofType,
+                                               int roofSlope, int shedWidth, int shedLength) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+        int newInquiryID = 0;
+        String sql = "insert into carport.inquiry ( carp_width, carp_ length, roof_type," +
+                " roof_slope, shed_width, shed_length, timestamp) values (?, ?, ?, ?, ?, ?, NOW())";
+
+        CustomerRequest customerRequest = null;
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setInt(1, carpWidth);
+                ps.setInt(2, carpLength);
+                ps.setString(3, roofType);
+                ps.setInt(4, roofSlope);
+                ps.setInt(5, shedWidth);
+                ps.setInt(6, shedLength);
+
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected == 1) {
+
+                }
+                ResultSet idResultset = ps.getGeneratedKeys();
+                if (idResultset.next()) {
+                    newInquiryID = idResultset.getInt(1);
+                    customerRequest = new CustomerRequest(newInquiryID, carpWidth, carpLength,
+                            roofType, roofSlope, shedWidth, shedLength);
+                } else {
+                    throw new DatabaseException("Sherman firefly");
+                }
+            }
+        } catch (SQLException | DatabaseException ex) {
+            throw new DatabaseException(ex, "Forespørgsel kunne ikke sættes i databasen");
+        }
+
+        return customerRequest;
     }
 
 }

@@ -30,6 +30,16 @@ public class CustomerRequest {
         this.roofType = roofType;
     }
 
+    public CustomerRequest(int requestId, int carpWidth, int carpLength, String roofType, int roofSlope, int shedWidth, int shedLength) {
+        this.requestId = requestId;
+        this.carpWidth = carpWidth;
+        this.carpLength = carpLength;
+        this.roofType = roofType;
+        this.roofSlope = roofSlope;
+        this.shedWidth = shedWidth;
+        this.shedLength = shedLength;
+    }
+
     public int getRequestId() {
         return requestId;
     }

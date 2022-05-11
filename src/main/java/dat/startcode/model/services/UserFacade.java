@@ -34,6 +34,7 @@ public class UserFacade
         MaterialsMapper materialsMapper = new MaterialsMapper(connectionPool);
         return materialsMapper.ShowRaisedRoofMaterials();
     }
+    
 }
 
 //TODO: lave UserFacade om til Facade, og rykke den op i persistence mappen. Lade alle vores klasser i control køre deres metoder over facaden.

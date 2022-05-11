@@ -18,6 +18,7 @@ abstract class Command
         commands.put("about", new About());
         commands.put("CreateCarport", new CreateCarport());
         commands.put("createUser", new CreateUser());
+        commands.put("sendInquiry", new SendInquiry());
     }
 
 

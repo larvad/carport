@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+left to right direction
+Title Use Case Diagram
+actor Kunde as k
+actor Admin as a
+rectangle Fog_Carport_Website {
+  k -- (Opret bruger)
+  k -- (login)
+  k -- (vis stykliste) : stykliste kan kun ses efter betaling
+  k -- (Opret order)
+  k -- (vis order)
+  k -- (vis tegning) : tegning kan kun ses hvis kunden har en order
+  (login) -- a
+  (vis tegning) -- a
+  (vis order) -- a
+  (vis stykliste) -- a
+  (rediger/godkend/fjern order) -- a
+
+  (rediger/godkend/fjern order) .> (vis order) : redigere order
+  (Opret bruger) .> (login)
+  (login) .> (Opret order) : kunde login
+  (Opret order) .> (vis tegning) : vis efter opretelse af order
+}
+'note top of k : aktør
+'note top of a : aktør
+@enduml

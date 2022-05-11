@@ -25,6 +25,10 @@ public class Materials {
         this.price = price;
     }
 
+    public Materials(String type) {
+        this.type = type;
+    }
+
     public int getMaterialId() {
         return materialId;
     }

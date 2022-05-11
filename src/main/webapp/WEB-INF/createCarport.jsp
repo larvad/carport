@@ -67,10 +67,10 @@
                     <h1 bold style="font-size: x-large">Tag - uden Rejsning</h1>
                     <select name="tagUdenRejsning" class="form-select " id="number1"
                             aria-label="Default select example" disabled="true">
-                        <option selected value="">Vælg fladt tag type</option>
-                        <option value="1">Plasttrapezplader</option>
-                        <option value="2">Stål</option>
-                        <option value="3">Tagpap</option>
+                        <option selected value="">Her kan du vælge Fladt Tag type</option>
+                        <c:forEach var="type" items="${applicationScope.flatRoofMaterialsList}">
+                            <option value="${type.type}">${type.type}</option>
+                        </c:forEach>
                     </select>
                 </div>
             </div>
@@ -79,22 +79,11 @@
                     <h1 bold style="font-size: x-large">Tag - med Rejsning</h1>
                     <select name="tagMedRejsning" class="form-select " id="number2"
                             aria-label="Default select example">
-                        <option selected>Vælg Tag Type</option>
-                        <option value="">Betontagsten - Rød</option>
-                        <option value="">Betontagsten - Teglrød</option>
-                        <option value="">Betontagsten - Brun</option>
-                        <option value="">Betontagsten - Sort</option>
-                        <option value="">Eternittag B6 - Grå</option>
-                        <option value="">Eternittag B6 - Sort</option>
-                        <option value="">Eternittag B6 - Mokka(brun)</option>
-                        <option value="">Eternittag B6 - Rødbrun</option>
-                        <option value="">Eternittag B6 - Teglrød</option>
-                        <option value="">Eternittag B7 - Grå</option>
-                        <option value="">Eternittag B7 - Sort</option>
-                        <option value="">Eternittag B7 - Mokka(brun)</option>
-                        <option value="">Eternittag B7 - Rødbrun</option>
-                        <option value="">Eternittag B7 - Teglrød</option>
-                        <option value="">Eternittag B7 - Rødflammet</option>
+                        <option value="">Her kan du vælge Rejst Tag type</option>
+                        <c:forEach var="raisedtype" items="${applicationScope.raisedRoofMaterialsList}">
+                            <option value="${raisedtype.type}">${raisedtype.type}</option>
+                        </c:forEach>
+
                     </select>
                 </div>
             </div>
@@ -104,7 +93,7 @@
                     <select name="tagUdenRejsning" class="form-select " id="number3"
                             aria-label="Default select example">
                         <option selected value="">Vælg hældning på taget</option>
-                        <c:forEach var="i" begin="15" end="46" step="5">
+                        <c:forEach var="i" begin="15" end="45" step="5">
                             <option value="<c:out value="${i}"></c:out>"><c:out value="${i}"></c:out> Grader
                             </option>
                         </c:forEach>

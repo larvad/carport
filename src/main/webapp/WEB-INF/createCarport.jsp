@@ -158,6 +158,7 @@
                             value="submit">Forespørgsel
                     </button>
                 </div>
+            </div>
         </form>
     </jsp:body>
 </t:pagetemplate>

@@ -130,6 +130,27 @@ public class RequestCalculator {
 
 
         //DELE DER ALTID SKAL MED
+        //Universal 190 mm ses nederst på side 4, og der skal være lige mange som der er spær. En højre og en venstre
+//        firkantskiver	40x40x11mm 12 Stk Til montering	af	rem	på	stolper //TODO: 2 pr stolpe når der ikke er skur med?
+
+
+//        25x200	mm.	trykimp.	Brædt 360 4 Stk understernbrædder	til	for	&	bag	ende
+//        25x200	mm.	trykimp.	Brædt 540 4 Stk understernbrædder	til	siderne
+//        25x125mm.	trykimp.	Brædt 360 2 Stk oversternbrædder	til	forenden
+//        25x125mm.	trykimp.	Brædt 540 4 Stk oversternbrædder	til	siderne
+
+//        19x100	mm.	trykimp.	Brædt		 540 4 Stk vandbrædt	på	stern	i	sider
+//        19x100	mm.	trykimp.	Brædt		 360 2 Stk vandbrædt	på	stern	i	forende
+
+//        Beslag	&	Skruer
+//        plastmo	bundskruer	200	stk. 3 pakke Skruer	til	tagplader
+//        hulbånd	1x20	mm.	10	mtr. 2 Rulle Til	vindkryds	på	spær
+
+//        4,5	x	60	mm.	skruer	200	stk. 1 Pakke Til	montering	af	stern&vandbrædt
+//        4,0	x	50	mm.	beslagskruer	250
+//        stk. 3 pakke Til	montering	af	universalbeslag	+	hulbånd
+//        bræddebolt	10	x	120	mm.	 18 Stk Til	montering	af	rem	på	stolper
+
 
 
     }

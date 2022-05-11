@@ -158,12 +158,26 @@ th, td {
     margin-left: 15px;
     margin-bottom: -20px;
 }
+.boxBody {
+    width: 100%;
+    height: 800px;
+}
 
 .boxRight {
 
-    width: 500px;
-    height: 300px;
+    position: relative;
+    left: 55%;
+    width: 600px;
+    height: 500px;
     background-color: green ;
+
+}
+.boxLeft {
+    position: relative;
+    bottom: 500px;
+    width: 600px;
+    height: 500px;
+    background-color: black ;
 
 }
 

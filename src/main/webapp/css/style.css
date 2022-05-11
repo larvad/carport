@@ -15,6 +15,7 @@ th, td {
 
     background-color: #003d76 !important;
 }
+
 .nav-item {
     color: white !important;
     font-family: "Arial Black" ,sans-serif;
@@ -41,12 +42,13 @@ th, td {
 .btn-layer2 {
     background-color: #ffcc03 !important;
     width: 200px !important;
-    margin-left: 20px;
+    margin-left: 120px;
+    border-color: #003d76 !important;
+    color: black !important;
 
 }
 .btn-layer3 {
-    margin-top: 25px;
-    background-color: #ffcc03 !important;
+    background-color: #003d76 !important;
     font-size: 25px !important;
     text-transform: uppercase;
     text-align: center;
@@ -90,8 +92,8 @@ th, td {
     left:0;
     bottom:0;
     z-index:1;
-    background:linear-gradient(to right,rgba(65, 0, 255, 0.4), rgb(19, 15, 64));
-    opacity: 0.7;
+    background:linear-gradient(to right, rgba(255, 255, 255, 0.24), rgb(0, 61, 118));
+    opacity: 0.5;
 }
 
 #home-top-video {
@@ -105,6 +107,58 @@ th, td {
     z-index: -1;
 
 }
+.navbar {
+    box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.18);
+}
+.navbar-nav .nav-link {
+    color: #000000;
+}
+
+.btnStyle{
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-radius: 0 !important;
+    border-width: 2px !important;
+}
+.buttonsRight {
+    margin-right: 50px;
+}
+.navbar-brand>img {
+    align-content: center;
+
+}
+.dropdown-color {
+    background-color: #003d76;
+
+}
+.dropdown-menu {
+    top: 75px !important;
+    right: 50px;
+    padding-top: 50px;
+    width: 300px;
+    height: 250px;
+    background-color: #003d76 !important;
+
+}
+.dropdown button {
+    margin-right: 100px;
+    margin-bottom: -60px;
+    background-color: #003d76;
+}
+.mb-3 {
+    width: 270px !important;
+    margin-left: 15px !important;
+
+}
+.mb-3 label {
+    font-family: "Arial Black", Gadget, sans-serif;
+    color: white;
+}
+.dropdown-menu button {
+    margin-left: 15px;
+    margin-bottom: -20px;
+}
+
 
 
 

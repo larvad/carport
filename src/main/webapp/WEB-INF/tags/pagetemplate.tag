@@ -19,26 +19,42 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-custom">
-        <div class="container">
-            <a class="navbar-brand" href="index.jsp">
-                <img src="${pageContext.request.contextPath}/images/logo.svg" width="100px;" class="img-fluid"/>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">
+                <img src="${pageContext.request.contextPath}/images/logo.svg" width="125px;" class="img-fluid"/>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/fc/about?command=about">About</a>
-                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/fc">Page 2</a>
-                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/fc">Page 3</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                </ul>
+                <div class="buttonsRight">
                     <c:if test="${sessionScope.user == null }">
-                        <a class="btn btn-layer1" href="${pageContext.request.contextPath}/login.jsp">Login</a>
-                        <a class="btn btn-layer2" href="${pageContext.request.contextPath}/createUser.jsp">Opret bruger</a>
+                    <div class="dropdown dropdown-color">
+                        <button class="btn btn-secondary dropdown-toggle btn-layer1" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Login
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <form action="fc/login" method="post">
+                                <input type="hidden" name="command" value="login"/>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email address</label>
+                                    <input type="email" name="email" class="form-control" id="email" placeholder="email@example.com">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-layer2">Sign in</button>
+                            </form>
+                        </ul>
+                    </div>
+                    <a class="btn btn-layer2" href="${pageContext.request.contextPath}/createUser.jsp">Opret bruger</a>
                     </c:if>
                     <c:if test="${sessionScope.user != null }">
-                        <a class="nav-item nav-link" href="${pageContext.request.contextPath}/fc/logout?command=logout">Log out</a>
+                    <a class="btn btn-layer1" href="${pageContext.request.contextPath}/fc/logout?command=logout">Log out</a>
                     </c:if>
                 </div>
             </div>

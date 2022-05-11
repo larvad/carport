@@ -38,6 +38,7 @@ public class RequestCalculator {
     private int orderId = 0;
     private int bomId = 0; //bliver auto gerenert
 
+    //TODO: Hvis det skal være rigtigt skal koden jo egentlig søge de bedste brædder til opgaven frem i databasen (ellers får admin heller ikke noget ud af at tilføje nye materialer)
 
     // public void calculate(CustomerRequest customerRequest) {
     public void calculate() {
@@ -86,6 +87,8 @@ public class RequestCalculator {
 
 //        Afstand mellem spær = 7705 mm / 13 = 592,7 mm
 
+        //TODO: denne afstand spærrene skal sættes med skal også gemmes, så den kan komme med på tegningen og i vejledningen.
+
         double raftersDistance = (double) newLength / spaceAmountBetweenRafters;
 
         billsOfMaterials.add(new BillsOfMaterial(bomId, 54, orderId, raftersAmount, "Spær, monteres på rem"));
@@ -111,11 +114,10 @@ public class RequestCalculator {
         int plateAmount = (int) Math.ceil(plateAmountDouble);
         int shortRoofPlatesAmount = 0;
 
-        if(roofLength > FLATROOFSMALLBREAKPOINT) {
+        if (roofLength > FLATROOFSMALLBREAKPOINT) {
             shortRoofPlatesAmount = plateAmount;
             billsOfMaterials.add(new BillsOfMaterial(bomId, 29, orderId, shortRoofPlatesAmount, "tagplader monteres på spær"));
-        }
-        else {
+        } else {
 
             if (roofLength > FLATROOFBIGBREAKPOINT) {
                 shortRoofPlatesAmount = plateAmount;

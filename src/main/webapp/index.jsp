@@ -13,7 +13,6 @@
     <jsp:body>
 
 
-        <c:if test="${sessionScope.user != null}">
 <%--             <p>Du, ${sessionScope.user.username}, er logget ind nu.</p>--%>
 
 <%--            <video id="background-video" autoplay loop muted poster="https://assets.codepen.io/6093409/river.jpg">--%>
@@ -32,14 +31,6 @@
                 </div>
             </div>
 
-        </c:if>
-
-        <c:if test="${sessionScope.user == null}">
-            <p>You are not logged in yet. You can do it here: <a
-                    href="login.jsp">Login</a></p>
-            
-            <p>Du kan oprette en bruger her: <a href="createUser.jsp">Opret bruger</a></p>
-        </c:if>
 
     </jsp:body>
 

@@ -14,6 +14,7 @@
     </jsp:attribute>
 
     <jsp:body>
+        <c:if test="${sessionScope.user != null }">
         <br><br>
         <form action="fc/sendInquiry" method="post">
             <div class="container">
@@ -160,5 +161,13 @@
                 </div>
             </div>
         </form>
+        </div>
+        <br><br>
+        <div class="container">
+            <button type="submit" class="btn btn-primary" value="submit">Forespørgsel</button>
+        </div>
+        </c:if>
+
+
     </jsp:body>
 </t:pagetemplate>

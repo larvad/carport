@@ -1,4 +1,3 @@
-
 package dat.startcode.model.persistence;
 
 import dat.startcode.model.entities.BillsOfMaterial;
@@ -8,6 +7,8 @@ import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,6 +53,62 @@ public class MaterialsMapper {
             throw new DatabaseException(ex, "Something went wrong with the database");
         }
         return materials;
+    }
+
+    public List<Materials> ShowFlatRoofMaterials() throws DatabaseException{
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        List<Materials> getFlatRoofMaterials = new ArrayList<>();
+
+        String sql = "SELECT  distinct type " +
+                "FROM materials " +
+                "where carport.materials.category_id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+                ps.setInt(1,3);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+
+                    String type = rs.getString("type");
+
+                    Materials materials = new Materials(type);
+                    getFlatRoofMaterials.add(materials);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return getFlatRoofMaterials;
+    }
+
+    public List<Materials> ShowRaisedRoofMaterials() throws DatabaseException{
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        List<Materials> getRaisedRoofMaterials = new ArrayList<>();
+
+        String sql = "SELECT  distinct type " +
+                "FROM materials " +
+                "where carport.materials.category_id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+                ps.setInt(1,4);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+
+                    String type = rs.getString("type");
+
+                    Materials materials = new Materials(type);
+                    getRaisedRoofMaterials.add(materials);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return getRaisedRoofMaterials;
     }
 
 }

@@ -1,11 +1,15 @@
 package dat.startcode.model.services;
 
+import dat.startcode.model.entities.Materials;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
+import dat.startcode.model.persistence.MaterialsMapper;
+import dat.startcode.model.persistence.RequestMapper;
 import dat.startcode.model.persistence.UserMapper;
 
 import javax.xml.crypto.Data;
+import java.util.List;
 
 public class UserFacade
 {
@@ -19,6 +23,16 @@ public class UserFacade
     {
         UserMapper userMapper = new UserMapper(connectionPool);
         return userMapper.createUser(username, email, password, phoneNr, adresse);
+    }
+
+    public static List<Materials> showFlatRoofMaterial(ConnectionPool connectionPool) throws DatabaseException{
+        MaterialsMapper materialsMapper = new MaterialsMapper(connectionPool);
+        return materialsMapper.ShowFlatRoofMaterials();
+    }
+
+    public static List<Materials> showRaisedRoofMaterial(ConnectionPool connectionPool) throws DatabaseException{
+        MaterialsMapper materialsMapper = new MaterialsMapper(connectionPool);
+        return materialsMapper.ShowRaisedRoofMaterials();
     }
 }
 

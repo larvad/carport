@@ -31,6 +31,9 @@
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                 </ul>
                 <div class="buttonsRight">
+                    <c:if test="${sessionScope.user.roleId == 2 }">
+                        <a class="nav-item nav-link" href="${pageContext.request.contextPath}/fc/admin?command=admin">Big Money</a>
+                    </c:if>
                     <c:if test="${sessionScope.user == null }">
                     <div class="dropdown dropdown-color">
                         <button class="btn btn-secondary dropdown-toggle btn-layer1" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">

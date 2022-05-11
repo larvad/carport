@@ -20,7 +20,7 @@ public class RequestCalculator {
     //STOLPER
     private final int COLUMNBREAKPOINT = 4550;
     //REMME
-    private final int REMBREAKPOINT = 4800;
+    private final int REMBREAKPOINT = 4800 - 200;
     //SPÆR
     private final int MAXDISTANCERAFTERS = 600;
     private final int RAFTERSTHICKNESS = 45;
@@ -28,8 +28,8 @@ public class RequestCalculator {
     private final int FASCIABOARDTHICKNESS = 25;
     //TAG
     //TODO: der er faktisk to breakpoints, da carportens længde kan være helt nede på 240 cm
-    private final int FLATROOFBIGBREAKPOINT = 5850;
-    private final int FLATROOFSMALLBREAKPOINT = 3450;
+    private final int FLATROOFBIGBREAKPOINT = 6000 - 150;
+    private final int FLATROOFSMALLBREAKPOINT = 3600 - 150;
     private final int ROOFPLATEWIDTH = 1090;
     private final int ROOFPLATEOVERLAP = 110;
 
@@ -47,13 +47,15 @@ public class RequestCalculator {
         List<BillsOfMaterial> billsOfMaterials = new ArrayList<>();
 
         // FINDER ANTAL STOLPER PÅ BAGGRUND AF LÆNGDEN
-
+        int coloumnAmount = 0;
         if (carpLengthInMm <= COLUMNBREAKPOINT) {
             // Stolpe = materialID 4
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, 4, "Stolper nedgraves 90 cm. i jord"));
+            coloumnAmount = 4;
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
 
         } else {
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, 6, "Stolper nedgraves 90 cm. i jord"));
+            coloumnAmount = 6;
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
         }
 
         // FINDER REMME //TODO: tager ikke højde for at der er remme i forskellige længder
@@ -110,48 +112,87 @@ public class RequestCalculator {
         // overlappet på den lange led skal være 20 cm
 
         double plateAmountDouble = ((double) roofWidth - ROOFPLATEOVERLAP) / roofPlateWidthMinusOverlap;
-        //TODO her kunne være en if der chekkede om decimaltallet er meeeget lille og det giver bedre mening at runde ned
         int plateAmount = (int) Math.ceil(plateAmountDouble);
         int shortRoofPlatesAmount = 0;
 
-        if (roofLength > FLATROOFSMALLBREAKPOINT) {
+        if (roofLength <= FLATROOFSMALLBREAKPOINT) {
             shortRoofPlatesAmount = plateAmount;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 29, orderId, shortRoofPlatesAmount, "tagplader monteres på spær"));
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 29, orderId, shortRoofPlatesAmount, "Tagplader monteres på spær"));
         } else {
 
             if (roofLength > FLATROOFBIGBREAKPOINT) {
                 shortRoofPlatesAmount = plateAmount;
-                billsOfMaterials.add(new BillsOfMaterial(bomId, 29, orderId, shortRoofPlatesAmount, "tagplader monteres på spær"));
+                billsOfMaterials.add(new BillsOfMaterial(bomId, 29, orderId, shortRoofPlatesAmount, "Tagplader monteres på spær"));
             }
 
             int longRoofPlatesAmount = plateAmount;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 28, orderId, longRoofPlatesAmount, "tagplader monteres på spær"));
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 28, orderId, longRoofPlatesAmount, "Tagplader monteres på spær"));
         }
+
+        //SIDSTE BRÆDDER HVOR LÆNGDEN KAN VARIERE
+        //TODO: ikke fixet med de forskellige længder og bredder carport
+        //******************** BREDDE ****************
+//        25x200	mm.	trykimp.	Bræt 360 4 Stk understernbrædder	til	for	&	bag	ende //TODO: ken vel nøjes med to ved en smal carport?
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 55, orderId, 4, "Understernbredder til for & bagende"));
+        // materialeId 56 er samme men med længden 540
+
+//        25x125mm.	trykimp.	Bræt 360 2 Stk oversternbrædder	til	forenden
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 57, orderId, 2, "Oversternbrædder til forenden"));
+        // materialeId 58 er samme men med længden 540
+
+        //        19x100	mm.	trykimp.	Bræt		 360 2 Stk vandbræt	på	stern	i	forende
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 60, orderId, 2, "Vandbræt på stern i forende"));
+        // materialeId 8 l: 480,  materialeId 9 l: 240,  materialeId 10 l: 210,  materialeId 59 l: 540
+
+
+        // ******************* LÆNGDE *******************
+//        25x200	mm.	trykimp.	Bræt 540 4 Stk understernbrædder	til	siderne
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 56, orderId, 4, "Understernbrædder til siderne"));
+        // materialeId 55 l: 360
+
+//        25x125mm.	trykimp.	Bræt 540 4 Stk oversternbrædder	til	siderne
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 58, orderId, 4, "Oversternbrædder til siderne"));
+        // materialeId 57 l: 360
+
+//        19x100	mm.	trykimp.	Bræt		 540 4 Stk vandbræt	på	stern	i	sider
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 59, orderId, 4, "Vandbræt på stern i sider"));
+        // materialeId 8 l: 480,  materialeId 9 l: 240,  materialeId 10 l: 210,  materialeId 60 l: 360
+
+
+
+        //DELE HVOR ANTALLET KAN VARIERE
+
+        //Universal 190 mm ses nederst på side 4, og der skal være lige mange som der er spær. En højre og en venstre
+        int universalRight = raftersAmount;
+        int universalLeft = universalRight;
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 15, orderId, universalRight, "Til montering af spær på rem"));
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 16, orderId, universalLeft, "Til montering af spær på rem"));
+
+
+//        firkantskiver	40x40x11mm 12 Stk Til montering	af	rem	på	stolper
+        // TODO: 2 pr stolpe når der ikke er skur med, så, beregningen duer ikke når der er skur på
+        int squareWasher = coloumnAmount * 2;
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 25, orderId, squareWasher, "Til montering af rem på stolper"));
+
+        // TODO: 3 pr stolpe når der ikke er skur med, så, beregningen duer ikke når der er skur på
+//        bræddebolt	10	x	120	mm.	 18 Stk Til	montering	af	rem	på	stolper
+        int carriageBolt = coloumnAmount * 3;
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 24, orderId, carriageBolt, "Til montering af rem på stolper"));
 
 
         //DELE DER ALTID SKAL MED
-        //Universal 190 mm ses nederst på side 4, og der skal være lige mange som der er spær. En højre og en venstre
-//        firkantskiver	40x40x11mm 12 Stk Til montering	af	rem	på	stolper //TODO: 2 pr stolpe når der ikke er skur med?
 
-
-//        25x200	mm.	trykimp.	Brædt 360 4 Stk understernbrædder	til	for	&	bag	ende
-//        25x200	mm.	trykimp.	Brædt 540 4 Stk understernbrædder	til	siderne
-//        25x125mm.	trykimp.	Brædt 360 2 Stk oversternbrædder	til	forenden
-//        25x125mm.	trykimp.	Brædt 540 4 Stk oversternbrædder	til	siderne
-
-//        19x100	mm.	trykimp.	Brædt		 540 4 Stk vandbrædt	på	stern	i	sider
-//        19x100	mm.	trykimp.	Brædt		 360 2 Stk vandbrædt	på	stern	i	forende
-
-//        Beslag	&	Skruer
 //        plastmo	bundskruer	200	stk. 3 pakke Skruer	til	tagplader
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 22, orderId, 3, "Skruer til tagplader"));
+
 //        hulbånd	1x20	mm.	10	mtr. 2 Rulle Til	vindkryds	på	spær
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 23, orderId, 2, "Til vindkryds på spær"));
 
-//        4,5	x	60	mm.	skruer	200	stk. 1 Pakke Til	montering	af	stern&vandbrædt
-//        4,0	x	50	mm.	beslagskruer	250
-//        stk. 3 pakke Til	montering	af	universalbeslag	+	hulbånd
-//        bræddebolt	10	x	120	mm.	 18 Stk Til	montering	af	rem	på	stolper
+//        4,5	x	60	mm.	skruer	200	stk. 1 Pakke Til	montering	af	stern&vandbræt
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 20, orderId, 1, "Til montering af stern & vandbræt"));
 
-
+//        4,0	x	50	mm.	beslagskruer	250 stk. 3 pakke Til	montering	af	universalbeslag	+	hulbånd
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 21, orderId, 3, "Til montering af universalbeslag + hulbånd"));
 
     }
 

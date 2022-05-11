@@ -44,46 +44,28 @@
                         </td>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <input class="form-check-input" type="radio" name="orderSelect" id="orderSelect1"
-                                   value="order_id">
-                        </td>
-                        <td>1</td>
-                        <td>Ib Ibsen</td>
-                            <%--//TODO: Join med user tabel for at hente navn--%>
-                        <td>1</td>
-                        <td>69 kr</td>
-                        <td>420 kr</td>
-                        <td>Pending...</td>
-                        <td>69:69:69 11-05-2022</td>
-                        <td>
-                            <button>Se tegning</button>
-                            <button>Se Stykliste</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <input class="form-check-input" type="radio" name="orderSelect" id="orderSelect1"
-                                   value="order_id">
-                        </td>
-                        <td>2</td>
-                        <td>Ib Ibsen</td>
-                            <%--//TODO: Join med user tabel for at hente navn--%>
-                        <td>5</td>
-                        <td>1337 kr</td>
-                        <td>6969 kr</td>
-                        <td>Done</td>
-                        <td>13:37:00 13-05-2022</td>
-                        <td>
-                            <button>Se tegning</button>
-                            <button>Se Stykliste</button>
-                        </td>
-                    </tr>
-                    </tbody>
+                    <c:forEach var="userOrdersDTO" items="${requestScope.userOrdersDTOList}">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <input class="form-check-input" type="radio" name="orderSelect" id="orderSelect${userOrdersDTO.order_id}"
+                                       value="${userOrdersDTO.order_id}">
+                            </td>
+                            <td>${userOrdersDTO.order_id}</td>
+                            <td>${userOrdersDTO.username}</td>
+                                <%--//TODO: Join med user tabel for at hente navn--%>
+                            <td>${userOrdersDTO.inquiry_id}</td>
+                            <td>${userOrdersDTO.cost_price} kr</td>
+                            <td>${userOrdersDTO.final_price} kr</td>
+                            <td>${userOrdersDTO.status_id}...</td>
+                            <td>${userOrdersDTO.timestamp}</td>
+                            <td>
+                                <button>Se tegning</button>
+                                <button>Se Stykliste</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </c:forEach>
                 </table>
                 <button>Rediger</button>
                     <%--Send til en ny side hvor der redigeres--%>

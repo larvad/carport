@@ -8,19 +8,17 @@ import dat.startcode.model.persistence.ConnectionPool;
 import dat.startcode.model.persistence.MaterialsMapper;
 import dat.startcode.model.persistence.RequestMapper;
 import dat.startcode.model.persistence.UserMapper;
-
+import dat.startcode.model.dto.UserOrdersDTO;
+import dat.startcode.model.persistence.OrderMapper;
 import java.util.List;
 
-public class UserFacade
-{
-    public static User login(String email, String password, ConnectionPool connectionPool) throws DatabaseException
-    {
+public class UserFacade {
+    public static User login(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
         UserMapper userMapper = new UserMapper(connectionPool);
         return userMapper.login(email, password);
     }
 
-    public static User createUser(String username, String email, String password, int phoneNr, String adresse, ConnectionPool connectionPool) throws DatabaseException
-    {
+    public static User createUser(String username, String email, String password, int phoneNr, String adresse, ConnectionPool connectionPool) throws DatabaseException {
         UserMapper userMapper = new UserMapper(connectionPool);
         return userMapper.createUser(username, email, password, phoneNr, adresse);
     }
@@ -37,7 +35,12 @@ public class UserFacade
 
     public static Inquiry insertInquiryIntoDB(int carpWidth, int carpLength, String roofType, int roofSlope, int shedWidth, int shedLength, ConnectionPool connectionPool) throws DatabaseException {
         RequestMapper requestMapper = new RequestMapper(connectionPool);
-        return requestMapper.insertInquiryIntoDB(carpWidth,carpLength,roofType,roofSlope,shedWidth,shedLength);
+        return requestMapper.insertInquiryIntoDB(carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength);
+    }
+
+    public static List<UserOrdersDTO> getAdminPageTableData(ConnectionPool connectionPool) throws DatabaseException {
+        OrderMapper orderMapper = new OrderMapper(connectionPool);
+        return orderMapper.getUserOrderDTOs();
     }
 }
 

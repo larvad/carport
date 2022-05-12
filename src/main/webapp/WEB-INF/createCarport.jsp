@@ -146,7 +146,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -160,11 +159,6 @@
                 </div>
             </div>
         </form>
-        </div>
-        <br><br>
-        <div class="container">
-            <button type="submit" class="btn btn-primary" value="submit">Forespørgsel</button>
-        </div>
         </c:if>
 
         <c:if test="${sessionScope.user == null}">

@@ -20,9 +20,9 @@
 <%--            </video>--%>
             <div id="outer">
                 <h1>Byg din egen carport</h1>
-                <form action="fc/" method="post">
-                    <input type="hidden" name="command" value="CreateCarport"/>
-                    <input type="submit" class="btn btn-layer3" value="send forspørgsel"/>
+                <form action="fc/createCarport" method="post">
+                    <input type="hidden" name="command" value="createCarport"/>
+                    <input type="submit" class="btn btn-layer3" value="send forespørgsel"/>
                 </form>
                 <div id="home-top-video">
                     <video autoplay loop muted width="100%">

@@ -3,12 +3,16 @@ package dat.startcode.logic;
 import dat.startcode.model.dto.MaterialDTO;
 import dat.startcode.model.entities.BillsOfMaterial;
 import dat.startcode.model.entities.CustomerRequest;
+import dat.startcode.model.exceptions.DatabaseException;
+import dat.startcode.model.persistence.BillsOfMaterialMapper;
+import dat.startcode.model.persistence.ConnectionPool;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RequestCalculator {
 
+    //TODO: skal få værdierne fra formularerne
     CustomerRequest customerRequest = new CustomerRequest(600, 780, "flat");
 
     // Ganger med 10 for at få længderne i mm
@@ -35,13 +39,13 @@ public class RequestCalculator {
 
 
     //TODO: Hyggehejsa læser, dette skal ændres så det kommer fra et scope!
-    private int orderId = 0;
+    private int orderId = 2;
     private int bomId = 0; //bliver auto gerenert
 
     //TODO: Hvis det skal være rigtigt skal koden jo egentlig søge de bedste brædder til opgaven frem i databasen (ellers får admin heller ikke noget ud af at tilføje nye materialer)
 
     // public void calculate(CustomerRequest customerRequest) {
-    public void calculate() {
+    public void calculate(ConnectionPool connectionPool) throws DatabaseException {
 
         List<MaterialDTO> listOfMaterial = new ArrayList<>();
         List<BillsOfMaterial> billsOfMaterials = new ArrayList<>();
@@ -192,6 +196,14 @@ public class RequestCalculator {
 
 //        4,0	x	50	mm.	beslagskruer	250 stk. 3 pakke Til	montering	af	universalbeslag	+	hulbånd
         billsOfMaterials.add(new BillsOfMaterial(bomId, 21, orderId, 3, "Til montering af universalbeslag + hulbånd"));
+
+
+        //SÆTTE IND I DATABASEN
+
+        BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
+        billsOfMaterialMapper.insertBOMList(billsOfMaterials);
+
+
 
     }
 

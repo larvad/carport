@@ -20,7 +20,7 @@ public class RequestMapper {
 
         Inquiry inquiry = null;
 
-        String sql = "SELECT * FROM carport.reques " +
+        String sql = "SELECT * FROM carport.inquiry " +
                 "WHERE request_id = ?";
 
         try (Connection connection = connectionPool.getConnection()) {

@@ -6,7 +6,6 @@
 
 <t:pagetemplate>
     <jsp:attribute name="header">
-             Skræddersy din egen carport
     </jsp:attribute>
 
     <jsp:attribute name="footer">
@@ -14,6 +13,7 @@
     </jsp:attribute>
 
     <jsp:body>
+        <c:if test="${sessionScope.user != null }">
         <br><br>
         <form action="fc/sendInquiry" method="post">
             <div class="container">
@@ -146,12 +146,9 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
                 <br><br>
-
                 <div class="container">
                     <input type="hidden" name="command" value="sendInquiry"/>
                     <button type="submit" class="btn btn-primary" formaction="fc/sendInquiry" formmethod="post"
@@ -160,5 +157,11 @@
                 </div>
             </div>
         </form>
+        </c:if>
+
+        <c:if test="${sessionScope.user == null}">
+            <meta http-equiv = "refresh" content = "0; url = ${pageContext.request.contextPath}/createUser.jsp" />
+        </c:if>
+
     </jsp:body>
 </t:pagetemplate>

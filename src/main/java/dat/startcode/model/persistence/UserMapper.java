@@ -34,7 +34,7 @@ public class UserMapper implements IUserMapper {
                     String username = rs.getString("username");
                     int roleId = rs.getInt("role_id");
                     int phoneNumber = rs.getInt("phone_no");
-                    String adresse = rs.getString("adresse");
+                    String adresse = rs.getString("adress");
                     user = new User(username, password, roleId, userId, email, phoneNumber, adresse);
                 } else {
                     throw new DatabaseException("Wrong username or password");
@@ -51,7 +51,7 @@ public class UserMapper implements IUserMapper {
         Logger.getLogger("web").log(Level.INFO, "");
         User user = null;
         int newId = 0;
-        String sql = "insert into user (username, email, password, role_id, phone_no, adresse) values (?,?,?,?,?,?)";
+        String sql = "insert into user (username, email, password, role_id, phone_no, adress) values (?,?,?,?,?,?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, username);

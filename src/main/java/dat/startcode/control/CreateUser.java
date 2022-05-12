@@ -23,22 +23,30 @@ public class CreateUser extends Command {
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
         HttpSession session = request.getSession();
 
-        //henter info fra formularen
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String rpPassword = request.getParameter("rppassword");
-        String fullname = request.getParameter("fullname");
-        String adress = request.getParameter("adress");
-        int phoneNo = Integer.parseInt(request.getParameter("phoneno"));
+        // Afgør om brugeren har logget ind, eller oprettet ny bruger
+        int loginType = Integer.parseInt(request.getParameter("loginType"));
 
-        //TJekker om de to password er ens
-        if (!password.equals(rpPassword)) {
-            //TODO: sæt fejlbeskeden til inde på jsp-siden
-            request.setAttribute("fejlTilIndex", "Kodeordene var ikke ens, prøv igen");
-            return "createUser";
-        }
 
-        //TODO: Tjekker om emailadressen allerede er oprettet
+
+        // Opretter ny bruger
+        if (loginType == 1) {
+
+            //henter info fra formularen
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            String rpPassword = request.getParameter("rppassword");
+            String fullname = request.getParameter("fullname");
+            String adress = request.getParameter("adress");
+            int phoneNo = Integer.parseInt(request.getParameter("phoneno"));
+
+            //TJekker om de to password er ens
+            if (!password.equals(rpPassword)) {
+                //TODO: sæt fejlbeskeden til inde på jsp-siden
+                request.setAttribute("fejlTilIndex", "Kodeordene var ikke ens, prøv igen");
+                return "createUser";
+            }
+
+            //TODO: Tjekker om emailadressen allerede er oprettet
 //        UserMapper userMapper = new UserMapper(connectionPool);
 //        try {
 //            Map<String, CustomerDTO> userMap = userMapper.getUserMapByEmail();
@@ -50,12 +58,25 @@ public class CreateUser extends Command {
 //            e.printStackTrace();
 //        }
 
-        //Opretter brugeren i databasen
-        User user = UserFacade.createUser(fullname, email, password, phoneNo, adress, connectionPool);
+            //Opretter brugeren i databasen
+            User user = UserFacade.createUser(fullname, email, password, phoneNo, adress, connectionPool);
+            session = request.getSession();
+            session.setAttribute("user", user);
 
-        //Logger brugeren på
-        session.setAttribute("user", user);
+        }
 
-        return "index";
+        // Logger ind
+        if (loginType == 2) {
+            String email = request.getParameter("email2");
+            String password = request.getParameter("password2");
+
+            User user = UserFacade.login(email, password, connectionPool);
+            session = request.getSession();
+            session.setAttribute("user", user);
+
+        }
+
+
+        return "createCarport";
     }
 }

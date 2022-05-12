@@ -39,11 +39,11 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <form action="fc/login" method="post">
                                 <input type="hidden" name="command" value="login"/>
-                                <div class="mb-3">
+                                <div class="mb-3 mb-3-header">
                                     <label for="email" class="form-label">Email address</label>
                                     <input type="email" name="email" class="form-control" id="email" placeholder="email@example.com">
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 mb-3-header">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                                 </div>
@@ -54,6 +54,7 @@
                     <a class="btn btn-layer2" href="${pageContext.request.contextPath}/createUser.jsp">Opret bruger</a>
                     </c:if>
                     <c:if test="${sessionScope.user != null }">
+                        <a href="${pageContext.request.contextPath}/fc/profile?command=profile">Min profil</a>
                     <a class="btn btn-layer1" href="${pageContext.request.contextPath}/fc/logout?command=logout">Log out</a>
                     </c:if>
                 </div>

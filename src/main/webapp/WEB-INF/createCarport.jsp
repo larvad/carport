@@ -6,7 +6,6 @@
 
 <t:pagetemplate>
     <jsp:attribute name="header">
-             Skræddersy din egen carport
     </jsp:attribute>
 
     <jsp:attribute name="footer">
@@ -168,6 +167,9 @@
         </div>
         </c:if>
 
+        <c:if test="${sessionScope.user == null}">
+            <meta http-equiv = "refresh" content = "0; url = ${pageContext.request.contextPath}/createUser.jsp" />
+        </c:if>
 
     </jsp:body>
 </t:pagetemplate>

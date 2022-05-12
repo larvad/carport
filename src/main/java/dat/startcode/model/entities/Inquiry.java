@@ -2,9 +2,9 @@ package dat.startcode.model.entities;
 
 import java.sql.Timestamp;
 
-public class CustomerRequest {
+public class Inquiry {
 
-    private int requestId;
+    private int inquiryId;
     private int carpWidth;
     private int carpLength;
     private String roofType;
@@ -13,8 +13,8 @@ public class CustomerRequest {
     private int shedLength;
     private Timestamp timestamp;
 
-    public CustomerRequest(int requestId, int carpWidth, int carpLength, String roofType, int slope, int shedWidth, int shedLength, Timestamp timestamp) {
-        this.requestId = requestId;
+    public Inquiry(int inquiryId, int carpWidth, int carpLength, String roofType, int slope, int shedWidth, int shedLength, Timestamp timestamp) {
+        this.inquiryId = inquiryId;
         this.carpWidth = carpWidth;
         this.carpLength = carpLength;
         this.roofType = roofType;
@@ -24,14 +24,14 @@ public class CustomerRequest {
         this.timestamp = timestamp;
     }
 
-    public CustomerRequest(int carpWidth, int carpLength, String roofType) {
+    public Inquiry(int carpWidth, int carpLength, String roofType) {
         this.carpWidth = carpWidth;
         this.carpLength = carpLength;
         this.roofType = roofType;
     }
 
-    public CustomerRequest(int requestId, int carpWidth, int carpLength, String roofType, int roofSlope, int shedWidth, int shedLength) {
-        this.requestId = requestId;
+    public Inquiry(int inquiryId, int carpWidth, int carpLength, String roofType, int roofSlope, int shedWidth, int shedLength) {
+        this.inquiryId = inquiryId;
         this.carpWidth = carpWidth;
         this.carpLength = carpLength;
         this.roofType = roofType;
@@ -40,12 +40,12 @@ public class CustomerRequest {
         this.shedLength = shedLength;
     }
 
-    public int getRequestId() {
-        return requestId;
+    public int getInquiryId() {
+        return inquiryId;
     }
 
-    public void setRequestId(int requestId) {
-        this.requestId = requestId;
+    public void setInquiryId(int inquiryId) {
+        this.inquiryId = inquiryId;
     }
 
     public int getCarpWidth() {
@@ -107,7 +107,7 @@ public class CustomerRequest {
     @Override
     public String toString() {
         return "Request{" +
-                "requestId=" + requestId +
+                "requestId=" + inquiryId +
                 ", carpWidth=" + carpWidth +
                 ", carpLength=" + carpLength +
                 ", roofType='" + roofType + '\'' +

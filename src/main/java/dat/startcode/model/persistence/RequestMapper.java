@@ -1,7 +1,6 @@
 package dat.startcode.model.persistence;
 
-import dat.startcode.model.entities.CustomerRequest;
-import dat.startcode.model.entities.Order;
+import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.exceptions.DatabaseException;
 
 import java.sql.*;
@@ -16,10 +15,10 @@ public class RequestMapper {
     }
 
 
-    public CustomerRequest getRequestById(int requestId) throws DatabaseException {
+    public Inquiry getRequestById(int requestId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
-        CustomerRequest request = null;
+        Inquiry request = null;
 
         String sql = "SELECT * FROM carport.reques " +
                 "WHERE request_id = ?";
@@ -37,7 +36,7 @@ public class RequestMapper {
                     int shedWith = rs.getInt("shed_width");
                     int shedLength = rs.getInt("shed_length");
                     Timestamp timestamp = rs.getTimestamp("timestamp");
-                    request = new CustomerRequest(requestId, carpWidth, carpLength, roofType, roofSlope, shedWith, shedLength, timestamp);
+                    request = new Inquiry(requestId, carpWidth, carpLength, roofType, roofSlope, shedWith, shedLength, timestamp);
                 } else {
                     throw new DatabaseException("Fejl. Kunne ikke finde forespørgslen.");
                 }
@@ -48,14 +47,14 @@ public class RequestMapper {
         return request;
     }
 
-    public CustomerRequest insertInquiryIntoDB(int carpWidth, int carpLength, String roofType,
-                                               int roofSlope, int shedWidth, int shedLength) throws DatabaseException {
+    public Inquiry insertInquiryIntoDB(int carpWidth, int carpLength, String roofType,
+                                       int roofSlope, int shedWidth, int shedLength) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         int newInquiryID = 0;
-        String sql = "insert into carport.inquiry ( carp_width, carp_ length, roof_type," +
+        String sql = "insert into carport.inquiry ( carp_width, carp_length, roof_type," +
                 " roof_slope, shed_width, shed_length, timestamp) values (?, ?, ?, ?, ?, ?, NOW())";
 
-        CustomerRequest customerRequest = null;
+        Inquiry inquiry = null;
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setInt(1, carpWidth);
@@ -72,17 +71,17 @@ public class RequestMapper {
                 ResultSet idResultset = ps.getGeneratedKeys();
                 if (idResultset.next()) {
                     newInquiryID = idResultset.getInt(1);
-                    customerRequest = new CustomerRequest(newInquiryID, carpWidth, carpLength,
+                    inquiry = new Inquiry(newInquiryID, carpWidth, carpLength,
                             roofType, roofSlope, shedWidth, shedLength);
                 } else {
-                    throw new DatabaseException("Sherman firefly");
+                    throw new DatabaseException("");
                 }
             }
         } catch (SQLException | DatabaseException ex) {
             throw new DatabaseException(ex, "Forespørgsel kunne ikke sættes i databasen");
         }
 
-        return customerRequest;
+        return inquiry;
     }
 
 }

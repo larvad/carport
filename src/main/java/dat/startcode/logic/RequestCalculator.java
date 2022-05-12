@@ -168,7 +168,6 @@ public class RequestCalculator {
         billsOfMaterials.add(new BillsOfMaterial(bomId, 15, orderId, universalRight, "Til montering af spær på rem"));
         billsOfMaterials.add(new BillsOfMaterial(bomId, 16, orderId, universalLeft, "Til montering af spær på rem"));
 
-
 //        firkantskiver	40x40x11mm 12 Stk Til montering	af	rem	på	stolper
         // TODO: 2 pr stolpe når der ikke er skur med, så, beregningen duer ikke når der er skur på
         int squareWasher = coloumnAmount * 2;
@@ -198,3 +197,4 @@ public class RequestCalculator {
 
 
 }
+

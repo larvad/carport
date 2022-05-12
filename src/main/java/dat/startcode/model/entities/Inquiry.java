@@ -2,7 +2,7 @@ package dat.startcode.model.entities;
 
 import java.sql.Timestamp;
 
-public class CustomerRequest {
+public class Inquiry {
 
     private int requestId;
     private int carpWidth;
@@ -13,7 +13,7 @@ public class CustomerRequest {
     private int shedLength;
     private Timestamp timestamp;
 
-    public CustomerRequest(int requestId, int carpWidth, int carpLength, String roofType, int slope, int shedWidth, int shedLength, Timestamp timestamp) {
+    public Inquiry(int requestId, int carpWidth, int carpLength, String roofType, int slope, int shedWidth, int shedLength, Timestamp timestamp) {
         this.requestId = requestId;
         this.carpWidth = carpWidth;
         this.carpLength = carpLength;
@@ -24,13 +24,13 @@ public class CustomerRequest {
         this.timestamp = timestamp;
     }
 
-    public CustomerRequest(int carpWidth, int carpLength, String roofType) {
+    public Inquiry(int carpWidth, int carpLength, String roofType) {
         this.carpWidth = carpWidth;
         this.carpLength = carpLength;
         this.roofType = roofType;
     }
 
-    public CustomerRequest(int requestId, int carpWidth, int carpLength, String roofType, int roofSlope, int shedWidth, int shedLength) {
+    public Inquiry(int requestId, int carpWidth, int carpLength, String roofType, int roofSlope, int shedWidth, int shedLength) {
         this.requestId = requestId;
         this.carpWidth = carpWidth;
         this.carpLength = carpLength;

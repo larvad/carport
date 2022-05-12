@@ -350,6 +350,9 @@ th, td {
     color: white;
     text-decoration: white;
 }
+.confirm>img {
+    margin-left: 50px;
+}
 
 
 

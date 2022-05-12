@@ -56,6 +56,6 @@ public class SendInquiry extends Command {
         inquiry = UserFacade.insertInquiryIntoDB(carpWidth,carpLength,roofType,roofSlope,shedWidth,shedLength,connectionPool);
         request.setAttribute("inquiry", inquiry);
 
-        return "createCarport";    //placeholder
+        return "confirmInquiry";
     }
 }

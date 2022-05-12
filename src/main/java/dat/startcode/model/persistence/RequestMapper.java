@@ -54,7 +54,7 @@ public class RequestMapper {
         String sql = "insert into carport.inquiry ( carp_width, carp_ length, roof_type," +
                 " roof_slope, shed_width, shed_length, timestamp) values (?, ?, ?, ?, ?, ?, NOW())";
 
-        Inquiry customerRequest = null;
+        Inquiry inquiry = null;
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setInt(1, carpWidth);
@@ -71,7 +71,7 @@ public class RequestMapper {
                 ResultSet idResultset = ps.getGeneratedKeys();
                 if (idResultset.next()) {
                     newInquiryID = idResultset.getInt(1);
-                    customerRequest = new Inquiry(newInquiryID, carpWidth, carpLength,
+                    inquiry = new Inquiry(newInquiryID, carpWidth, carpLength,
                             roofType, roofSlope, shedWidth, shedLength);
                 } else {
                     throw new DatabaseException("Sherman firefly");
@@ -81,7 +81,7 @@ public class RequestMapper {
             throw new DatabaseException(ex, "Forespørgsel kunne ikke sættes i databasen");
         }
 
-        return customerRequest;
+        return inquiry;
     }
 
 }

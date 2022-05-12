@@ -19,7 +19,7 @@ public class SendInquiry extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
-        Inquiry customerRequest = null;
+        Inquiry inquiry = null;
         int carpWidth;
         int carpLength;
         String roofType;
@@ -52,8 +52,8 @@ public class SendInquiry extends Command {
             throw new RuntimeException(e);
         }
 
-        customerRequest = UserFacade.insertInquiryIntoDB(carpLength,carpLength,roofType,roofSlope,shedWidth,shedLength,connectionPool);
-        request.setAttribute("customerRequest", customerRequest);        
+        inquiry = UserFacade.insertInquiryIntoDB(carpLength,carpLength,roofType,roofSlope,shedWidth,shedLength,connectionPool);
+        request.setAttribute("customerRequest", inquiry);
 
         return "createCarport";    //placeholder
     }

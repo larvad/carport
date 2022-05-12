@@ -5,6 +5,7 @@ import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.BillsOfMaterialMapper;
 import dat.startcode.model.persistence.ConnectionPool;
 import dat.startcode.model.entities.Inquiry;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class RequestCalculator {
     //TODO: skal få værdierne fra formularerne
 
     Inquiry customerRequest = new Inquiry(600, 780, "flat");
+
 
 
     // Ganger med 10 for at få længderne i mm

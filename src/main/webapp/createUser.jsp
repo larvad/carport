@@ -2,7 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@page errorPage="error.jsp" isErrorPage="false" %>
+
 
 <t:pagetemplate>
     <jsp:attribute name="header">
@@ -16,8 +16,54 @@
     <jsp:body>
 
         <div class="boxBody">
-            <div class="boxRight"></div>
-            <div class="boxLeft"></div>
+            <div class="boxRight">
+                <h1>Opret ny bruger</h1>
+                <form action="fc/createUser" method="post">
+                    <input type="hidden" name="command" value="createUser"/>
+                    <input type="hidden" name="loginType" value="1">
+                    <div class="mb-3 mb-3-user">
+                        <label for="fullname" class="form-label">Fulde navn</label>
+                        <input type="text" name="fullname" class="form-control" id="fullname" placeholder="Fulde navn">
+                    </div>
+                    <div class="mb-3 mb-3-user mb-3-user-right">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" name="email" class="form-control" id="email" placeholder="email@example.com">
+                    </div>
+                    <div class="mb-3 mb-3-user">
+                        <label for="adress" class="form-label">Adresse</label>
+                        <input type="text" name="adress" class="form-control" id="adress" placeholder="Johannes Fog Vej 21">
+                    </div>
+                    <div class="mb-3 mb-3-user mb-3-user-right">
+                        <label for="phoneno" class="form-label">Telefon nr</label>
+                        <input type="number" name="phoneno" class="form-control" id="phoneno" placeholder="12345678">
+                    </div>
+                    <div class="mb-3 mb-3-user">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                    </div>
+                    <div class="mb-3 mb-3-user mb-3-user-right">
+                        <label for="rppassword" class="form-label">Gentag password</label>
+                        <input type="password" name="rppassword" class="form-control" id="rppassword" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-layer2">Sign up</button>
+                </form>
+            </div>
+            <div class="boxLeft">
+                <h1>Login</h1>
+                <form action="fc/createUser" method="post">
+                    <input type="hidden" name="command" value="createUser"/>
+                    <input type="hidden" name="loginType" value="2">
+                    <div class="mb-3 mb-3-login">
+                        <label for="email2" class="form-label">Email address</label>
+                        <input type="email" name="email2" class="form-control" id="email2" placeholder="email@example.com">
+                    </div>
+                    <div class="mb-3 mb-3-login">
+                        <label for="password2" class="form-label">Password</label>
+                        <input type="password" name="password2" class="form-control" id="password2" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-layer4">Sign in</button>
+                </form>
+            </div>
         </div>
 
 

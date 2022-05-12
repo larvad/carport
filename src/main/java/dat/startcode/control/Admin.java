@@ -23,7 +23,6 @@ public class Admin extends Command {
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
         List<UserOrdersDTO> userOrdersDTOList = UserFacade.getAdminPageTableData(connectionPool);
-        //TODO: hent en DTO fra databasen til visning i tabel på admin.jsp
         request.setAttribute("userOrdersDTOList", userOrdersDTOList);
 
         return "admin";

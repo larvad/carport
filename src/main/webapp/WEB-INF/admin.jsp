@@ -53,7 +53,6 @@
                             </td>
                             <td>${userOrdersDTO.order_id}</td>
                             <td>${userOrdersDTO.username}</td>
-                                <%--//TODO: Join med user tabel for at hente navn--%>
                             <td>${userOrdersDTO.inquiry_id}</td>
                             <td>${userOrdersDTO.cost_price} kr</td>
                             <td>${userOrdersDTO.final_price} kr</td>
@@ -67,6 +66,7 @@
                         </tbody>
                     </c:forEach>
                 </table>
+                    <%--//TODO: type="submit" send til næste side med valgt row data!--%>
                 <button>Rediger</button>
                     <%--Send til en ny side hvor der redigeres--%>
                 <button>Slet</button>

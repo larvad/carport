@@ -1,9 +1,10 @@
 package dat.startcode.control;
 
 import dat.startcode.model.config.ApplicationStart;
-import dat.startcode.model.entities.CustomerRequest;
+import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
+import dat.startcode.model.services.UserFacade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,30 +19,41 @@ public class SendInquiry extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
-        CustomerRequest customerRequest = null;
+        Inquiry customerRequest = null;
         int carpWidth;
         int carpLength;
-        String roofTypeFlat;
-        String roofTypeRaised;
+        String roofType;
         int roofSlope;
         int shedWidth;
         int shedLength;
+        String checkboxShed;
 
         try {
-            String [] ShermanFireFly = request.getParameterValues("inlineRadioOptions");
-            String T34 = request.getParameter("radio7");
+            String M18Hellcat = request.getParameter("inlineRadioOptions");
             carpWidth = Integer.parseInt(request.getParameter("carpWidth"));
             carpLength = Integer.parseInt(request.getParameter("carpLength"));
-            roofTypeFlat = request.getParameter("roofType");
-            roofTypeRaised = request.getParameter("roofType");
-            roofSlope = Integer.parseInt(request.getParameter("roofSloop"));
-            shedWidth = Integer.parseInt(request.getParameter("shedWidth"));
-            shedLength = Integer.parseInt(request.getParameter("shedLength"));
+            roofType = request.getParameter("roofType");
+            try {
+                roofSlope = Integer.parseInt(request.getParameter("roofSloop"));
+            } catch (Exception e){
+                roofSlope = 0;
+            }
+            checkboxShed = (request.getParameter("checkboxShed"));
+            if(checkboxShed != null){
+                shedWidth = Integer.parseInt(request.getParameter("shedWidth"));
+                shedLength = Integer.parseInt(request.getParameter("shedLength"));
+            }else{
+                shedWidth = 0;
+                shedLength = 0;
+            }
+
+
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         }
 
-
+        customerRequest = UserFacade.insertInquiryIntoDB(carpLength,carpLength,roofType,roofSlope,shedWidth,shedLength,connectionPool);
+        request.setAttribute("customerRequest", customerRequest);        
 
         return "createCarport";    //placeholder
     }

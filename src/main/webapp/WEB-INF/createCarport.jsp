@@ -104,7 +104,7 @@
                     </div>
                     <br><br><br><br><br>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                        <input class="form-check-input" name="checkboxShed" type="checkbox"  id="flexCheckDefault"
                                onchange="visSkur()">
                         <label class="form-check-label" for="flexCheckDefault">
                             Skur

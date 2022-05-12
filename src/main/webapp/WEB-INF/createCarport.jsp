@@ -148,9 +148,7 @@
                         </div>
                     </div>
                 </div>
-
                 <br><br>
-
                 <div class="container">
                     <input type="hidden" name="command" value="sendInquiry"/>
                     <button type="submit" class="btn btn-primary" formaction="fc/sendInquiry" formmethod="post"

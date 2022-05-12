@@ -54,7 +54,7 @@
                     <a class="btn btn-layer2" href="${pageContext.request.contextPath}/createUser.jsp">Opret bruger</a>
                     </c:if>
                     <c:if test="${sessionScope.user != null }">
-                        <a href="${pageContext.request.contextPath}/fc/profile?command=profile">Min profil</a>
+                        <a class="profilKnap" href="${pageContext.request.contextPath}/fc/profile?command=profile">Min profil</a>
                     <a class="btn btn-layer1" href="${pageContext.request.contextPath}/fc/logout?command=logout">Log out</a>
                     </c:if>
                 </div>

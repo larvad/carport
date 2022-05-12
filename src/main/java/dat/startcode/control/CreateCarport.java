@@ -26,8 +26,8 @@ public class CreateCarport extends Command {
         RequestCalculator requestCalculator = new RequestCalculator();
 
         //TODO brug facaden og connectionpool derfra
-       ConnectionPool connectionPool = new ConnectionPool();
-        requestCalculator.calculate(connectionPool);
+//        ConnectionPool connectionPool = new ConnectionPool();
+//        requestCalculator.calculate(connectionPool);
 
 
         List<Materials> flatRoofMaterialsList = null;

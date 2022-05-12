@@ -15,17 +15,17 @@ public class RequestMapper {
     }
 
 
-    public Inquiry getRequestById(int requestId) throws DatabaseException {
+    public Inquiry getRequestById(int inquiryId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
-        Inquiry request = null;
+        Inquiry inquiry = null;
 
         String sql = "SELECT * FROM carport.reques " +
                 "WHERE request_id = ?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
-                ps.setInt(1, requestId);
+                ps.setInt(1, inquiryId);
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
 
@@ -36,7 +36,7 @@ public class RequestMapper {
                     int shedWith = rs.getInt("shed_width");
                     int shedLength = rs.getInt("shed_length");
                     Timestamp timestamp = rs.getTimestamp("timestamp");
-                    request = new Inquiry(requestId, carpWidth, carpLength, roofType, roofSlope, shedWith, shedLength, timestamp);
+                    inquiry = new Inquiry(inquiryId, carpWidth, carpLength, roofType, roofSlope, shedWith, shedLength, timestamp);
                 } else {
                     throw new DatabaseException("Fejl. Kunne ikke finde forespørgslen.");
                 }
@@ -44,14 +44,14 @@ public class RequestMapper {
         } catch (SQLException ex) {
             throw new DatabaseException(ex, "Something went wrong with the database");
         }
-        return request;
+        return inquiry;
     }
 
     public Inquiry insertInquiryIntoDB(int carpWidth, int carpLength, String roofType,
                                        int roofSlope, int shedWidth, int shedLength) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         int newInquiryID = 0;
-        String sql = "insert into carport.inquiry ( carp_width, carp_ length, roof_type," +
+        String sql = "insert into carport.inquiry ( carp_width, carp_length, roof_type," +
                 " roof_slope, shed_width, shed_length, timestamp) values (?, ?, ?, ?, ?, ?, NOW())";
 
         Inquiry inquiry = null;
@@ -74,7 +74,7 @@ public class RequestMapper {
                     inquiry = new Inquiry(newInquiryID, carpWidth, carpLength,
                             roofType, roofSlope, shedWidth, shedLength);
                 } else {
-                    throw new DatabaseException("Sherman firefly");
+                    throw new DatabaseException("");
                 }
             }
         } catch (SQLException | DatabaseException ex) {

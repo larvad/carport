@@ -52,8 +52,9 @@ public class SendInquiry extends Command {
             throw new RuntimeException(e);
         }
 
-        inquiry = UserFacade.insertInquiryIntoDB(carpLength,carpLength,roofType,roofSlope,shedWidth,shedLength,connectionPool);
-        request.setAttribute("customerRequest", inquiry);
+
+        inquiry = UserFacade.insertInquiryIntoDB(carpWidth,carpLength,roofType,roofSlope,shedWidth,shedLength,connectionPool);
+        request.setAttribute("inquiry", inquiry);
 
         return "createCarport";    //placeholder
     }

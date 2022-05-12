@@ -1,6 +1,6 @@
 package dat.startcode.model.services;
 
-import dat.startcode.model.entities.Inquiry;
+import dat.startcode.model.entities.CustomerRequest;
 import dat.startcode.model.entities.Materials;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
@@ -9,6 +9,7 @@ import dat.startcode.model.persistence.MaterialsMapper;
 import dat.startcode.model.persistence.RequestMapper;
 import dat.startcode.model.persistence.UserMapper;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 public class UserFacade
@@ -35,7 +36,7 @@ public class UserFacade
         return materialsMapper.ShowRaisedRoofMaterials();
     }
 
-    public static Inquiry insertInquiryIntoDB(int carpWidth, int carpLength, String roofType, int roofSlope, int shedWidth, int shedLength, ConnectionPool connectionPool) throws DatabaseException {
+    public static CustomerRequest insertInquiryIntoDB(int carpWidth, int carpLength, String roofType, int roofSlope, int shedWidth, int shedLength, ConnectionPool connectionPool) throws DatabaseException {
         RequestMapper requestMapper = new RequestMapper(connectionPool);
         return requestMapper.insertInquiryIntoDB(carpWidth,carpLength,roofType,roofSlope,shedWidth,shedLength);
     }

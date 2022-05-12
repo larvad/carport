@@ -1,7 +1,7 @@
 package dat.startcode.control;
 
 import dat.startcode.model.config.ApplicationStart;
-import dat.startcode.model.entities.Inquiry;
+import dat.startcode.model.entities.CustomerRequest;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
 import dat.startcode.model.services.UserFacade;
@@ -19,7 +19,7 @@ public class SendInquiry extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
-        Inquiry customerRequest = null;
+        CustomerRequest customerRequest = null;
         int carpWidth;
         int carpLength;
         String roofType;

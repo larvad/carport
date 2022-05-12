@@ -2,14 +2,14 @@ package dat.startcode.logic;
 
 import dat.startcode.model.dto.MaterialDTO;
 import dat.startcode.model.entities.BillsOfMaterial;
-import dat.startcode.model.entities.Inquiry;
+import dat.startcode.model.entities.CustomerRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RequestCalculator {
 
-    Inquiry customerRequest = new Inquiry(600, 780, "flat");
+    CustomerRequest customerRequest = new CustomerRequest(600, 780, "flat");
 
     // Ganger med 10 for at få længderne i mm
     int carpLengthInMm = customerRequest.getCarpLength() * 10;

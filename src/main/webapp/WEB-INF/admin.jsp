@@ -56,7 +56,10 @@
                             <td>${userOrdersDTO.inquiry_id}</td>
                             <td>${userOrdersDTO.cost_price} kr</td>
                             <td>${userOrdersDTO.final_price} kr</td>
-                            <td>${userOrdersDTO.status_id}...</td>
+                            <td>
+                            <c:if test="${userOrdersDTO.status_id == 1}">Venter</c:if>
+                            <c:if test="${userOrdersDTO.status_id == 2}">Færdig</c:if>
+                            </td>
                             <td>${userOrdersDTO.timestamp}</td>
                             <td>
                                 <button>Se tegning</button>
@@ -67,9 +70,14 @@
                     </c:forEach>
                 </table>
                     <%--//TODO: type="submit" send til næste side med valgt row data!--%>
-                <button>Rediger</button> <%--Send til en ny side hvor der redigeres--%>
-                <button>Slet</button>
-                <button>Godkend</button>
+                <div>
+                <button  type="submit" name="CRUD" value="">Rediger</button> <%--Send til en ny side hvor der redigeres--%>
+                    <input type="hidden" name="command" value="adminGodkend">
+                <button type="submit"  name="CRUD" value="godkend" formaction="fc/adminGodkend" formmethod="post">
+                    Godkend
+                </button>
+                <button type="submit" name="CRUD" value="">Slet</button>
+                </div>
             </div>
         </form>
 

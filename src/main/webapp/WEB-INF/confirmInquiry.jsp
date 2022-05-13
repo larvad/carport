@@ -29,12 +29,12 @@
                     X ${(requestScope.inquiry.carpLength)/1000}m
                 </li>
                 <li class="list-group-item">Tagtype: ${requestScope.inquiry.roofType}</li>
-                <c:if test="${sessionScope.inquiry.shedWidth !=0}">
+                <c:if test="${requestScope.inquiry.shedWidth !=0}">
                     <li class="list-group-item">Redskabsrum: ${(requestScope.inquiry.shedWidth)/1000}m
                         X ${(requestScope.inquiry.shedLength)/1000}m
                     </li>
                 </c:if>
-                <c:if test="${sessionScope.inquiry.shedWidth == 0}">
+                <c:if test="${requestScope.inquiry.shedWidth == 0}">
                     <li class="list-group-item">Redskabsrum: ikke valgt</li>
                 </c:if>
             </ul>

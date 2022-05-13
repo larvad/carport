@@ -67,8 +67,7 @@
                     </c:forEach>
                 </table>
                     <%--//TODO: type="submit" send til næste side med valgt row data!--%>
-                <button>Rediger</button>
-                    <%--Send til en ny side hvor der redigeres--%>
+                <button>Rediger</button> <%--Send til en ny side hvor der redigeres--%>
                 <button>Slet</button>
                 <button>Godkend</button>
             </div>

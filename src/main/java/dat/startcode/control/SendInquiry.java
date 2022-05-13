@@ -64,9 +64,11 @@ public class SendInquiry extends Command {
         request.setAttribute("inquiry", inquiry);
 
         //Generér OderId
-        //order = UserFacade.insertEarlyOrderIntoDB(connectionPool);
+        int userId = user.getUserId();
+        int inquiryID = inquiry.getInquiryId();
+        Order earlyOrder = UserFacade.insertEarlyOrderIntoDB(userId, inquiryID, connectionPool);
 
-        //Få orderIDet ind i calculate
+        //Få orderIDet ind i RequestCalculator
 
         // kald beregning, som laver BOM
 

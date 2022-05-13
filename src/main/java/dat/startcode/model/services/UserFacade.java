@@ -84,6 +84,11 @@ public class UserFacade {
     public static StatusDTO getStatusDTOByUserID (int userID, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         return orderMapper.getStatusByUserId(userID);
+    }
+
+    public static Order insertEarlyOrderIntoDB(int userID, int inquiryID, ConnectionPool connectionPool) throws DatabaseException {
+        OrderMapper orderMapper = new OrderMapper(connectionPool);
+        return orderMapper.insertEarlyOrderIntoDB(userID, inquiryID);
 
     }
 }

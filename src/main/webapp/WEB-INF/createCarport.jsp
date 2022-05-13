@@ -21,7 +21,7 @@
                     <div class="col-sm">
                         <div class="dropdown">
                             <h1 bold style="font-size: x-large">Carport længde</h1>
-                            <select name="carpLength" class="form-select" aria-label="Default select example">
+                            <select required="required" name="carpLength" class="form-select" aria-label="Default select example">
                                 <option value="">Vælg carport længde</option>
                                 <c:forEach var="i" begin="240" end="600" step="30">
                                     <option value="<c:out value="${i * 10}"></c:out>"><c:out value="${i}"></c:out> cm
@@ -33,8 +33,8 @@
                     <div class="col-sm">
                         <div class="dropdown">
                             <h1 bold style="font-size: x-large">Carport bredde</h1>
-                            <select name="carpWidth" class="form-select " aria-label="Default select example">
-                                <option selected>Vælg højde</option>
+                            <select required="required" name="carpWidth" class="form-select " aria-label="Default select example">
+                                <option value="" selected>Vælg højde</option>
                                 <c:forEach var="i" begin="240" end="780" step="30">
                                     <option value="<c:out value="${i * 10}"></c:out>"><c:out value="${i}"></c:out> cm
                                     </option>
@@ -67,7 +67,7 @@
                     <div class="col-sm">
                         <div class="dropdown">
                             <h1 bold style="font-size: x-large">Tag - uden Rejsning</h1>
-                            <select name="roofType" class="form-select " id="number1"
+                            <select required="required" name="roofType" class="form-select " id="number1"
                                     aria-label="Default select example" disabled="true">
                                 <option selected value="">Her kan du vælge Fladt Tag type</option>
                                 <c:forEach var="type" items="${applicationScope.flatRoofMaterialsList}">
@@ -79,7 +79,7 @@
                     <div class="col-sm">
                         <div class="dropdown">
                             <h1 bold style="font-size: x-large">Tag - med Rejsning</h1>
-                            <select name="roofType" class="form-select " id="number2"
+                            <select required="required" name="roofType" class="form-select " id="number2"
                                     aria-label="Default select example">
                                 <option value="">Her kan du vælge Rejst Tag type</option>
                                 <c:forEach var="raisedtype" items="${applicationScope.raisedRoofMaterialsList}">
@@ -92,7 +92,7 @@
                     <div class="col-sm">
                         <div class="dropdown">
                             <h1 bold style="font-size: x-large">Taghældning </h1>
-                            <select name="roofSloop" class="form-select " id="number3"
+                            <select required="required" name="roofSloop" class="form-select " id="number3"
                                     aria-label="Default select example">
                                 <option selected value="">Vælg hældning på taget</option>
                                 <c:forEach var="i" begin="15" end="45" step="5">
@@ -117,9 +117,9 @@
                                 <div class="col-sm">
                                     <div class="dropdown">
                                         <h1 bold style="font-size: x-large">Skur Længde</h1>
-                                        <select name="shedLength" class="form-select "
+                                        <select required="required" id="shedLength" name="shedLength" class="form-select "
                                                 aria-label="Default select example">
-                                            <option selected>Vælg Skur Længde</option>
+                                            <option value="" selected>Vælg Skur Længde</option>
                                             <c:forEach var="i" begin="150" end="690" step="30">
                                                 <option value="<c:out value="${i * 10}"></c:out>"><c:out
                                                         value="${i}"></c:out>
@@ -132,9 +132,9 @@
                                 <div class="col-sm">
                                     <div class="dropdown">
                                         <h1 bold style="font-size: x-large">Skur Bredde</h1>
-                                        <select name="shedWidth" class="form-select "
+                                        <select required="required" id="shedWidth" name="shedWidth" class="form-select "
                                                 aria-label="Default select example">
-                                            <option selected>Vælg Skur Bredde</option>
+                                            <option value="" selected>Vælg Skur Bredde</option>
                                             <c:forEach var="i" begin="210" end="720" step="30">
                                                 <option value="<c:out value="${i * 10}"></c:out>"><c:out
                                                         value="${i}"></c:out>

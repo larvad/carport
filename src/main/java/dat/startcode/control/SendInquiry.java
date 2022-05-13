@@ -2,12 +2,15 @@ package dat.startcode.control;
 
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.entities.Inquiry;
+import dat.startcode.model.entities.Order;
+import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
 import dat.startcode.model.services.UserFacade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class SendInquiry extends Command {
     private ConnectionPool connectionPool;
@@ -54,9 +57,13 @@ public class SendInquiry extends Command {
         request.setAttribute("inquiry", inquiry);
 
         //Generér OderId
-        //order = UserFacade.insertEarlyOrderIntoDB(connectionPool);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        int userId = user.getUserId();
+        int inquiryID = inquiry.getInquiryId();
+        Order earlyOrder = UserFacade.insertEarlyOrderIntoDB(userId, inquiryID, connectionPool);
 
-        //Få orderIDet ind i calculate
+        //Få orderIDet ind i RequestCalculator
 
         // kald beregning, som laver BOM
 

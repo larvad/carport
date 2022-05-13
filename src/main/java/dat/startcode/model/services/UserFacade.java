@@ -2,6 +2,7 @@ package dat.startcode.model.services;
 
 import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Materials;
+import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
@@ -41,6 +42,11 @@ public class UserFacade {
     public static List<UserOrdersDTO> getAdminPageTableData(ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         return orderMapper.getUserOrderDTOs();
+    }
+
+    public static Order insertEarlyOrderIntoDB(int userID, int inquiryID, ConnectionPool connectionPool) throws DatabaseException {
+        OrderMapper orderMapper = new OrderMapper(connectionPool);
+        return orderMapper.insertEarlyOrderIntoDB(userID, inquiryID);
     }
 }
 

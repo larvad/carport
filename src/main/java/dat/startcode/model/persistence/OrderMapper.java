@@ -168,8 +168,6 @@ public class OrderMapper {
         } catch (SQLException | DatabaseException ex) {
             throw new DatabaseException(ex, "Orderen kunne ikke sættes i databasen");
         }
-
-
         return newOrderId;
     }
 
@@ -200,44 +198,6 @@ public class OrderMapper {
         return statusDTO;
     }
 
-
-    public Order insertEarlyOrderIntoDB(int userID, int inquiryID) throws DatabaseException {
-        Logger.getLogger("web").log(Level.INFO, "");
-        int newOrderID = 0;
-        String sql = "INSERT INTO carport.order (order_id, user_id, inquiry_id," +
-                " cost_price, final_price, status_id, timestamp) values (?, ?, ?, ?, ?, ?, NOW())";
-
-        Order earlyOrder = null;
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                ps.setInt(1, 0);
-                ps.setInt(2, userID);
-                ps.setInt(3, inquiryID);
-                ps.setInt(4, 0);
-                ps.setInt(5, 0);
-                ps.setInt(6, 1);
-
-                int rowsAffected = ps.executeUpdate();
-                if (rowsAffected == 1) {
-
-                }
-                ResultSet idResultset = ps.getGeneratedKeys();
-                if (idResultset.next()) {
-                    newOrderID = idResultset.getInt(1);
-                    earlyOrder = new Order(newOrderID, userID, inquiryID, "", 0, 0, 1, null);
-
-                } else {
-                    throw new DatabaseException("");
-                }
-            }
-        } catch (SQLException | DatabaseException ex) {
-            throw new DatabaseException(ex, "Forespørgsel kunne ikke sættes i databasen");
-        }
-
-        return earlyOrder;
-    }
-
-
     public boolean updateOrderFinalPriceById(int orderId, double price) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
@@ -260,7 +220,6 @@ public class OrderMapper {
         } catch (SQLException | DatabaseException ex) {
             throw new DatabaseException(ex, "Orderen kunne ikke sættes i databasen");
         }
-
         return result;
     }
 
@@ -315,7 +274,6 @@ public class OrderMapper {
         } catch (SQLException | DatabaseException ex) {
             throw new DatabaseException(ex, "Orderen kunne ikke sættes i databasen");
         }
-
         return result;
     }
 }

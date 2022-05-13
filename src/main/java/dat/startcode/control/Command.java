@@ -22,6 +22,7 @@ abstract class Command
         commands.put("profile", new Profile());
         commands.put("admin", new Admin());
         commands.put("adminCRUD", new AdminCRUD());
+        commands.put("adminGodkend", new AdminGodkend());
     }
 
 

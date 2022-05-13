@@ -59,7 +59,7 @@ public class OrderMapper {
 
         List<UserOrdersDTO> userOrdersDTOList = new ArrayList<>();
 
-        String sql = "SELECT order_id, username, inquiry_id , cost_price, final_price, status_id, timestamp FROM carport.order " +
+        String sql = "SELECT order_id, username, phone_no, inquiry_id , cost_price, final_price, status_id, timestamp FROM carport.order " +
                 "INNER JOIN user " +
                 "USING(user_id) " +
                 "ORDER BY order_id DESC;";
@@ -72,12 +72,13 @@ public class OrderMapper {
 
                     int orderId = rs.getInt("order_id");
                     String username = rs.getString("username");
+                    int phoneNr = rs.getInt("phone_no");
                     int inquiryId = rs.getInt("inquiry_id");
                     double costPrice = rs.getDouble("cost_price");
                     double finalPrice = rs.getDouble("final_price");
                     int statusId = rs.getInt("status_id");
                     LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
-                    UserOrdersDTO row = new UserOrdersDTO(orderId, username, inquiryId , costPrice, finalPrice, statusId, timestamp);
+                    UserOrdersDTO row = new UserOrdersDTO(orderId, username, phoneNr, inquiryId , costPrice, finalPrice, statusId, timestamp);
                     userOrdersDTOList.add(row);
                 } if (userOrdersDTOList.isEmpty()){
                     throw new DatabaseException("Fejl. Ingen kunder har lagt nogen ordre?");

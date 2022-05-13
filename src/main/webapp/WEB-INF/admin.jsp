@@ -29,18 +29,18 @@
                     <thead>
                     <tr>
                         <td>
-                        <%-- til radio button --%>
+                                <%-- til radio button --%>
                         </td>
                         <td>OrderId</td>
                         <td>Kunde navn</td>
-                            <%--//TODO: Join med user tabel for at hente navn--%>
+                        <td>Tlf nummer</td>
                         <td>ForespørgselsId</td>
                         <td>Indkøbs pris</td>
                         <td>Fortjeneste pris</td>
                         <td>Status</td>
                         <td>Bestillings tidspunkt</td>
                         <td>
-                            <%-- til buttons --%>
+                                <%-- til buttons --%>
                         </td>
                     </tr>
                     </thead>
@@ -53,6 +53,7 @@
                             </td>
                             <td>${userOrdersDTO.order_id}</td>
                             <td>${userOrdersDTO.username}</td>
+                            <td>${userOrdersDTO.phone_no}</td>
                             <td>${userOrdersDTO.inquiry_id}</td>
                             <td>${userOrdersDTO.cost_price} kr</td>
                             <td>${userOrdersDTO.final_price} kr</td>
@@ -76,7 +77,7 @@
                 <button type="submit"  name="CRUD" value="godkend" formaction="fc/adminGodkend" formmethod="post">
                     Godkend
                 </button>
-                <button type="submit" name="CRUD" value="">Slet</button>
+                <button type="submit" formaction="fc/AdminDeleteorder" name="CRUD" value="">Slet</button>
                 </div>
             </div>
         </form>

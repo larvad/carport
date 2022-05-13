@@ -2,6 +2,8 @@ package dat.startcode.model.persistence;
 
 import dat.startcode.model.dto.StatusDTO;
 import dat.startcode.model.dto.UserOrdersDTO;
+import dat.startcode.model.entities.BillsOfMaterial;
+import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.exceptions.DatabaseException;
 
@@ -170,6 +172,7 @@ public class OrderMapper {
 
         return newOrderId;
     }
+
     public StatusDTO getStatusByUserId(int userId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
@@ -197,7 +200,6 @@ public class OrderMapper {
         return statusDTO;
     }
 
-
     public Order insertEarlyOrderIntoDB(int userID, int inquiryID) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         int newOrderID = 0;
@@ -220,21 +222,19 @@ public class OrderMapper {
                 }
                 ResultSet idResultset = ps.getGeneratedKeys();
                 if (idResultset.next()) {
-                newOrderID = idResultset.getInt(1);
-                earlyOrder = new Order(newOrderID, userID, inquiryID, "", 0, 0, 1, null);
+                    newOrderID = idResultset.getInt(1);
+                    earlyOrder = new Order(newOrderID, userID, inquiryID, "", 0, 0, 1, null);
 
-            } else {
-                throw new DatabaseException("");
+                } else {
+                    throw new DatabaseException("");
+                }
             }
+        } catch (SQLException | DatabaseException ex) {
+            throw new DatabaseException(ex, "Forespørgsel kunne ikke sættes i databasen");
         }
-    } catch(SQLException | DatabaseException ex)
 
-    {
-        throw new DatabaseException(ex, "Forespørgsel kunne ikke sættes i databasen");
+        return earlyOrder;
     }
-
-                    return earlyOrder;
-}
 
 
     public boolean updateOrderFinalPriceById(int orderId, double price) throws DatabaseException {

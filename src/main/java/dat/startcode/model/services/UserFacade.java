@@ -89,7 +89,6 @@ public class UserFacade {
     public static Order insertEarlyOrderIntoDB(int userID, int inquiryID, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         return orderMapper.insertEarlyOrderIntoDB(userID, inquiryID);
-
     }
 }
 

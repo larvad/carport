@@ -42,19 +42,17 @@ public class SendInquiry extends Command {
             roofType = request.getParameter("roofType");
             try {
                 roofSlope = Integer.parseInt(request.getParameter("roofSloop"));
-            } catch (Exception e){
+            } catch (Exception e) {
                 roofSlope = 0;
             }
             checkboxShed = (request.getParameter("checkboxShed"));
-            if(checkboxShed != null){
+            if (checkboxShed != null) {
                 shedWidth = Integer.parseInt(request.getParameter("shedWidth"));
                 shedLength = Integer.parseInt(request.getParameter("shedLength"));
-            }else{
+            } else {
                 shedWidth = 0;
                 shedLength = 0;
             }
-
-
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         }
@@ -62,7 +60,17 @@ public class SendInquiry extends Command {
 
         inquiry = UserFacade.insertInquiryIntoDB(carpWidth,carpLength,roofType,roofSlope,shedWidth,shedLength,connectionPool);
         int orderId = UserFacade.insertOrderIntoDB(inquiry.getInquiryId(),user.getUserId(),1,connectionPool);
+
         request.setAttribute("inquiry", inquiry);
+
+        //Generér OderId
+        //order = UserFacade.insertEarlyOrderIntoDB(connectionPool);
+
+        //Få orderIDet ind i calculate
+
+        // kald beregning, som laver BOM
+
+        //Lav stykliste
 
         return "confirmInquiry";        //TODO: nice to have: sætte nogle krav til skur mål
     }

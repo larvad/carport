@@ -9,10 +9,10 @@ import dat.startcode.model.services.UserFacade;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AdminGodkend extends Command {
+public class AdminCRUD extends Command {
     private ConnectionPool connectionPool;
 
-    public AdminGodkend() {
+    public AdminCRUD() {
         this.connectionPool = ApplicationStart.getConnectionPool();
     }
 
@@ -20,11 +20,17 @@ public class AdminGodkend extends Command {
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
         boolean order;
+        String mode = request.getParameter("CRUD"); // henter valgt knap
         int orderId = Integer.parseInt(request.getParameter("orderSelect"));
 
-        String ChangeStatusID = request.getParameter("changeStatus");
-
-        order = UserFacade.setOrderStatusByOrderId(orderId, connectionPool);
+        switch(mode){
+            case "godkend":
+                order = UserFacade.setOrderStatusByOrderId(orderId, connectionPool);
+                break;
+            case "slet":
+                order = UserFacade.deleteOrderByOrderId(orderId, connectionPool);
+                break;
+        }
 
         Admin admin = new Admin();
 

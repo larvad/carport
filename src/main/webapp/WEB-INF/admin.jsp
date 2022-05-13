@@ -48,7 +48,7 @@
                         <tbody>
                         <tr>
                             <td>
-                                <input class="form-check-input" type="radio" name="orderSelect" id="orderSelect${userOrdersDTO.order_id}"
+                                <input class="form-check-input" type="radio" name="orderSelect"
                                        value="${userOrdersDTO.order_id}">
                             </td>
                             <td>${userOrdersDTO.order_id}</td>
@@ -73,13 +73,13 @@
                     <%--//TODO: type="submit" send til næste side med valgt row data!--%>
                 <div>
                 <button  type="submit" name="CRUD" value="">Rediger</button> <%--Send til en ny side hvor der redigeres--%>
-                    <input type="hidden" name="command" value="adminGodkend">
-                <button type="submit"  name="CRUD" value="godkend" formaction="fc/adminGodkend" formmethod="post">
+                <button type="submit"  name="CRUD" value="godkend" formaction="fc/adminCRUD">
                     Godkend
                 </button>
-                <button type="submit" formaction="fc/AdminDeleteorder" name="CRUD" value="">Slet</button>
+                <button type="submit" formaction="fc/AdminCRUD" name="CRUD" value="slet">Slet</button>
                 </div>
             </div>
+            <input type="hidden" name="command" value="adminCRUD">
         </form>
 
     </jsp:body>

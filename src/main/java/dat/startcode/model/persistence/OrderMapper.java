@@ -90,7 +90,6 @@ public class OrderMapper {
         return userOrdersDTOList;
     }
 
-
     public boolean setOrderStatusByOrderId(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
@@ -153,7 +152,6 @@ public class OrderMapper {
                 ps.setInt(1, inquiryId);
                 ps.setInt(2, userId);
                 ps.setInt(3, status);
-
                 int rowsAffected = ps.executeUpdate();
                 if (rowsAffected == 1) {
 

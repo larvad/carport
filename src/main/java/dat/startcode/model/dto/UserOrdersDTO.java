@@ -7,18 +7,20 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
 public class UserOrdersDTO {
-//    order_id, username, inquiry_id, cost_price, final_price, status_id, timestamp
+    //    order_id, username, inquiry_id, cost_price, final_price, status_id, timestamp
     private int order_id;
     private String username;
+    private int phone_no;
     private int inquiry_id;
     private double cost_price;
     private double final_price;
     private int status_id;
     private LocalDateTime timestamp;
 
-    public UserOrdersDTO(int order_id, String username, int inquiry_id, double cost_price, double final_price, int status_id, LocalDateTime timestamp) {
+    public UserOrdersDTO(int order_id, String username, int phone_no, int inquiry_id, double cost_price, double final_price, int status_id, LocalDateTime timestamp) {
         this.order_id = order_id;
         this.username = username;
+        this.phone_no = phone_no;
         this.inquiry_id = inquiry_id;
         this.cost_price = cost_price;
         this.final_price = final_price;
@@ -74,6 +76,13 @@ public class UserOrdersDTO {
         this.status_id = status_id;
     }
 
+    public int getPhone_no() {
+        return phone_no;
+    }
+
+    public void setPhone_no(int phone_no) {
+        this.phone_no = phone_no;
+    }
 //    public LocalDateTime getTimestamp() {
 //        return timestamp;
 //    }

@@ -21,6 +21,7 @@ abstract class Command
         commands.put("sendInquiry", new SendInquiry());
         commands.put("profile", new Profile());
         commands.put("admin", new Admin());
+        commands.put("adminGodkend", new AdminGodkend());
     }
 
 

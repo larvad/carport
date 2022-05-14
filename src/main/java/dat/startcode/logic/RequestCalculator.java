@@ -45,14 +45,14 @@ public class RequestCalculator {
     private final int ROOFPLATEOVERLAP = 110;
 
 
-    //TODO: Hyggehejsa læser, dette skal ændres så det kommer fra et scope!
-    private int orderId = 2;
+    //TODO: Hyggehejsa læser, dette skal ændres så det kommer fra et scope! (Marie har rykket orderID ned som parameter i calculate)
+    //private int orderId = 2;
     private int bomId = 0; //bliver auto gerenert
 
     //TODO: Hvis det skal være rigtigt skal koden jo egentlig søge de bedste brædder til opgaven frem i databasen (ellers får admin heller ikke noget ud af at tilføje nye materialer)
 
     // public void calculate(CustomerRequest customerRequest) {
-    public void calculate(ConnectionPool connectionPool) throws DatabaseException {
+    public void calculate(int orderId, ConnectionPool connectionPool) throws DatabaseException {
 
         List<MaterialDTO> listOfMaterial = new ArrayList<>();
         List<BillsOfMaterial> billsOfMaterials = new ArrayList<>();

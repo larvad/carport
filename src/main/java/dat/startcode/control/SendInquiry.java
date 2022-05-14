@@ -1,6 +1,5 @@
 package dat.startcode.control;
 
-import com.mysql.cj.Session;
 import dat.startcode.logic.RequestCalculator;
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.entities.Inquiry;

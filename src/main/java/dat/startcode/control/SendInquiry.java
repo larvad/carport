@@ -1,6 +1,7 @@
 package dat.startcode.control;
 
 import com.mysql.cj.Session;
+import dat.startcode.logic.RequestCalculator;
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Order;
@@ -68,11 +69,9 @@ public class SendInquiry extends Command {
         int inquiryID = inquiry.getInquiryId();
         Order earlyOrder = UserFacade.insertEarlyOrderIntoDB(userId, inquiryID, connectionPool);
 
-        //Få orderIDet ind i RequestCalculator
-
-        // kald beregning, som laver BOM
-
-        //Lav stykliste
+        //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
+        RequestCalculator requestCalculator = new RequestCalculator();
+        requestCalculator.calculate(earlyOrder.getOrderId(), connectionPool);
 
         return "confirmInquiry";        //TODO: nice to have: sætte nogle krav til skur mål
     }

@@ -69,7 +69,7 @@ public class SendInquiry extends Command {
         int inquiryID = inquiry.getInquiryId();
 
         //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
-        RequestCalculator requestCalculator = new RequestCalculator();
+        RequestCalculator requestCalculator = new RequestCalculator(inquiry);
         requestCalculator.calculate(orderId, inquiry, connectionPool);
 
         return "confirmInquiry";        //TODO: nice to have: sætte nogle krav til skur mål

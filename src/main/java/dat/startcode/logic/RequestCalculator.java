@@ -9,10 +9,20 @@ import dat.startcode.model.persistence.ConnectionPool;
 import dat.startcode.model.entities.Inquiry;
 
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RequestCalculator {
+
+    //TODO: skal få værdierne fra formularerne
+
+    private Inquiry inquiry;
+
+    // Ganger med 10 for at få længderne i mm
+    int carpLengthInMm = inquiry.getCarpLength();
+    int carpWidthInMm = inquiry.getCarpWidth();
+
     /* 100 cm udhæng foran + maks afstand på 325 cm mellem stolper + 30 cm udhæng bagtil
      Derfor følgende breakpoint */
     //STOLPER
@@ -31,6 +41,10 @@ public class RequestCalculator {
     private final int ROOFPLATEOVERLAP = 110;
 
     private int bomId = 0; //bliver auto genereret
+
+    public RequestCalculator(Inquiry inquiry) {
+        this.inquiry = inquiry;
+    }
 
     //TODO: Hvis det skal være rigtigt skal koden jo egentlig søge de bedste brædder til opgaven frem i databasen (ellers får admin heller ikke noget ud af at tilføje nye materialer)
     // Det kan vi vælge bare at gøre på en af brædderne, for at vise

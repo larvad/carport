@@ -30,7 +30,6 @@ public class RequestCalculator {
 
     private int bomId = 0; //bliver auto genereret
 
-
     //TODO: Hvis det skal være rigtigt skal koden jo egentlig søge de bedste brædder til opgaven frem i databasen (ellers får admin heller ikke noget ud af at tilføje nye materialer)
     // Det kan vi vælge bare at gøre på en af brædderne, for at vise
 
@@ -145,7 +144,6 @@ public class RequestCalculator {
             billsOfMaterials.add(new BillsOfMaterial(bomId, 17, orderId, 1, "Til lås på dør i skur"));
 //        t	hængsel	390	mm 2 Stk Til skurdør
             billsOfMaterials.add(new BillsOfMaterial(bomId, 18, orderId, 2, "Til skurdør"));
-
         }
     }
 

@@ -59,9 +59,9 @@ public class UserFacade {
         return orderMapper.insertOrderIntoDB(inquiryId,userId,status);
     }
 
-    public static boolean updateInquiryByInquiryId(int inquiryId, ConnectionPool connectionPool) throws DatabaseException{
+    public static boolean updateInquiryByInquiryId(Inquiry inquiry, ConnectionPool connectionPool) throws DatabaseException{
         RequestMapper requestMapper = new RequestMapper(connectionPool);
-        return requestMapper.updateInquiryByInquiryId(inquiryId);
+        return requestMapper.updateInquiryByInquiryId(inquiry);
     }
 
     public static Order getOrderById(int orderId, ConnectionPool connectionPool) throws DatabaseException {

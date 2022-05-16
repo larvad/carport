@@ -22,6 +22,7 @@ public class AdminCRUD extends Command {
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
         boolean succes;
+        Inquiry inquiry = null;
 
         String mode = request.getParameter("CRUD"); // henter valgt knap
         int orderId = Integer.parseInt(request.getParameter("orderSelect"));
@@ -35,10 +36,12 @@ public class AdminCRUD extends Command {
                 break;
             case "rediger":
                 Order order = UserFacade.getOrderById(orderId, connectionPool);
-                Inquiry inquiry = UserFacade.getRequestById(order.getRequestId(), connectionPool);
+                inquiry = UserFacade.getRequestById(order.getRequestId(), connectionPool);
                 request.setAttribute("inquiry", inquiry);
-                succes = UserFacade.updateInquiryByInquiryId(inquiry.getInquiryId(),connectionPool);
                 return "adminEditCarport";
+            case "opdater":
+                succes = UserFacade.updateInquiryByInquiryId(inquiry,connectionPool);
+
         }
 
         Admin admin = new Admin();

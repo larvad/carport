@@ -167,9 +167,9 @@
                     </div>
                     <br><br>
                     <div class="container">
-                        <input type="hidden" name="command" value="sendInquiry"/>
-                        <button type="submit" class="btn btn-primary" formaction="fc/sendInquiry" formmethod="post"
-                                value="submit">Forespørgsel
+                        <input type="hidden" name="command" value="adminCRUD"/>
+                        <button type="submit" name="CRUD" class="btn btn-primary" formaction="fc/adminCRUD" formmethod="post"
+                                value="opdater">Opdater
                         </button>
                     </div>
                 </div>

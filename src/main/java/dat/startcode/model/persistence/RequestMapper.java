@@ -85,19 +85,35 @@ public class RequestMapper {
     }
 
 
-    public boolean updateInquiryByInquiryId(int inquiryId) {
+    public boolean updateInquiryByInquiryId(Inquiry inquiry) throws DatabaseException{
         Logger.getLogger("web").log(Level.INFO, "");
 
-        Inquiry inquiry = null;
+        boolean result = false;
 
         String sql = "UPDATE carport.inquiry SET carp_width = ?, carp_length = ?, roof_type = ?, " +
                 "roof_slope = ?, shed_width = ?, shed_length = ?, WHERE carport.inquiry.inquiry_id = ?";
 
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, inquiry.getCarpWidth());
+                ps.setInt(2, inquiry.getCarpLength());
+                ps.setString(3, inquiry.getRoofType());
+                ps.setInt(4, inquiry.getRoofSlope());
+                ps.setInt(5, inquiry.getShedWidth());
+                ps.setInt(6, inquiry.getShedLength());
+                ps.setInt(7, inquiry.getInquiryId());
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected == 1) {
+                    result = true;
+                } else {
+                    throw new DatabaseException("Forespørgsel kunne ikke opdateres");
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DatabaseException("Kunne ikke opdatere forespørgsel med id: " + inquiry.getInquiryId());
+        }
 
-
-        boolean result = false;
-
-        return false;
+        return result;
     }
 }
 

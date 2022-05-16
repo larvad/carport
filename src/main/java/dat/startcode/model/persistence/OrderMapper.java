@@ -2,6 +2,7 @@ package dat.startcode.model.persistence;
 
 import dat.startcode.model.dto.UserOrdersDTO;
 import dat.startcode.model.entities.BillsOfMaterial;
+import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
@@ -52,8 +53,7 @@ public class OrderMapper {
         }
         return order;
     }
-
-
+    
     public List<UserOrdersDTO> getUserOrderDTOs() throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
@@ -78,9 +78,10 @@ public class OrderMapper {
                     double finalPrice = rs.getDouble("final_price");
                     int statusId = rs.getInt("status_id");
                     LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
-                    UserOrdersDTO row = new UserOrdersDTO(orderId, username, phoneNr, inquiryId , costPrice, finalPrice, statusId, timestamp);
+                    UserOrdersDTO row = new UserOrdersDTO(orderId, username, phoneNr, inquiryId, costPrice, finalPrice, statusId, timestamp);
                     userOrdersDTOList.add(row);
-                } if (userOrdersDTOList.isEmpty()){
+                }
+                if (userOrdersDTOList.isEmpty()) {
                     throw new DatabaseException("Fejl. Ingen kunder har lagt nogen ordre?");
                 }
             }
@@ -90,7 +91,7 @@ public class OrderMapper {
         return userOrdersDTOList;
     }
 
-    public boolean setOrderStatusByOrderId(int orderId) throws DatabaseException{
+    public boolean setOrderStatusByOrderId(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         boolean result = false;
@@ -114,7 +115,7 @@ public class OrderMapper {
         return true;
     }
 
-    public boolean deleteOrderByOrderId(int orderId) throws DatabaseException{
+    public boolean deleteOrderByOrderId(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         boolean result = false;
@@ -136,6 +137,41 @@ public class OrderMapper {
         }
 
         return true;
+    }
+
+    public int insertOrderIntoDB(int inquiryId, int userId, int status) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        Order order = null;
+        int newOrderId = 0;
+
+        String sql = "insert into carport.order ( inquiry_id, user_id, status_id, timestamp" +
+                " ) values ( ?, ?, ?, NOW())";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setInt(1, inquiryId);
+                ps.setInt(2, userId);
+                ps.setInt(3, status);
+
+
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected == 1) {
+
+                }
+                ResultSet idResultset = ps.getGeneratedKeys();
+                if (idResultset.next()) {
+                    newOrderId = idResultset.getInt(1);
+                } else {
+                    throw new DatabaseException("");
+                }
+            }
+        } catch (SQLException | DatabaseException ex) {
+            throw new DatabaseException(ex, "Orderen kunne ikke sættes i databasen");
+        }
+
+
+        return newOrderId;
     }
 }
 

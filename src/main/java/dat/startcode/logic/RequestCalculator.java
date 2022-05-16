@@ -8,7 +8,7 @@ import dat.startcode.model.persistence.ConnectionPool;
 
 import dat.startcode.model.entities.Inquiry;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +31,6 @@ public class RequestCalculator {
     private final int ROOFPLATEOVERLAP = 110;
 
     private int bomId = 0; //bliver auto genereret
-
 
     //TODO: Hvis det skal være rigtigt skal koden jo egentlig søge de bedste brædder til opgaven frem i databasen (ellers får admin heller ikke noget ud af at tilføje nye materialer)
     // Det kan vi vælge bare at gøre på en af brædderne, for at vise
@@ -153,8 +152,6 @@ public class RequestCalculator {
 
     private void calcRoofPlateAmount(int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials) {
         //bølgerne på tagpladerne går på langs med pladernes længde. Og bølgerne skal følge tagets hældning, så vandet kan løbe af skuret.
-
-
         // taget skal gå 5 cm ud over sternbredderne på alle leder, derfor lægges 10 cm til
         int roofLength = carpLength + 100;
         int roofWidth = carpWidth + 100;

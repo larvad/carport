@@ -72,11 +72,15 @@
                 </table>
                     <%--//TODO: type="submit" send til næste side med valgt row data!--%>
                 <div>
-                <button  type="submit" name="CRUD" value="">Rediger</button> <%--Send til en ny side hvor der redigeres--%>
+                <button  type="submit" name="CRUD" value="rediger" formaction="fc/adminCRUD">
+                    Rediger
+                </button> <%--Send til en ny side hvor der redigeres--%>
                 <button type="submit"  name="CRUD" value="godkend" formaction="fc/adminCRUD">
                     Godkend
                 </button>
-                <button type="submit" formaction="fc/AdminCRUD" name="CRUD" value="slet">Slet</button>
+                <button type="submit" formaction="fc/AdminCRUD" name="CRUD" value="slet">
+                    Slet
+                </button>
                 </div>
             </div>
             <input type="hidden" name="command" value="adminCRUD">

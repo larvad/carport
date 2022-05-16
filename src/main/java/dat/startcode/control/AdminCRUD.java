@@ -1,6 +1,8 @@
 package dat.startcode.control;
 
 import dat.startcode.model.config.ApplicationStart;
+import dat.startcode.model.entities.Inquiry;
+import dat.startcode.model.entities.Order;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
 import dat.startcode.model.persistence.OrderMapper;
@@ -19,19 +21,23 @@ public class AdminCRUD extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
-        boolean order;
+        boolean succes;
+
         String mode = request.getParameter("CRUD"); // henter valgt knap
         int orderId = Integer.parseInt(request.getParameter("orderSelect"));
 
         switch(mode){
             case "godkend":
-                order = UserFacade.setOrderStatusByOrderId(orderId, connectionPool);
+                succes = UserFacade.setOrderStatusByOrderId(orderId, connectionPool);
                 break;
             case "slet":
-                order = UserFacade.deleteOrderByOrderId(orderId, connectionPool);
+                succes = UserFacade.deleteOrderByOrderId(orderId, connectionPool);
                 break;
-            case "redigere":
-                order = UserFacade.updateOrderByOrderId(orderId,connectionPool);
+            case "rediger":
+                Order order = UserFacade.getOrderById(orderId, connectionPool);
+                Inquiry inquiry = UserFacade.getRequestById(order.getRequestId(), connectionPool);
+                //succes = UserFacade.updateOrderByOrderId(orderId,connectionPool);
+                return "adminEditCarport";
         }
 
         Admin admin = new Admin();

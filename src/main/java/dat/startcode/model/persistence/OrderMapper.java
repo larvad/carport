@@ -22,7 +22,7 @@ public class OrderMapper {
         this.connectionPool = connectionPool;
     }
 
-    public Order getOrderById(int orderId) throws DatabaseException {
+    public Order getOrderByOrderId(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         Order order = null;

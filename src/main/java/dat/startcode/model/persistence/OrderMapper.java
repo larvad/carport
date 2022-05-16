@@ -37,7 +37,7 @@ public class OrderMapper {
                 if (rs.next()) {
 
                     int userId = rs.getInt("user_id");
-                    int requestId = rs.getInt("request_id");
+                    int requestId = rs.getInt("inquiry_id");
                     String drawing = rs.getString("drawing");
                     double costPrice = rs.getDouble("cost_price");
                     double finalPrice = rs.getDouble("final_price");

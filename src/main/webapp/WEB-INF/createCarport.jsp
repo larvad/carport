@@ -20,9 +20,9 @@
                 <div class="row">
                     <div class="col-sm">
                         <div class="dropdown">
-                            <h1 bold style="font-size: x-large">Carport længde</h1>
-                            <select required="required" name="carpLength" class="form-select" aria-label="Default select example">
-                                <option value="">Vælg carport længde</option>
+                            <h1 bold style="font-size: x-large">Carport bredde</h1>
+                            <select required="required" name="carpWidth" class="form-select" aria-label="Default select example">
+                                <option value="">Vælg bredde</option>
                                 <c:forEach var="i" begin="240" end="600" step="30">
                                     <option value="<c:out value="${i * 10}"></c:out>"><c:out value="${i}"></c:out> cm
                                     </option>
@@ -32,9 +32,9 @@
                     </div>
                     <div class="col-sm">
                         <div class="dropdown">
-                            <h1 bold style="font-size: x-large">Carport bredde</h1>
-                            <select required="required" name="carpWidth" class="form-select " aria-label="Default select example">
-                                <option value="" selected>Vælg højde</option>
+                            <h1 bold style="font-size: x-large">Carport længde</h1>
+                            <select required="required" name="carpLength" class="form-select " aria-label="Default select example">
+                                <option value="" selected>Vælg længde</option>
                                 <c:forEach var="i" begin="240" end="780" step="30">
                                     <option value="<c:out value="${i * 10}"></c:out>"><c:out value="${i}"></c:out> cm
                                     </option>
@@ -118,7 +118,7 @@
                                     <div class="dropdown">
                                         <h1 bold style="font-size: x-large">Skur Længde</h1>
                                         <select required="required" id="shedLength" name="shedLength" class="form-select "
-                                                aria-label="Default select example">
+                                                aria-label="Default select example" disabled="true">
                                             <option value="" selected>Vælg Skur Længde</option>
                                             <c:forEach var="i" begin="150" end="690" step="30">
                                                 <option value="<c:out value="${i * 10}"></c:out>"><c:out
@@ -133,7 +133,7 @@
                                     <div class="dropdown">
                                         <h1 bold style="font-size: x-large">Skur Bredde</h1>
                                         <select required="required" id="shedWidth" name="shedWidth" class="form-select "
-                                                aria-label="Default select example">
+                                                aria-label="Default select example" disabled="true">
                                             <option value="" selected>Vælg Skur Bredde</option>
                                             <c:forEach var="i" begin="210" end="720" step="30">
                                                 <option value="<c:out value="${i * 10}"></c:out>"><c:out

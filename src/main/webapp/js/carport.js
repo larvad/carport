@@ -15,12 +15,12 @@ function visSkur() {
     var x = document.getElementById("skur");
     if (x.style.display === "block") {
         x.style.display = "none";
-        document.getElementById("shedLength").disabled = true;
-        document.getElementById("shedWidth").disabled = true;
+        document.getElementById("shedLength").setAttribute("disabled", "true");
+        document.getElementById("shedWidth").setAttribute("disabled", "true");
     } else {
         x.style.display = "block";
-        document.getElementById("shedLength").disabled = false;
-        document.getElementById("shedWidth").disabled = false;
+        document.getElementById("shedLength").removeAttribute("disabled");
+        document.getElementById("shedWidth").removeAttribute("disabled");
     }
 
 }

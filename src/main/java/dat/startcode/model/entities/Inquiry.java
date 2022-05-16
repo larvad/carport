@@ -40,6 +40,7 @@ public class Inquiry {
         this.roofSlope = roofSlope;
         this.shedWidth = shedWidth;
         this.shedLength = shedLength;
+        this.timestamp = null;
     }
 
     public int getInquiryId() {

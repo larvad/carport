@@ -1,4 +1,5 @@
 package dat.startcode.logic;
+
 import dat.startcode.model.dto.MaterialDTO;
 import dat.startcode.model.entities.BillsOfMaterial;
 import dat.startcode.model.exceptions.DatabaseException;
@@ -7,20 +8,11 @@ import dat.startcode.model.persistence.ConnectionPool;
 
 import dat.startcode.model.entities.Inquiry;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RequestCalculator {
-
-    //TODO: skal få værdierne fra formularerne
-
-    private Inquiry inquiry;
-
-    // Ganger med 10 for at få længderne i mm
-    int carpLengthInMm = inquiry.getCarpLength();
-    int carpWidthInMm = inquiry.getCarpWidth();
-
     /* 100 cm udhæng foran + maks afstand på 325 cm mellem stolper + 30 cm udhæng bagtil
      Derfor følgende breakpoint */
     //STOLPER
@@ -39,81 +31,32 @@ public class RequestCalculator {
     private final int ROOFPLATEWIDTH = 1090;
     private final int ROOFPLATEOVERLAP = 110;
 
-
-    //TODO: Hyggehejsa læser, dette skal ændres så det kommer fra et scope! (Marie har rykket orderID ned som parameter i calculate)
-    //private int orderId = 2;
-    private int bomId = 0; //bliver auto gerenert
-
-    public RequestCalculator(Inquiry inquiry) {
-        this.inquiry = inquiry;
-    }
+    private int bomId = 0; //bliver auto genereret
 
     //TODO: Hvis det skal være rigtigt skal koden jo egentlig søge de bedste brædder til opgaven frem i databasen (ellers får admin heller ikke noget ud af at tilføje nye materialer)
 
-    // public void calculate(CustomerRequest customerRequest) {
-    public void calculate(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+    public void calculate(int orderId, Inquiry inquiry, ConnectionPool connectionPool) throws DatabaseException {
+        int carpLength = inquiry.getCarpLength();
+        int carpWidth = inquiry.getCarpWidth();
 
-        List<MaterialDTO> listOfMaterial = new ArrayList<>();
         List<BillsOfMaterial> billsOfMaterials = new ArrayList<>();
 
-        // FINDER ANTAL STOLPER PÅ BAGGRUND AF LÆNGDEN
-        int coloumnAmount = 0;
-        if (carpLengthInMm <= COLUMNBREAKPOINT) {
-            // Stolpe = materialID 4
-            coloumnAmount = 4;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
-
-        } else {
-            coloumnAmount = 6;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
-        }
+        // FINDER ANTAL STOLPER PÅ BAGGRUND AF LÆNGDEN //TODO, tager ikke højde for skur
+        int coloumnAmount = getColoumnAmount(orderId, carpLength, billsOfMaterials);
 
         // FINDER REMME //TODO: tager ikke højde for at der er remme i forskellige længder
+        int remAmount = getRemAmount(orderId, carpLength, billsOfMaterials);
 
-        if (carpLengthInMm <= REMBREAKPOINT) {
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, 2, "Remme i sider, sadles ned i stolper"));
-
-        } else {
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, 4, "Remme i sider, sadles ned i stolper"));
-        }
-
-        // FINDER SPÆR //TODO: tager pt ikke højde for at man kan få spær i forskellige længder
-
-//        Ny længde = Længde på carport - tykkelse på spær - (tykkelse på understernbrædder * 2) (fordi det første spærs tykkelse ikke er medregnet når mellemrummene lægges sammen, og der er er understernbræt på foran og bagved)
-
-        int newLength = carpLengthInMm - RAFTERSTHICKNESS - (FASCIABOARDTHICKNESS * 2);
-
-//        Antal mellemrum mellem spær = ny længde / max afstand mellem spær
-
-//        Antal mellemrum mellem spær = 7705 mm / 600 mm = 12,841
-        double spaceAmountBetweenRaftersDouble = (double) newLength / MAXDISTANCERAFTERS;
-
-
-//        Så skal man vel runde op, fordi det var en maxafstand?
-//        Så det vil sige 13 mellemrum skal vi bruge og 14 spær
-
-        int spaceAmountBetweenRafters = (int) Math.ceil(spaceAmountBetweenRaftersDouble);
-
-        //Der skal altid være et spær mere end antallet af mellemrum mellem spær
-        int raftersAmount = spaceAmountBetweenRafters + 1;
-
-//        Afstand mellem spær = 7705 mm / 13 = 592,7 mm
-
-        //TODO: denne afstand spærrene skal sættes med skal også gemmes, så den kan komme med på tegningen og i vejledningen.
-
-        double raftersDistance = (double) newLength / spaceAmountBetweenRafters;
-
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 54, orderId, raftersAmount, "Spær, monteres på rem"));
-
-        //TODO: Kald mapper der tager en List<BillsOfMaterials> som parameter, looper over dem og stempler dem ned i databasen.
+        // FINDER SPÆR //TODO: tager pt ikke højde for at man kan få spær i forskellige længder og at afstanden spærrene skal sættes op med skal gemmes til vejledningen
+        int raftersAmount = getRaftersAmount(orderId, carpLength, billsOfMaterials);
 
         //BEREGNING AF TAGPLADER
 
         //bølgerne på tagpladerne går på langs med pladernes længde. Og bølgerne skal følge tagets hældning, så vandet kan løbe af skuret.
 
         // taget skal gå 5 cm ud over sternbredderne på alle leder, derfor lægges 10 cm til
-        int roofLength = carpLengthInMm + 100;
-        int roofWidth = carpWidthInMm + 100;
+        int roofLength = carpLength + 100;
+        int roofWidth = carpWidth + 100;
 
         int roofPlateWidthMinusOverlap = ROOFPLATEWIDTH - ROOFPLATEOVERLAP;
 
@@ -169,7 +112,6 @@ public class RequestCalculator {
         // materialeId 8 l: 480,  materialeId 9 l: 240,  materialeId 10 l: 210,  materialeId 60 l: 360
 
 
-
         //DELE HVOR ANTALLET KAN VARIERE
 
         //Universal 190 mm ses nederst på side 4, og der skal være lige mange som der er spær. En højre og en venstre
@@ -210,7 +152,63 @@ public class RequestCalculator {
         billsOfMaterialMapper.insertBOMList(billsOfMaterials);
 
 
+    }
 
+    private int getRaftersAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials) {
+
+        //        Ny længde = Længde på carport - tykkelse på spær - (tykkelse på understernbrædder * 2)
+//        (fordi det første spærs tykkelse ikke er medregnet når mellemrummene lægges sammen, og der er er understernbræt på foran og bagved)
+
+        int newLength = carpLength - RAFTERSTHICKNESS - (FASCIABOARDTHICKNESS * 2);
+
+//        Antal mellemrum mellem spær = ny længde / max afstand mellem spær
+
+        //        Antal mellemrum mellem spær = 7705 mm / 600 mm = 12,841
+        double spaceAmountBetweenRaftersDouble = (double) newLength / MAXDISTANCERAFTERS;
+
+        //        Så runder vi op, fordi det var en maxafstand.
+//        Så det vil sige ved 13 mellemrum skal vi bruge 14 spær
+        int spaceAmountBetweenRafters = (int) Math.ceil(spaceAmountBetweenRaftersDouble);
+
+        //Der skal altid være et spær mere end antallet af mellemrum mellem spær
+        int raftersAmount = spaceAmountBetweenRafters + 1;
+
+//        Afstand mellem spær = 7705 mm / 13 = 592,7 mm
+
+        //TODO: denne afstand spærrene skal sættes med skal også gemmes, så den kan komme med på tegningen og i vejledningen.
+
+        double raftersDistance = (double) newLength / spaceAmountBetweenRafters;
+
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 54, orderId, raftersAmount, "Spær, monteres på rem"));
+        return raftersAmount;
+    }
+
+    private int getRemAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials) {
+        int remAmount = 0;
+
+        if (carpLength <= REMBREAKPOINT) {
+            remAmount = 2;
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, remAmount, "Remme i sider, sadles ned i stolper"));
+
+        } else {
+            remAmount = 4;
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, remAmount, "Remme i sider, sadles ned i stolper"));
+        }
+        return remAmount;
+    }
+
+    private int getColoumnAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials) {
+        int coloumnAmount = 0;
+        if (carpLength <= COLUMNBREAKPOINT) {
+            // Stolpe = materialID 4
+            coloumnAmount = 4;
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
+
+        } else {
+            coloumnAmount = 6;
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
+        }
+        return coloumnAmount;
     }
 
 

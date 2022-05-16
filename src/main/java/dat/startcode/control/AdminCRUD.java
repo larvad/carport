@@ -30,6 +30,8 @@ public class AdminCRUD extends Command {
             case "slet":
                 order = UserFacade.deleteOrderByOrderId(orderId, connectionPool);
                 break;
+            case "redigere":
+                order = UserFacade.updateOrderByOrderId(orderId,connectionPool);
         }
 
         Admin admin = new Admin();

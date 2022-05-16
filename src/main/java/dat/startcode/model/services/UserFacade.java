@@ -57,6 +57,11 @@ public class UserFacade {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         return orderMapper.insertOrderIntoDB(inquiryId,userId,status);
     }
+
+    public static boolean updateOrderByOrderId(int orderId, ConnectionPool connectionPool) {
+        OrderMapper orderMapper = new OrderMapper(connectionPool);
+        return OrderMapper.updateOrderByOrderId(orderId);
+    }
 }
 
 //TODO: lave UserFacade om til Facade, og rykke den op i persistence mappen. Lade alle vores klasser i control køre deres metoder over facaden.

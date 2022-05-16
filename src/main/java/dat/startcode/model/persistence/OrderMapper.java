@@ -7,6 +7,7 @@ import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 
+import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ public class OrderMapper {
     public OrderMapper(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
-
 
     public Order getOrderById(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
@@ -53,7 +53,7 @@ public class OrderMapper {
         }
         return order;
     }
-    
+
     public List<UserOrdersDTO> getUserOrderDTOs() throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
@@ -172,6 +172,18 @@ public class OrderMapper {
 
 
         return newOrderId;
+    }
+
+    public static boolean updateOrderByOrderId(int orderId) {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        Inquiry inquiry = null;
+
+
+
+        boolean result = false;
+
+        return false;
     }
 }
 

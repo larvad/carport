@@ -13,6 +13,8 @@ import dat.startcode.model.services.UserFacade;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 
 public class SendInquiry extends Command {
@@ -69,7 +71,7 @@ public class SendInquiry extends Command {
         int inquiryID = inquiry.getInquiryId();
 
         //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
-        RequestCalculator requestCalculator = new RequestCalculator(inquiry);
+        RequestCalculator requestCalculator = new RequestCalculator();
         requestCalculator.calculate(orderId, inquiry, connectionPool);
 
         return "confirmInquiry";        //TODO: nice to have: sætte nogle krav til skur mål

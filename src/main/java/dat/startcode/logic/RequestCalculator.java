@@ -8,7 +8,6 @@ import dat.startcode.model.persistence.ConnectionPool;
 
 import dat.startcode.model.entities.Inquiry;
 
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,7 @@ public class RequestCalculator {
     private final int ROOFPLATEOVERLAP = 110;
 
     private int bomId = 0; //bliver auto genereret
+
 
     //TODO: Hvis det skal være rigtigt skal koden jo egentlig søge de bedste brædder til opgaven frem i databasen (ellers får admin heller ikke noget ud af at tilføje nye materialer)
     // Det kan vi vælge bare at gøre på en af brædderne, for at vise

@@ -13,6 +13,8 @@ import dat.startcode.model.services.UserFacade;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 public class SendInquiry extends Command {
     private ConnectionPool connectionPool;
@@ -62,16 +64,16 @@ public class SendInquiry extends Command {
         inquiry = UserFacade.insertInquiryIntoDB(carpWidth,carpLength,roofType,roofSlope,shedWidth,shedLength,connectionPool);
         int orderId = UserFacade.insertOrderIntoDB(inquiry.getInquiryId(),user.getUserId(),1,connectionPool);
 
-        request.setAttribute("inquiry", inquiry);
+        session.setAttribute("inquiry", inquiry);
 
-        //Generér OderId
+        //Generér OderId DOBBELKONFEKT LIGE NU
         int userId = user.getUserId();
         int inquiryID = inquiry.getInquiryId();
         Order earlyOrder = UserFacade.insertEarlyOrderIntoDB(userId, inquiryID, connectionPool);
 
         //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
-        RequestCalculator requestCalculator = new RequestCalculator(inquiry);
-        requestCalculator.calculate(earlyOrder.getOrderId(), connectionPool);
+        RequestCalculator requestCalculator = new RequestCalculator();
+        requestCalculator.calculate(earlyOrder.getOrderId(), inquiry, connectionPool);
 
         return "confirmInquiry";        //TODO: nice to have: sætte nogle krav til skur mål
     }

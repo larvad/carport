@@ -96,7 +96,7 @@ public class OrderMapper {
 
         boolean result = false;
 
-        String sql = "UPDATE carport.order SET status_id = 2 WHERE carport.order.order_id = ?;";
+        String sql = "UPDATE carport.order SET status_id = 2 WHERE carport.order.order_id = ?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -174,16 +174,6 @@ public class OrderMapper {
         return newOrderId;
     }
 
-    public static boolean updateOrderByOrderId(int orderId) {
-        Logger.getLogger("web").log(Level.INFO, "");
 
-        Inquiry inquiry = null;
-
-
-
-        boolean result = false;
-
-        return false;
-    }
 }
 

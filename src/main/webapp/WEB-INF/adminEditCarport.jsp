@@ -116,7 +116,7 @@
                         <br><br><br><br><br>
                         <div class="form-check">
                             <input class="form-check-input" name="checkboxShed" type="checkbox" id="flexCheckDefault"
-                                <c:if test="${requestScope.inquiry.shedLength > 0 && requestScope.inquiry.shedWidth > 0}">Checked</c:if>
+                                   <c:if test="${requestScope.inquiry.shedLength > 0 && requestScope.inquiry.shedWidth > 0}">Checked</c:if>
                                    onchange="visSkur()">
                             <label class="form-check-label" for="flexCheckDefault">
                                 Skur
@@ -134,9 +134,8 @@
                                                     aria-label="Default select example" disabled="true">
                                                 <option value="" selected>Vælg Skur Længde</option>
                                                 <c:forEach var="i" begin="150" end="690" step="30">
-                                                    <option value="<c:out value="${i * 10}"></c:out>"><c:out
-                                                            value="${i}"></c:out>
-                                                        cm
+                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == requestScope.inquiry.shedLength}">selected="selected"</c:if>>
+                                                        <c:out value="${i}"></c:out> cm
                                                     </option>
                                                 </c:forEach>
                                             </select>
@@ -150,9 +149,8 @@
                                                     aria-label="Default select example" disabled="true">
                                                 <option value="" selected>Vælg Skur Bredde</option>
                                                 <c:forEach var="i" begin="210" end="720" step="30">
-                                                    <option value="<c:out value="${i * 10}"></c:out>"><c:out
-                                                            value="${i}"></c:out>
-                                                        cm
+                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == requestScope.inquiry.shedWidth}">selected="selected"</c:if>>
+                                                        <c:out value="${i}"></c:out> cm
                                                     </option>
                                                 </c:forEach>
                                             </select>
@@ -167,6 +165,7 @@
                         <input type="number">
                         <input type="number">
                     </div>
+                    <br><br>
                     <div class="container">
                         <input type="hidden" name="command" value="sendInquiry"/>
                         <button type="submit" class="btn btn-primary" formaction="fc/sendInquiry" formmethod="post"

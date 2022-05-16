@@ -84,6 +84,21 @@ public class RequestMapper {
         return inquiry;
     }
 
+
+    public boolean updateInquiryByInquiryId(int inquiryId) {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        Inquiry inquiry = null;
+
+        String sql = "UPDATE carport.inquiry SET carp_width = ?, carp_length = ?, roof_type = ?, " +
+                "roof_slope = ?, shed_width = ?, shed_length = ?, WHERE carport.inquiry.inquiry_id = ?";
+
+
+
+        boolean result = false;
+
+        return false;
+    }
 }
 
 

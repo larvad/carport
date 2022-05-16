@@ -1,13 +1,17 @@
 package dat.startcode.control;
 
+import com.mysql.cj.Session;
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.entities.Inquiry;
+import dat.startcode.model.entities.Order;
+import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
 import dat.startcode.model.services.UserFacade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class SendInquiry extends Command {
     private ConnectionPool connectionPool;
@@ -19,6 +23,8 @@ public class SendInquiry extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         Inquiry inquiry = null;
         int carpWidth;
         int carpLength;
@@ -27,6 +33,7 @@ public class SendInquiry extends Command {
         int shedWidth;
         int shedLength;
         String checkboxShed;
+
 
         try {
             String M18Hellcat = request.getParameter("inlineRadioOptions");
@@ -54,6 +61,7 @@ public class SendInquiry extends Command {
 
 
         inquiry = UserFacade.insertInquiryIntoDB(carpWidth,carpLength,roofType,roofSlope,shedWidth,shedLength,connectionPool);
+        int orderId = UserFacade.insertOrderIntoDB(inquiry.getInquiryId(),user.getUserId(),1,connectionPool);
         request.setAttribute("inquiry", inquiry);
 
         return "confirmInquiry";        //TODO: nice to have: sætte nogle krav til skur mål

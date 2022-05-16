@@ -65,7 +65,7 @@ public class SendInquiry extends Command {
         Order earlyOrder = UserFacade.insertEarlyOrderIntoDB(userId, inquiryID, connectionPool);
 
         //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
-        RequestCalculator requestCalculator = new RequestCalculator();
+        RequestCalculator requestCalculator = new RequestCalculator(inquiry);
         requestCalculator.calculate(earlyOrder.getOrderId(), connectionPool);
 
         return "confirmInquiry";        //TODO: nice to have: sætte nogle krav til skur mål

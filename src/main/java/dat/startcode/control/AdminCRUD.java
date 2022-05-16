@@ -36,6 +36,7 @@ public class AdminCRUD extends Command {
             case "rediger":
                 Order order = UserFacade.getOrderById(orderId, connectionPool);
                 Inquiry inquiry = UserFacade.getRequestById(order.getRequestId(), connectionPool);
+                request.setAttribute("inquiry", inquiry);
                 //succes = UserFacade.updateOrderByOrderId(orderId,connectionPool);
                 return "adminEditCarport";
         }

@@ -21,7 +21,10 @@ abstract class Command
         commands.put("sendInquiry", new SendInquiry());
         commands.put("profile", new Profile());
         commands.put("admin", new Admin());
-        commands.put("adminCRUD", new AdminCRUD());
+        commands.put("adminApprove", new AdminApprove());
+        commands.put("adminDelete", new AdminDelete());
+        commands.put("adminEdit", new AdminEdit());
+
     }
 
 

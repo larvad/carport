@@ -23,21 +23,21 @@ public class CreateCarport extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
-        List<Materials> flatRoofMaterialsList = null;
-        List<Materials> raisedRoofMaterialsList = null;
-
-
-        try {
-            flatRoofMaterialsList = UserFacade.showFlatRoofMaterial(connectionPool);
-            raisedRoofMaterialsList = UserFacade.showRaisedRoofMaterial(connectionPool);
-
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-        }
-
-        ServletContext servletContext = request.getServletContext();
-        servletContext.setAttribute("flatRoofMaterialsList",flatRoofMaterialsList);
-        servletContext.setAttribute("raisedRoofMaterialsList",raisedRoofMaterialsList);
+//        List<Materials> flatRoofMaterialsList = null;
+//        List<Materials> raisedRoofMaterialsList = null;
+//
+//
+//        try {
+//            flatRoofMaterialsList = UserFacade.showFlatRoofMaterial(connectionPool);
+//            raisedRoofMaterialsList = UserFacade.showRaisedRoofMaterial(connectionPool);
+//
+//        } catch (DatabaseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        ServletContext servletContext = request.getServletContext();
+//        servletContext.setAttribute("flatRoofMaterialsList",flatRoofMaterialsList);
+//        servletContext.setAttribute("raisedRoofMaterialsList",raisedRoofMaterialsList);
 
 
 

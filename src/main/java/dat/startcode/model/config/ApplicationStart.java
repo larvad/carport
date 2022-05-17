@@ -1,7 +1,11 @@
 package dat.startcode.model.config;
 
+import dat.startcode.model.entities.Materials;
+import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
+import dat.startcode.model.services.UserFacade;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -9,6 +13,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,6 +40,21 @@ public class ApplicationStart implements ServletContextListener
         {
             Logger.getLogger("web").log(Level.SEVERE, e.getMessage(), e);
         }
+        List<Materials> flatRoofMaterialsList = null;
+        List<Materials> raisedRoofMaterialsList = null;
+
+
+        try {
+            flatRoofMaterialsList = UserFacade.showFlatRoofMaterial(connectionPool);
+            raisedRoofMaterialsList = UserFacade.showRaisedRoofMaterial(connectionPool);
+
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
+
+        ServletContext servletContext = sce.getServletContext();
+        servletContext.setAttribute("flatRoofMaterialsList",flatRoofMaterialsList);
+        servletContext.setAttribute("raisedRoofMaterialsList",raisedRoofMaterialsList);
     }
 
     public static ConnectionPool getConnectionPool()

@@ -26,7 +26,7 @@
                                     <option value="">Vælg bredde</option>
                                     <c:forEach var="i" begin="240" end="600" step="30">
                                         <option value="<c:out value="${i * 10}"></c:out>" <c:if
-                                                test="${i == requestScope.inquiry.carpWidth/10}"> selected="selected"</c:if>>
+                                                test="${i == sessionScope.inquiry.carpWidth/10}"> selected="selected"</c:if>>
                                             <c:out value="${i}"></c:out> cm
                                         </option>
                                     </c:forEach>
@@ -41,7 +41,7 @@
                                     <option value="">Vælg længde</option>
                                     <c:forEach var="i" begin="240" end="780" step="30">
                                         <option value="<c:out value="${i * 10}"></c:out>" <c:if
-                                                test="${i == requestScope.inquiry.carpLength/10}"> selected="selected"</c:if>>
+                                                test="${i == sessionScope.inquiry.carpLength/10}"> selected="selected"</c:if>>
                                             <c:out value="${i}"></c:out> cm
                                         </option>
                                     </c:forEach>
@@ -55,14 +55,14 @@
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                value="option1"
-                               <c:if test="${requestScope.inquiry.roofSlope > 0}">checked="checked"</c:if>
+                               <c:if test="${sessionScope.inquiry.roofSlope > 0}">checked="checked"</c:if>
                                onchange="disableFunc()">
                         <label class="form-check-label" for="inlineRadio1">Tag - Med rejsning</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
                                value="option2"
-                               <c:if test="${requestScope.inquiry.roofSlope == 0}">checked="checked"</c:if>
+                               <c:if test="${sessionScope.inquiry.roofSlope == 0}">checked="checked"</c:if>
                                onchange="disableFunc2()">
                         <label class="form-check-label" for="inlineRadio2">Tag - uden Rejsning</label>
                     </div>
@@ -76,10 +76,10 @@
                                 <h1 bold style="font-size: x-large">Tag - uden Rejsning</h1>
                                 <select required="required" name="roofType" class="form-select " id="number1"
                                         aria-label="Default select example"
-                                        <c:if test="${requestScope.inquiry.roofSlope != 0}">disabled="true"</c:if>>
+                                        <c:if test="${sessionScope.inquiry.roofSlope != 0}">disabled="true"</c:if>>
                                     <option selected value="">Her kan du vælge Fladt Tag type</option>
                                     <c:forEach var="flattype" items="${applicationScope.flatRoofMaterialsList}">
-                                        <option value="${flattype.type}" <c:if test="${flattype.type == requestScope.inquiry.roofType}">selected="selected"</c:if>>
+                                        <option value="${flattype.type}" <c:if test="${flattype.type == sessionScope.inquiry.roofType}">selected="selected"</c:if>>
                                                 ${flattype.type}</option>
                                     </c:forEach>
                                 </select>
@@ -90,10 +90,10 @@
                                 <h1 bold style="font-size: x-large">Tag - med Rejsning</h1>
                                 <select required="required" name="roofType" class="form-select " id="number2"
                                         aria-label="Default select example"
-                                        <c:if test="${requestScope.inquiry.roofSlope == 0}">disabled="true"</c:if>>
+                                        <c:if test="${sessionScope.inquiry.roofSlope == 0}">disabled="true"</c:if>>
                                     <option value="">Her kan du vælge Rejst Tag type</option>
                                     <c:forEach var="raisedtype" items="${applicationScope.raisedRoofMaterialsList}">
-                                        <option value="${raisedtype.type}" <c:if test="${raisedtype.type == requestScope.inquiry.roofType }">selected="selected"</c:if>>${raisedtype.type}</option>
+                                        <option value="${raisedtype.type}" <c:if test="${raisedtype.type == sessionScope.inquiry.roofType }">selected="selected"</c:if>>${raisedtype.type}</option>
                                     </c:forEach>
 
                                 </select>
@@ -104,10 +104,10 @@
                                 <h1 bold style="font-size: x-large">Taghældning </h1>
                                 <select required="required" name="roofSloop" class="form-select " id="number3"
                                         aria-label="Default select example"
-                                        <c:if test="${requestScope.inquiry.roofSlope == 0}">disabled="true"</c:if>>
+                                        <c:if test="${sessionScope.inquiry.roofSlope == 0}">disabled="true"</c:if>>
                                     <option selected value="">Vælg hældning på taget</option>
                                     <c:forEach var="i" begin="15" end="45" step="5">
-                                        <option value="<c:out value="${i}"></c:out>" <c:if test="${i == requestScope.inquiry.roofSlope}">selected="selected"</c:if>><c:out value="${i}"></c:out> Grader
+                                        <option value="<c:out value="${i}"></c:out>" <c:if test="${i == sessionScope.inquiry.roofSlope}">selected="selected"</c:if>><c:out value="${i}"></c:out> Grader
                                         </option>
                                     </c:forEach>
                                 </select>
@@ -116,7 +116,7 @@
                         <br><br><br><br><br>
                         <div class="form-check">
                             <input class="form-check-input" name="checkboxShed" type="checkbox" id="flexCheckDefault"
-                                   <c:if test="${requestScope.inquiry.shedLength > 0 && requestScope.inquiry.shedWidth > 0}">Checked</c:if>
+                                   <c:if test="${sessionScope.inquiry.shedLength > 0 && sessionScope.inquiry.shedWidth > 0}">Checked</c:if>
                                    onchange="visSkur()">
                             <label class="form-check-label" for="flexCheckDefault">
                                 Skur
@@ -134,7 +134,7 @@
                                                     aria-label="Default select example">
                                                 <option value="" selected>Vælg Skur Længde</option>
                                                 <c:forEach var="i" begin="150" end="690" step="30">
-                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == requestScope.inquiry.shedLength/10}">selected="selected"</c:if>>
+                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == sessionScope.inquiry.shedLength/10}">selected="selected"</c:if>>
                                                         <c:out value="${i}"></c:out> cm
                                                     </option>
                                                 </c:forEach>
@@ -149,7 +149,7 @@
                                                     aria-label="Default select example">
                                                 <option value="" selected>Vælg Skur Bredde</option>
                                                 <c:forEach var="i" begin="210" end="720" step="30">
-                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == requestScope.inquiry.shedWidth/10}">selected="selected"</c:if>>
+                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == sessionScope.inquiry.shedWidth/10}">selected="selected"</c:if>>
                                                         <c:out value="${i}"></c:out> cm
                                                     </option>
                                                 </c:forEach>
@@ -167,8 +167,8 @@
                     </div>
                     <br><br>
                     <div class="container">
-                        <input type="hidden" name="command" value="adminCRUD"/>
-                        <button type="submit" name="CRUD" class="btn btn-primary" formaction="fc/adminCRUD" formmethod="post"
+                        <input type="hidden" name="command" value="adminEdit2"/>
+                        <button type="submit" name="update" class="btn btn-primary" formaction="fc/adminEdit2" formmethod="post"
                                 value="opdater">Opdater
                         </button>
                     </div>

@@ -24,7 +24,8 @@ abstract class Command
         commands.put("adminApprove", new AdminApprove());
         commands.put("adminDelete", new AdminDelete());
         commands.put("adminEdit", new AdminEdit());
-
+        commands.put("adminEdit2", new AdminEdit2());
+        commands.put("redirect", new Redirect());
     }
 
 

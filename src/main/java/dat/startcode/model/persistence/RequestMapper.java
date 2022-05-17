@@ -91,7 +91,7 @@ public class RequestMapper {
         boolean result = false;
 
         String sql = "UPDATE carport.inquiry SET carp_width = ?, carp_length = ?, roof_type = ?, " +
-                "roof_slope = ?, shed_width = ?, shed_length = ?, WHERE carport.inquiry.inquiry_id = ?";
+                "roof_slope = ?, shed_width = ?, shed_length = ? WHERE carport.inquiry.inquiry_id = ?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {

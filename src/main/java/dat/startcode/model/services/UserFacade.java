@@ -74,6 +74,10 @@ public class UserFacade {
         return requestMapper.getRequestById(inquiryId);
     }
 
+    public static boolean updateOrderFinalPriceById(int orderId, double price, ConnectionPool connectionPool) throws DatabaseException {
+        OrderMapper orderMapper = new OrderMapper(connectionPool);
+        return orderMapper.updateOrderFinalPriceById(orderId, price);
+    }
 }
 
 //TODO: lave UserFacade om til Facade, og rykke den op i persistence mappen. Lade alle vores klasser i control køre deres metoder over facaden.

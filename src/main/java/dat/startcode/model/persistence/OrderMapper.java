@@ -175,5 +175,31 @@ public class OrderMapper {
     }
 
 
+    public boolean updateOrderFinalPriceById(int orderId, double price) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        boolean result = false;
+
+        String sql = "UPDATE carport.order SET final_price = ? WHERE carport.order.order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setDouble(1, price);
+                ps.setInt(2, orderId);
+
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected == 1) {
+                    result = true;
+                } else {
+                    throw new DatabaseException("Mere/mindre end 1 row affected da order med id = " + orderId + ". Skulle updates! (check evt. databasen for fejl)");
+                }
+            }
+        } catch (SQLException | DatabaseException ex) {
+            throw new DatabaseException(ex, "Orderen kunne ikke sættes i databasen");
+        }
+
+
+        return result;
+    }
 }
 

@@ -79,7 +79,7 @@
                                         <c:if test="${requestScope.inquiry.roofSlope != 0}">disabled="true"</c:if>>
                                     <option selected value="">Her kan du vælge Fladt Tag type</option>
                                     <c:forEach var="flattype" items="${applicationScope.flatRoofMaterialsList}">
-                                        <option value="${flattype.type}" <c:if test="${flattype == requestScope.inquiry.roofType}">selected="selected"</c:if>>
+                                        <option value="${flattype.type}" <c:if test="${flattype.type == requestScope.inquiry.roofType}">selected="selected"</c:if>>
                                                 ${flattype.type}</option>
                                     </c:forEach>
                                 </select>
@@ -134,7 +134,7 @@
                                                     aria-label="Default select example">
                                                 <option value="" selected>Vælg Skur Længde</option>
                                                 <c:forEach var="i" begin="150" end="690" step="30">
-                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == requestScope.inquiry.shedLength}">selected="selected"</c:if>>
+                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == requestScope.inquiry.shedLength/10}">selected="selected"</c:if>>
                                                         <c:out value="${i}"></c:out> cm
                                                     </option>
                                                 </c:forEach>
@@ -149,7 +149,7 @@
                                                     aria-label="Default select example">
                                                 <option value="" selected>Vælg Skur Bredde</option>
                                                 <c:forEach var="i" begin="210" end="720" step="30">
-                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == requestScope.inquiry.shedWidth}">selected="selected"</c:if>>
+                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == requestScope.inquiry.shedWidth/10}">selected="selected"</c:if>>
                                                         <c:out value="${i}"></c:out> cm
                                                     </option>
                                                 </c:forEach>

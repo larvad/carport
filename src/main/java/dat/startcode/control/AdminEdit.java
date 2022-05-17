@@ -22,12 +22,10 @@ public class AdminEdit extends Command {
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
         HttpSession session = request.getSession();
 
-        int orderId = Integer.parseInt(request.getParameter("edit")); // henter inquiryId fra button value
+        int orderId = Integer.parseInt(request.getParameter("edit")); // henter orderId fra button value
 
         Order order = UserFacade.getOrderById(orderId, connectionPool);
         Inquiry inquiry = UserFacade.getRequestById(order.getRequestId(), connectionPool);
-
-//        Inquiry inquiry = UserFacade.getRequestById(inquiryId, connectionPool);
 
         session.setAttribute("inquiry", inquiry);
         session.setAttribute("order", order);

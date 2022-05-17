@@ -85,6 +85,14 @@ public class RequestCalculator {
         billsOfMaterials.add(new BillsOfMaterial(bomId, 59, orderId, 4, "Vandbræt på stern i sider"));
         // materialeId 8 l: 480,  materialeId 9 l: 240,  materialeId 10 l: 210,  materialeId 60 l: 360
 
+        //TODO delene til skuret skal også med.
+        //Antallet kan variere
+//        45x95	mm.	Reglar ub. 270 12 stk Løsholter til skur gavle
+//        45x95	mm.	Reglar ub. 240 4 stk Løsholter	til	skur sider
+//        vinkelbeslag 35 32 Stk Til montering af løsholter i skur //2*samlede antal løsholter
+//
+//        19x100 mm. trykimp. Bræt 210 200 stk Til beklædning af skur 1 på 2
+//
 
         //DELE HVOR ANTALLET KAN VARIERE
 
@@ -205,18 +213,14 @@ public class RequestCalculator {
             coloumnAmount = 6;
         }
         //HVis der er skur, så 5 stolper ekstra, hvis skuret er i halv bredde, så kun 4 ekstra. Den ene stolpe er til skurdøren.
-        if(inquiry.getShedWidth() <= carpWidth/2) {
+        if (inquiry.getShedWidth() <= carpWidth / 2) {
             coloumnAmount += 4;
-        }
-        else if(inquiry.getShedLength() > 0) {
+        } else if (inquiry.getShedLength() > 0) {
             coloumnAmount += 5;
         }
 
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
         return coloumnAmount;
-
-
-
     }
 
     private int getRaftersAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials) {
@@ -246,34 +250,6 @@ public class RequestCalculator {
 
         billsOfMaterials.add(new BillsOfMaterial(bomId, 54, orderId, raftersAmount, "Spær, monteres på rem"));
         return raftersAmount;
-    }
-
-    private int getRemAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials) {
-        int remAmount = 0;
-
-        if (carpLength <= REMBREAKPOINT) {
-            remAmount = 2;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, remAmount, "Remme i sider, sadles ned i stolper"));
-
-        } else {
-            remAmount = 4;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, remAmount, "Remme i sider, sadles ned i stolper"));
-        }
-        return remAmount;
-    }
-
-    private int getColoumnAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials) {
-        int coloumnAmount = 0;
-        if (carpLength <= COLUMNBREAKPOINT) {
-            // Stolpe = materialID 4
-            coloumnAmount = 4;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
-
-        } else {
-            coloumnAmount = 6;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
-        }
-        return coloumnAmount;
     }
 
 

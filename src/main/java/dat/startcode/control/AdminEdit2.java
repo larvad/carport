@@ -2,6 +2,7 @@ package dat.startcode.control;
 
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.entities.Inquiry;
+import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
@@ -20,6 +21,8 @@ public class AdminEdit2 extends Command {
 
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
+
+        //region inquiry
         Inquiry inquiry = null;
         int carpWidth;
         int carpLength;
@@ -51,11 +54,11 @@ public class AdminEdit2 extends Command {
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         }
+
         HttpSession session = request.getSession();
 
         inquiry = (Inquiry) session.getAttribute("inquiry");
 
-        //int inquiryId, int carpWidth, int carpLength, String roofType, int roofSlope, int shedWidth, int shedLength) {
         Inquiry brandSpankingNewInquiry = new Inquiry(inquiry.getInquiryId(), carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength);
 
         boolean succes = UserFacade.updateInquiryByInquiryId(brandSpankingNewInquiry, connectionPool);
@@ -63,7 +66,19 @@ public class AdminEdit2 extends Command {
         if (succes)
             session.setAttribute("inquiry", brandSpankingNewInquiry);
 
-//        succes = UserFacade.updateInquiryByInquiryId(inquiry,connectionPool);
-        return "adminEditCarport";
+        //TODO: Update Billofmaterials for orderen!
+        //TODO: Update cost_price i DB!
+
+        //endregion
+
+        //region opdater final price
+        Order order = (Order) session.getAttribute("order");
+        double finalPrice = Double.parseDouble(request.getParameter("finalPrice"));
+        succes = UserFacade.updateOrderFinalPriceById(order.getOrderId(), finalPrice, connectionPool);
+        order = UserFacade.getOrderById(order.getOrderId(), connectionPool); //opdater orderen således at prisen opdateres på refresh
+        if (succes)
+            session.setAttribute("order", order);
+
+        return "adminEditCarport"; //genindlæs samme side, nu med det nye data
     }
 }

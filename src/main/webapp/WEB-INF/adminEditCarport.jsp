@@ -124,14 +124,14 @@
                         </div>
                         <br><br>
                         <div class="container">
-                            <div id="skur" >
+                            <div id="skur" style="display: <c:if test="${sessionScope.inquiry.shedLength == 0}">none</c:if> <c:if test="${sessionScope.inquiry.shedLength != 0}">block</c:if>;">
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="dropdown">
                                             <h1 bold style="font-size: x-large">Skur Længde</h1>
                                             <select required="required" id="shedLength" name="shedLength"
                                                     class="form-select "
-                                                    aria-label="Default select example">
+                                                    aria-label="Default select example" <c:if test="${sessionScope.inquiry.shedLength == 0}">disabled="true"</c:if>>
                                                 <option value="" selected>Vælg Skur Længde</option>
                                                 <c:forEach var="i" begin="150" end="690" step="30">
                                                     <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == sessionScope.inquiry.shedLength/10}">selected="selected"</c:if>>
@@ -146,7 +146,7 @@
                                             <h1 bold style="font-size: x-large">Skur Bredde</h1>
                                             <select required="required" id="shedWidth" name="shedWidth"
                                                     class="form-select "
-                                                    aria-label="Default select example">
+                                                    aria-label="Default select example" <c:if test="${sessionScope.inquiry.shedWidth == 0}">disabled="true"</c:if>>
                                                 <option value="" selected>Vælg Skur Bredde</option>
                                                 <c:forEach var="i" begin="210" end="720" step="30">
                                                     <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == sessionScope.inquiry.shedWidth/10}">selected="selected"</c:if>>
@@ -162,8 +162,10 @@
                     </div>
                     <br><br>
                     <div>
-                        <input type="number">
-                        <input type="number">
+                        <label for="costPrice">Cost price:</label>
+                        <input type="number" id="costPrice" name="costPrice" value="${sessionScope.order.costPrice}" disabled="true">
+                        <label for="finalPrice">Final price:</label>
+                        <input type="number" id="finalPrice" name="finalPrice" value="${sessionScope.order.finalPrice}">
                     </div>
                     <br><br>
                     <div class="container">

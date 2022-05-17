@@ -78,6 +78,7 @@ public class AdminEdit2 extends Command {
         order = UserFacade.getOrderById(order.getOrderId(), connectionPool); //opdater orderen således at prisen opdateres på refresh
         if (succes)
             session.setAttribute("order", order);
+        //endregion
 
         return "adminEditCarport"; //genindlæs samme side, nu med det nye data
     }

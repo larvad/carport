@@ -2,11 +2,13 @@ package dat.startcode.logic;
 
 import dat.startcode.model.dto.MaterialDTO;
 import dat.startcode.model.entities.BillsOfMaterial;
+import dat.startcode.model.entities.Materials;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.BillsOfMaterialMapper;
 import dat.startcode.model.persistence.ConnectionPool;
 
 import dat.startcode.model.entities.Inquiry;
+import dat.startcode.model.persistence.MaterialsMapper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,14 +103,29 @@ public class RequestCalculator {
         int carriageBolt = coloumnAmount * 3;
         billsOfMaterials.add(new BillsOfMaterial(bomId, 24, orderId, carriageBolt, "Til montering af rem på stolper"));
 
-        //TODO delene til skuret skal også med.
-        //Antallet kan variere
-//        45x95	mm.	Reglar ub. 270 12 stk Løsholter til skur gavle
-        //ALtid 4 nedenfor
+        //**Skur**
+//        45x95	mm.	Reglar ub. 270 12 stk Løsholter til skur gavle ---ikke nogen i DB med den længde. id 7 er 360 cm
+        int noggingGables = 12;
+        if(shedWidth <= 2700){
+            noggingGables = 6;
+        }
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 7, orderId, noggingGables, "Løsholter til skur gavle"));
+
 //        45x95	mm.	Reglar ub. 240 4 stk Løsholter	til	skur sider
+        double noggingSidesFactor = (double) shedLength / 2400;
+        int nSFactor = (int) Math.ceil(noggingSidesFactor);
+        int noggingSides = nSFactor * 4;
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 6, orderId, noggingSides, "Løsholter til skur sider"));
+
 //        vinkelbeslag 35 32 Stk Til montering af løsholter i skur //2*samlede antal løsholter
-//
+        int angleFitting = (noggingGables + noggingSides) * 2;
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 19, orderId, angleFitting, "Til montering af løsholter i skur"));
+
 //        19x100 mm. trykimp. Bræt 210 200 stk Til beklædning af skur 1 på 2
+        //beklædning af skuret: skurets omkreds divideret med en faktor der passer
+        int cladding = (shedLength * 2 + shedWidth * 2) / 80;
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 10, orderId, cladding, "Til beklædning af skur 1 på 2"));
+
 
         //DELE DER ALTID SKAL MED
         addMiscallaneous(orderId, shedWidth, billsOfMaterials);
@@ -178,38 +195,6 @@ public class RequestCalculator {
         }
     }
 
-    private void calcRemAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials) {
-        int remAmount = 0;
-
-        if (carpLength <= REMBREAKPOINT) {
-            remAmount = 2;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, remAmount, "Remme i sider, sadles ned i stolper"));
-
-        } else {
-            remAmount = 4;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, remAmount, "Remme i sider, sadles ned i stolper"));
-        }
-    }
-
-    private int getColoumnAmount(Inquiry inquiry, int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials) {
-        int coloumnAmount = 0;
-        if (carpLength <= COLUMNBREAKPOINT) {
-            // Stolpe = materialID 4
-            coloumnAmount = 4;
-        } else {
-            coloumnAmount = 6;
-        }
-        //HVis der er skur, så 5 stolper ekstra, hvis skuret er i halv bredde, så kun 4 ekstra. Den ene stolpe er til skurdøren.
-        if (inquiry.getShedWidth() <= carpWidth / 2) {
-            coloumnAmount += 4;
-        } else if (inquiry.getShedLength() > 0) {
-            coloumnAmount += 5;
-        }
-
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
-        return coloumnAmount;
-    }
-
     private int getRaftersAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials) {
 
         //        Ny længde = Længde på carport - tykkelse på spær - (tykkelse på understernbrædder * 2)
@@ -238,5 +223,49 @@ public class RequestCalculator {
         billsOfMaterials.add(new BillsOfMaterial(bomId, 54, orderId, raftersAmount, "Spær, monteres på rem"));
         return raftersAmount;
     }
-}
 
+    private void calcRemAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials) throws DatabaseException {
+        int remAmount = 0;
+        ConnectionPool connectionPool = new ConnectionPool();
+        MaterialsMapper materialsMapper = new MaterialsMapper(connectionPool);
+        //henter alle længder af remme fra 'lageret', sorteret med de korteste først
+        List<Materials> materialsList = materialsMapper.getMaterialsByType("45x195 spærtræ ubh.");
+        int materialId = 0;
+        //vælger den bedste længde til opgaven. her bare den første der er længere end carporten
+        for (Materials materials : materialsList) {
+            if(materials.getLength() > carpLength) {
+                materialId = materials.getMaterialId();
+                break;
+            }
+        }
+        //TODO, bruge materialID nedenfor. Hvordan beregningen skal være oppe i løkken, afhænger af hvilke længder vi synes skal ligge i DB
+        if (carpLength <= REMBREAKPOINT) {
+            remAmount = 2;
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, remAmount, "Remme i sider, sadles ned i stolper"));
+
+        } else {
+            remAmount = 4;
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, remAmount, "Remme i sider, sadles ned i stolper"));
+        }
+    }
+
+    private int getColoumnAmount(Inquiry inquiry, int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials) {
+        int coloumnAmount = 0;
+        if (carpLength <= COLUMNBREAKPOINT) {
+            // Stolpe = materialID 4
+            coloumnAmount = 4;
+        } else {
+            coloumnAmount = 6;
+        }
+        //HVis der er skur, så 5 stolper ekstra, hvis skuret er i halv bredde, så kun 4 ekstra. Den ene stolpe er til skurdøren.
+        if(inquiry.getShedWidth() <= carpWidth/2) {
+            coloumnAmount += 4;
+        }
+        else if(inquiry.getShedLength() > 0) {
+            coloumnAmount += 5;
+        }
+
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
+        return coloumnAmount;
+    }
+}

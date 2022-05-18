@@ -111,5 +111,43 @@ public class MaterialsMapper {
         return getRaisedRoofMaterials;
     }
 
+    public List<Materials> getMaterialsByType(String type) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        List<Materials> materialsList = new ArrayList<>();
+        Materials materials = null;
+
+        String sql = "SELECT * FROM carport.materials " +
+                "WHERE type = ? ORDER BY length ASC";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, type);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+
+                    int materialId = rs.getInt("material_id");
+                    int height = rs.getInt("height");
+                    int width = rs.getInt("width");
+                    int length = rs.getInt("length");
+                    String unit = rs.getString("unit");
+                    int categoryId = rs.getInt("category_id");
+                    int angle = rs.getInt("angle");
+                    int rollLength = rs.getInt("roll_length");
+                    int amountInBox = rs.getInt("amount_in_box");
+                    double price = rs.getDouble("price");
+                    materials = new Materials(materialId, type, height, width, length, unit, categoryId, price);
+                    materialsList.add(materials);
+                }
+                if (materialsList.isEmpty()) {
+                    throw new DatabaseException("Fejl. Materialet var ikke i databasen?");
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DatabaseException(ex, "Something went wrong with the database");
+        }
+        return materialsList;
+    }
+
 }
 

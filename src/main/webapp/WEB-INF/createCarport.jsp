@@ -85,7 +85,6 @@
                                     <c:forEach var="raisedtype" items="${applicationScope.raisedRoofMaterialsList}">
                                         <option value="${raisedtype.type}">${raisedtype.type}</option>
                                     </c:forEach>
-
                                 </select>
                             </div>
                         </div>

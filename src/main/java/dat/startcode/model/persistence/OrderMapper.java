@@ -239,7 +239,61 @@ public class OrderMapper {
         }
 
         return result;
+    }
 
+    public double calcNewCostPrice(int order_id) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        double costPrice = -1;
+
+        String sql = "SELECT SUM(price*quantity) as cost_price FROM carport.materials " +
+                "INNER JOIN carport.bills_of_material " +
+                "USING(material_id) " +
+                "WHERE order_id = ?;";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, order_id);
+
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+
+                    costPrice = rs.getDouble("cost_price");
+                }
+                if (costPrice < 0) {
+                    throw new DatabaseException("Fejl. Kunne ikke beregne ny cost_price");
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DatabaseException(ex, "Something went wrong with the database");
+        }
+        return costPrice;
+    }
+
+    public boolean updateOrderCostPriceById(int orderId, double price) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        boolean result = false;
+
+        String sql = "UPDATE carport.order SET cost_price = ? WHERE carport.order.order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setDouble(1, price);
+                ps.setInt(2, orderId);
+
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected == 1) {
+                    result = true;
+                } else {
+                    throw new DatabaseException("Mere/mindre end 1 row affected da order med id = " + orderId + ". Skulle updates! (check evt. databasen for fejl)");
+                }
+            }
+        } catch (SQLException | DatabaseException ex) {
+            throw new DatabaseException(ex, "Orderen kunne ikke sættes i databasen");
+        }
+
+        return result;
     }
 }
 

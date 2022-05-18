@@ -74,6 +74,7 @@ public class AdminEdit2 extends Command {
         //region opdater final price
         Order order = (Order) session.getAttribute("order");
         double finalPrice = Double.parseDouble(request.getParameter("finalPrice"));
+        double costPrice = UserFacade.updateOrderCostPriceById(order.getOrderId(), connectionPool);
         succes = UserFacade.updateOrderFinalPriceById(order.getOrderId(), finalPrice, connectionPool);
         order = UserFacade.getOrderById(order.getOrderId(), connectionPool); //opdater orderen således at prisen opdateres på refresh
         if (succes)

@@ -62,7 +62,7 @@ public class SendInquiry extends Command {
 
         inquiry = UserFacade.insertInquiryIntoDB(carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength, connectionPool);
         //Generér OderId
-        int orderId = UserFacade.insertOrderIntoDB(inquiry.getInquiryId(),user.getUserId(),1,connectionPool);
+        int orderId = UserFacade.insertOrderIntoDB(inquiry.getInquiryId(), user.getUserId(), 1, connectionPool);
 
         request.setAttribute("inquiry", inquiry);
 
@@ -74,6 +74,10 @@ public class SendInquiry extends Command {
         //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
         RequestCalculator requestCalculator = new RequestCalculator();
         requestCalculator.calculate(orderId, inquiry, connectionPool);
+
+        //Udregn og tilføj cost_price til databasen
+        double costPrice = UserFacade.updateOrderCostPriceById(orderId, connectionPool);
+        UserFacade.updateOrderFinalPriceById(orderId, costPrice * 1.3, connectionPool);
 
         return "confirmInquiry";        //TODO: nice to have: sætte nogle krav til skur mål
     }

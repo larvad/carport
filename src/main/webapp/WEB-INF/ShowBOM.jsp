@@ -22,7 +22,7 @@
                         <th>Type</th>
                         <th>Længde</th>
                         <th>Antal</th>
-                        <th>Endhed</th>
+                        <th>Enhed</th>
                         <th>Beskrivelse</th>
                     </tr>
                     </thead>
@@ -46,7 +46,7 @@
 
                             <th>Type</th>
                             <th>Antal</th>
-                            <th>Endhed</th>
+                            <th>Enhed</th>
                             <th>Beskrivelse</th>
                         </tr>
                         </thead>

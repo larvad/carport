@@ -62,18 +62,17 @@ public class SendInquiry extends Command {
 
 
         inquiry = UserFacade.insertInquiryIntoDB(carpWidth,carpLength,roofType,roofSlope,shedWidth,shedLength,connectionPool);
+        //Generér OderId
         int orderId = UserFacade.insertOrderIntoDB(inquiry.getInquiryId(),user.getUserId(),1,connectionPool);
 
-        session.setAttribute("inquiry", inquiry);
+        request.setAttribute("inquiry", inquiry);
 
-        //Generér OderId DOBBELKONFEKT LIGE NU
         int userId = user.getUserId();
         int inquiryID = inquiry.getInquiryId();
-        Order earlyOrder = UserFacade.insertEarlyOrderIntoDB(userId, inquiryID, connectionPool);
 
         //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
         RequestCalculator requestCalculator = new RequestCalculator();
-        requestCalculator.calculate(earlyOrder.getOrderId(), inquiry, connectionPool);
+        requestCalculator.calculate(orderId, inquiry, connectionPool);
 
         return "confirmInquiry";        //TODO: nice to have: sætte nogle krav til skur mål
     }

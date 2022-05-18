@@ -1,16 +1,14 @@
 package dat.startcode.model.services;
 
+import dat.startcode.model.dto.BomDTO;
 import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Materials;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
-import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.persistence.MaterialsMapper;
-import dat.startcode.model.persistence.RequestMapper;
-import dat.startcode.model.persistence.UserMapper;
+import dat.startcode.model.persistence.*;
 import dat.startcode.model.dto.UserOrdersDTO;
-import dat.startcode.model.persistence.OrderMapper;
+
 import java.util.List;
 
 public class UserFacade {
@@ -77,6 +75,16 @@ public class UserFacade {
     public static boolean updateOrderFinalPriceById(int orderId, double price, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         return orderMapper.updateOrderFinalPriceById(orderId, price);
+    }
+
+    public static List<BomDTO> showBOMTraeOgTagplader(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
+        return billsOfMaterialMapper.showBOMTraeOgTagplader(orderId);
+    }
+
+    public static List<BomDTO> showBOMSkruerOgBeslag(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
+        return billsOfMaterialMapper.showBOMTraeOgTagplader(orderId);
     }
 
 }

@@ -45,7 +45,6 @@
                         <tr>
 
                             <th>Type</th>
-                            <th>Længde</th>
                             <th>Antal</th>
                             <th>Endhed</th>
                             <th>Beskrivelse</th>
@@ -55,7 +54,6 @@
                         <c:forEach var="BOMskruerogbeslag" items="${requestScope.BOMSkruerOgBeslag}">
                             <tr>
                                 <td>${BOMskruerogbeslag.type}</td>
-                                <td>${BOMskruerogbeslag.length} cm</td>
                                 <td>${BOMskruerogbeslag.quantity}</td>
                                 <td>${BOMskruerogbeslag.unit}</td>
                                 <td>${BOMskruerogbeslag.description}</td>

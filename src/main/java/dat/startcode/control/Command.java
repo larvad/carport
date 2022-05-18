@@ -26,6 +26,7 @@ abstract class Command
         commands.put("adminEdit", new AdminEdit());
         commands.put("adminEdit2", new AdminEdit2());
         commands.put("redirect", new Redirect());
+        commands.put("showSVG", new ShowSVG());
     }
 
 

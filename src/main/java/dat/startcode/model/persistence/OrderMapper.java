@@ -197,6 +197,7 @@ public class OrderMapper {
                 }
                 ResultSet idResultset = ps.getGeneratedKeys();
                 if (idResultset.next()) {
+
                 newOrderID = idResultset.getInt(1);
                 earlyOrder = new Order(newOrderID, userID, inquiryID, "", 0, 0, 1, null);
 
@@ -238,6 +239,7 @@ public class OrderMapper {
         }
 
         return result;
+
     }
 }
 

@@ -60,12 +60,13 @@ public class SendInquiry extends Command {
             throw new RuntimeException(e);
         }
 
-
-        inquiry = UserFacade.insertInquiryIntoDB(carpWidth,carpLength,roofType,roofSlope,shedWidth,shedLength,connectionPool);
+        inquiry = UserFacade.insertInquiryIntoDB(carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength, connectionPool);
         //Generér OderId
         int orderId = UserFacade.insertOrderIntoDB(inquiry.getInquiryId(),user.getUserId(),1,connectionPool);
 
         request.setAttribute("inquiry", inquiry);
+
+        //Generér OderId
 
         int userId = user.getUserId();
         int inquiryID = inquiry.getInquiryId();

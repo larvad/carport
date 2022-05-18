@@ -79,11 +79,6 @@ public class UserFacade {
         return orderMapper.updateOrderFinalPriceById(orderId, price);
     }
 
-    public static Order insertEarlyOrderIntoDB(int userID, int inquiryID, ConnectionPool connectionPool) throws DatabaseException {
-        OrderMapper orderMapper = new OrderMapper(connectionPool);
-        return orderMapper.insertEarlyOrderIntoDB(userID, inquiryID);
-
-    }
 }
 
 //TODO: lave UserFacade om til Facade, og rykke den op i persistence mappen. Lade alle vores klasser i control køre deres metoder over facaden.

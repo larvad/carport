@@ -73,7 +73,7 @@ public class SendInquiry extends Command {
         //Generér OderId
         int orderId = UserFacade.insertOrderIntoDB(inquiry.getInquiryId(), user.getUserId(), 1, connectionPool);
 
-        session.setAttribute("inquiry", inquiry);
+        request.setAttribute("inquiry", inquiry);
 
         int userId = user.getUserId();
         int inquiryID = inquiry.getInquiryId();

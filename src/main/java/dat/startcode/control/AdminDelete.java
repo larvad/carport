@@ -22,6 +22,7 @@ public class AdminDelete extends Command{
         boolean succes;
 
         int orderId = Integer.parseInt(request.getParameter("delete"));
+        succes = UserFacade.deleteBoMbyID(orderId,connectionPool);
         succes = UserFacade.deleteOrderByOrderId(orderId, connectionPool);
 
         Admin admin = new Admin();

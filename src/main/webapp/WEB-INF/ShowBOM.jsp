@@ -13,7 +13,7 @@
 
 
         <form action="">
-            <h1>Træ og Tagplader</h1>
+            <h3>Træ og Tagplader</h3>
             <div class="table-responsive-xl">
                 <table class="table-responsive-sm table" id="myTable">
                     <thead>
@@ -21,7 +21,7 @@
 
                         <th>Type</th>
                         <th>Længde</th>
-                        <th>antal</th>
+                        <th>Antal</th>
                         <th>Endhed</th>
                         <th>Beskrivelse</th>
                     </tr>
@@ -31,14 +31,14 @@
                         <tr>
                             <td>${BOMtagogtræ.type}</td>
                             <td>${BOMtagogtræ.length} cm</td>
-                            <td>${BOMtagogtræ.unit}</td>
                             <td>${BOMtagogtræ.quantity}</td>
+                            <td>${BOMtagogtræ.unit}</td>
                             <td>${BOMtagogtræ.description}</td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <h1>Skruer og Beslag</h1>
+                <h3>Skruer og Beslag</h3>
                 <div class="table-responsive-xl">
                     <table class="table-responsive-sm table" id="myTable1">
                         <thead>
@@ -46,7 +46,7 @@
 
                             <th>Type</th>
                             <th>Længde</th>
-                            <th>antal</th>
+                            <th>Antal</th>
                             <th>Endhed</th>
                             <th>Beskrivelse</th>
                         </tr>
@@ -56,16 +56,17 @@
                             <tr>
                                 <td>${BOMskruerogbeslag.type}</td>
                                 <td>${BOMskruerogbeslag.length} cm</td>
-                                <td>${BOMskruerogbeslag.unit}</td>
                                 <td>${BOMskruerogbeslag.quantity}</td>
+                                <td>${BOMskruerogbeslag.unit}</td>
                                 <td>${BOMskruerogbeslag.description}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
 
-                <div>
+                    <div>
 
+                    </div>
                 </div>
             </div>
         </form>

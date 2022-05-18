@@ -85,14 +85,6 @@ public class RequestCalculator {
         billsOfMaterials.add(new BillsOfMaterial(bomId, 59, orderId, 4, "Vandbræt på stern i sider"));
         // materialeId 8 l: 480,  materialeId 9 l: 240,  materialeId 10 l: 210,  materialeId 60 l: 360
 
-        //TODO delene til skuret skal også med.
-        //Antallet kan variere
-//        45x95	mm.	Reglar ub. 270 12 stk Løsholter til skur gavle
-//        45x95	mm.	Reglar ub. 240 4 stk Løsholter	til	skur sider
-//        vinkelbeslag 35 32 Stk Til montering af løsholter i skur //2*samlede antal løsholter
-//
-//        19x100 mm. trykimp. Bræt 210 200 stk Til beklædning af skur 1 på 2
-//
 
         //DELE HVOR ANTALLET KAN VARIERE
 

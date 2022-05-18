@@ -1,17 +1,18 @@
 package dat.startcode.model.services;
 
+<<<<<<< HEAD
 import dat.startcode.model.dto.StatusDTO;
+=======
+import dat.startcode.model.dto.BomDTO;
+>>>>>>> 118dcfe (tilføj jsp-side til stykliste, for admin,tilføj mapper mm)
 import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Materials;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
-import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.persistence.MaterialsMapper;
-import dat.startcode.model.persistence.RequestMapper;
-import dat.startcode.model.persistence.UserMapper;
+import dat.startcode.model.persistence.*;
 import dat.startcode.model.dto.UserOrdersDTO;
-import dat.startcode.model.persistence.OrderMapper;
+
 import java.util.List;
 
 public class UserFacade {
@@ -90,6 +91,16 @@ public class UserFacade {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         return orderMapper.insertEarlyOrderIntoDB(userID, inquiryID);
     }
+    public static List<BomDTO> showBOMTraeOgTagplader(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
+        return billsOfMaterialMapper.showBOMTraeOgTagplader(orderId);
+    }
+
+    public static List<BomDTO> showBOMSkruerOgBeslag(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
+        return billsOfMaterialMapper.showBOMTraeOgTagplader(orderId);
+    }
+
 }
 
 //TODO: lave UserFacade om til Facade, og rykke den op i persistence mappen. Lade alle vores klasser i control køre deres metoder over facaden.

@@ -1,5 +1,6 @@
 package dat.startcode.model.persistence;
 
+import dat.startcode.model.dto.BomDTO;
 import dat.startcode.model.entities.BillsOfMaterial;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
@@ -96,4 +97,68 @@ public class BillsOfMaterialMapper {
         return billsOfMaterialListWithID;
     }
 
+
+    public List<BomDTO> showBOMTraeOgTagplader(int orderId) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+        List<BomDTO> bomDTOList = new ArrayList<>();
+
+        String sql = "SELECT * FROM carport.trae_og_tagplader_stykliste " +
+                "where order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, orderId);
+
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    String type = rs.getString("type");
+                    int length = rs.getInt("length");
+                    int quantity = rs.getInt("quantity");
+                    String unit = rs.getString("unit");
+                    String description = rs.getString("description");
+                    BomDTO bom = new BomDTO(orderId, type, length/10, quantity, unit, description);
+                    bomDTOList.add(bom);
+                }
+
+            } if (bomDTOList.isEmpty()) {
+                throw new DatabaseException("kunne ikke finde nogle orde med det Id");
+            }
+        } catch (SQLException ex) {
+            throw new DatabaseException(ex, "Could not insert BOM into database");
+        }
+        return bomDTOList;
+    }
+
+    public List<BomDTO> showBOMSkruerOgBeslag(int orderId) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+        List<BomDTO> bomDTOList = new ArrayList<>();
+
+        String sql = "SELECT * FROM carport.beslag_og_skruer_stykliste " +
+                "where order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, orderId);
+
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    String type = rs.getString("type");
+                    int length = rs.getInt("length");
+                    int quantity = rs.getInt("quantity");
+                    String unit = rs.getString("unit");
+                    String description = rs.getString("description");
+                    BomDTO bom = new BomDTO(orderId, type, length, quantity, unit, description);
+                    bomDTOList.add(bom);
+                }
+
+            } if (bomDTOList.isEmpty()) {
+                throw new DatabaseException("kunne ikke finde nogle orde med det Id");
+            }
+        } catch (SQLException ex) {
+            throw new DatabaseException(ex, "Could not insert BOM into database");
+        }
+        return bomDTOList;
+    }
 }

@@ -90,7 +90,6 @@ public class OrderMapper {
         return userOrdersDTOList;
     }
 
-
     public boolean setOrderStatusByOrderId(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
@@ -199,6 +198,7 @@ public class OrderMapper {
         }
         return statusDTO;
     }
+
 
     public Order insertEarlyOrderIntoDB(int userID, int inquiryID) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");

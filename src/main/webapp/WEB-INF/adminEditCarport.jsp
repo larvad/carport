@@ -165,7 +165,7 @@
                         <label for="costPrice">Cost price:</label>
                         <input type="number" id="costPrice" name="costPrice" value="${sessionScope.order.costPrice}" disabled="true">
                         <label for="finalPrice">Final price:</label>
-                        <input type="number" id="finalPrice" name="finalPrice" value="${sessionScope.order.finalPrice}">
+                        <input type="number" min="0" step=".01" id="finalPrice" name="finalPrice" value="${sessionScope.order.finalPrice}">
                     </div>
                     <br><br>
                     <div class="container">

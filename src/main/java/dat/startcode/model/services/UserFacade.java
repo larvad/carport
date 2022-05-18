@@ -1,10 +1,7 @@
 package dat.startcode.model.services;
 
 import dat.startcode.model.dto.BomDTO;
-import dat.startcode.model.entities.Inquiry;
-import dat.startcode.model.entities.Materials;
-import dat.startcode.model.entities.Order;
-import dat.startcode.model.entities.User;
+import dat.startcode.model.entities.*;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.*;
 import dat.startcode.model.dto.UserOrdersDTO;
@@ -85,6 +82,11 @@ public class UserFacade {
     public static List<BomDTO> showBOMSkruerOgBeslag(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
         return billsOfMaterialMapper.showBOMTraeOgTagplader(orderId);
+    }
+
+    public static boolean deleteBoMbyID(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
+        return billsOfMaterialMapper.deleteBoMbyId(orderId);
     }
 
 }

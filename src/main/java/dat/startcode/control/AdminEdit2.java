@@ -66,14 +66,13 @@ public class AdminEdit2 extends Command {
         if (succes)
             session.setAttribute("inquiry", brandSpankingNewInquiry);
 
-        //TODO: Update Billofmaterials for orderen!
-        //TODO: Update cost_price i DB!
-
         //endregion
 
         //region opdater final price
         Order order = (Order) session.getAttribute("order");
         double finalPrice = Double.parseDouble(request.getParameter("finalPrice"));
+
+        //TODO: Delete og genbergn stykliste! før costprice updateres...
         double costPrice = UserFacade.updateOrderCostPriceById(order.getOrderId(), connectionPool);
         succes = UserFacade.updateOrderFinalPriceById(order.getOrderId(), finalPrice, connectionPool);
         order = UserFacade.getOrderById(order.getOrderId(), connectionPool); //opdater orderen således at prisen opdateres på refresh

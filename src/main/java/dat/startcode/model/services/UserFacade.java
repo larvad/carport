@@ -96,7 +96,7 @@ public class UserFacade {
 
     public static List<BomDTO> showBOMSkruerOgBeslag(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
-        return billsOfMaterialMapper.showBOMTraeOgTagplader(orderId);
+        return billsOfMaterialMapper.showBOMSkruerOgBeslag(orderId);
     }
 
     public static boolean deleteBoMbyID(int orderId, ConnectionPool connectionPool) throws DatabaseException {

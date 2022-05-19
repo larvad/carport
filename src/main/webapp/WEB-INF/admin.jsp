@@ -28,20 +28,20 @@
                 <table class="table-responsive-sm table" id="myTable">
                     <thead>
                     <tr>
-                        <td>
+                        <th>
                                 <%-- til radio button --%>
-                        </td>
-                        <td>OrderId</td>
-                        <td>Kunde navn</td>
-                        <td>Tlf nummer</td>
-                        <td>ForespørgselsId</td>
-                        <td>Indkøbs pris</td>
-                        <td>Fortjeneste pris</td>
-                        <td>Status</td>
-                        <td>Bestillings tidspunkt</td>
-                        <td>
+                        </th>
+                        <th>OrderId</th>
+                        <th>Kunde navn</th>
+                        <th>Tlf nummer</th>
+                        <th>ForespørgselsId</th>
+                        <th>Indkøbs pris</th>
+                        <th>Fortjeneste pris</th>
+                        <th>Status</th>
+                        <th>Bestillings tidspunkt</th>
+                        <th>
                                 <%-- til buttons --%>
-                        </td>
+                        </th>
                     </tr>
                     </thead>
                     <c:forEach var="userOrdersDTO" items="${requestScope.userOrdersDTOList}">

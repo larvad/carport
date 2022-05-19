@@ -53,8 +53,14 @@ public class SendInquiry extends Command {
             }
             checkboxShed = (request.getParameter("checkboxShed"));
             if (checkboxShed != null) {
-                shedWidth = Integer.parseInt(request.getParameter("shedWidth"));
+                int divideBy = Integer.parseInt(request.getParameter("shedWidth"));
+                shedWidth = (carpWidth - 600) / divideBy;
                 shedLength = Integer.parseInt(request.getParameter("shedLength"));
+                if (shedLength >= carpLength)
+                {
+                    request.setAttribute("shed40", "Skur længde må ikke være længere end carporten!");
+                    return "createCarport";
+                }
             } else {
                 shedWidth = 0;
                 shedLength = 0;
@@ -80,7 +86,7 @@ public class SendInquiry extends Command {
         double costPrice = UserFacade.updateOrderCostPriceById(orderId, connectionPool);
 
         // blackmagickz (finalPrice er costprice*1,3)
-        BigDecimal bdFinalPrice = new BigDecimal(costPrice*1.3).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal bdFinalPrice = new BigDecimal(costPrice * 1.3).setScale(2, RoundingMode.HALF_UP);
 
         // omdan BigDecimal tilbage til double
         double finalPrice = bdFinalPrice.doubleValue();

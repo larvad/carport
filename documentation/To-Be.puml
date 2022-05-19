@@ -10,22 +10,23 @@ start
 :Valg skræddersyet carport i navbar;
 
 |#003D76|w| Website
+
+|k|
+:opret eller login;
 repeat
 |k|
 :Indtast mål;
 |w|
   :valider input;
-repeat while (mangler data) is (yes)
-->no;
+repeat while (mangler data) is (data mangler)
+->data er ok;
 
-|k|
-:opret eller login;
 |w|
 :opret forespørgsel/bestilling i DB;
 
 fork
 |w|
-:[hidden];
+:;
 |k|
 :Se tegning;
 end

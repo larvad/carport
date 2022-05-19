@@ -70,16 +70,16 @@ public class SendInquiry extends Command {
         inquiry = UserFacade.insertInquiryIntoDB(carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength, connectionPool);
 
         //Generér OderId
-        int orderId = UserFacade.insertOrderIntoDB(inquiry.getInquiryId(), user.getUserId(), 1, connectionPool);
+        int userId = user.getUserId();
+        int inquiryID = inquiry.getInquiryId();
+        int orderId = UserFacade.insertOrderIntoDB(inquiryID, userId,1, connectionPool);
 
         request.setAttribute("inquiry", inquiry);
 
-        int userId = user.getUserId();
-        int inquiryID = inquiry.getInquiryId();
-
         //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
-        RequestCalculator requestCalculator = new RequestCalculator();
-        requestCalculator.calculate(orderId, inquiry, connectionPool);
+//        RequestCalculator requestCalculator = new RequestCalculator();
+//        requestCalculator.calculate(orderId, inquiry, connectionPool);
+        UserFacade.calculate(orderId, inquiry, connectionPool);
 
         //Udregn og tilføj cost_price til databasen
         double costPrice = UserFacade.updateOrderCostPriceById(orderId, connectionPool);

@@ -7,6 +7,7 @@ import dat.startcode.model.entities.Materials;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.dto.BomDTO;
+import dat.startcode.logic.RequestCalculator;
 import dat.startcode.model.entities.*;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.*;
@@ -25,12 +26,12 @@ public class UserFacade {
         return userMapper.createUser(username, email, password, phoneNr, adresse);
     }
 
-    public static List<Materials> showFlatRoofMaterial(ConnectionPool connectionPool) throws DatabaseException{
+    public static List<Materials> showFlatRoofMaterial(ConnectionPool connectionPool) throws DatabaseException {
         MaterialsMapper materialsMapper = new MaterialsMapper(connectionPool);
         return materialsMapper.ShowFlatRoofMaterials();
     }
 
-    public static List<Materials> showRaisedRoofMaterial(ConnectionPool connectionPool) throws DatabaseException{
+    public static List<Materials> showRaisedRoofMaterial(ConnectionPool connectionPool) throws DatabaseException {
         MaterialsMapper materialsMapper = new MaterialsMapper(connectionPool);
         return materialsMapper.ShowRaisedRoofMaterials();
     }
@@ -45,22 +46,22 @@ public class UserFacade {
         return orderMapper.getUserOrderDTOs();
     }
 
-    public static boolean setOrderStatusByOrderId(int orderId ,ConnectionPool connectionPool) throws DatabaseException {
+    public static boolean setOrderStatusByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         return orderMapper.setOrderStatusByOrderId(orderId);
     }
 
-    public static boolean deleteOrderByOrderId(int orderId,ConnectionPool connectionPool) throws DatabaseException{
+    public static boolean deleteOrderByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         return orderMapper.deleteOrderByOrderId(orderId);
     }
 
     public static int insertOrderIntoDB(int inquiryId, int userId, int status, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
-        return orderMapper.insertOrderIntoDB(inquiryId,userId,status);
+        return orderMapper.insertOrderIntoDB(inquiryId, userId, status);
     }
 
-    public static boolean updateInquiryByInquiryId(Inquiry inquiry, ConnectionPool connectionPool) throws DatabaseException{
+    public static boolean updateInquiryByInquiryId(Inquiry inquiry, ConnectionPool connectionPool) throws DatabaseException {
         RequestMapper requestMapper = new RequestMapper(connectionPool);
         return requestMapper.updateInquiryByInquiryId(inquiry);
     }
@@ -81,7 +82,7 @@ public class UserFacade {
         return orderMapper.updateOrderFinalPriceById(orderId, price);
     }
 
-    public static StatusDTO getStatusDTOByUserID (int userID, ConnectionPool connectionPool) throws DatabaseException {
+    public static StatusDTO getStatusDTOByUserID(int userID, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         return orderMapper.getStatusByUserId(userID);
     }
@@ -106,6 +107,21 @@ public class UserFacade {
         double costPrice = orderMapper.calcNewCostPrice(orderId);
         boolean success = orderMapper.updateOrderCostPriceById(orderId, costPrice);
         return costPrice;
+    }
+
+    public static List<Materials> getMaterialsByType(String type, ConnectionPool connectionPool) throws DatabaseException {
+        MaterialsMapper materialsMapper = new MaterialsMapper(connectionPool);
+        return materialsMapper.getMaterialsByType(type);
+    }
+
+    public static void calculate(int orderId, Inquiry inquiry, ConnectionPool connectionPool) throws DatabaseException {
+        RequestCalculator requestCalculator = new RequestCalculator();
+        requestCalculator.calculate(orderId, inquiry, connectionPool);
+    }
+
+    public static List<BillsOfMaterial> insertBOMList(List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
+        BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
+        return billsOfMaterialMapper.insertBOMList(billsOfMaterials);
     }
 }
 

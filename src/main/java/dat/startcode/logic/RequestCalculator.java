@@ -1,14 +1,13 @@
 package dat.startcode.logic;
 
-import dat.startcode.model.dto.MaterialDTO;
 import dat.startcode.model.entities.BillsOfMaterial;
 import dat.startcode.model.entities.Materials;
 import dat.startcode.model.exceptions.DatabaseException;
-import dat.startcode.model.persistence.BillsOfMaterialMapper;
 import dat.startcode.model.persistence.ConnectionPool;
 
 import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.persistence.MaterialsMapper;
+import dat.startcode.model.services.UserFacade;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +31,6 @@ public class RequestCalculator {
 
     private int bomId = 0; //bliver auto genereret
 
-    //TODO: Hvis det skal være rigtigt skal koden jo egentlig søge de bedste brædder til opgaven frem i databasen (ellers får admin heller ikke noget ud af at tilføje nye materialer)
-    // Det kan vi vælge bare at gøre på en af brædderne, for at vise
-
     public void calculate(int orderId, Inquiry inquiry, ConnectionPool connectionPool) throws DatabaseException {
         int carpLength = inquiry.getCarpLength();
         int carpWidth = inquiry.getCarpWidth();
@@ -44,32 +40,32 @@ public class RequestCalculator {
         List<BillsOfMaterial> billsOfMaterials = new ArrayList<>();
 
         // FINDER ANTAL STOLPER PÅ BAGGRUND AF LÆNGDEN
-        int coloumnAmount = getColoumnAmount(inquiry, orderId, carpLength, carpWidth, billsOfMaterials);
+        int carportColoumnAmount = getCarportColoumnAmount(inquiry, orderId, carpLength, carpWidth, billsOfMaterials);
+        int shedColoumnAmount = getShedColoumnAmount(inquiry, orderId, carpLength, carpWidth, billsOfMaterials);
+        int coloumnAmount = carportColoumnAmount + shedColoumnAmount;
+        // Stolpe = materialID 4
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
 
-        // FINDER REMME //TODO: tager ikke højde for at der er remme i forskellige længder
-         calcRemAmount(orderId, carpLength, billsOfMaterials);
+        // FINDER REMME
+        calcRemAmount(orderId, carpLength, billsOfMaterials, connectionPool);
 
-        // FINDER SPÆR //TODO: tager pt ikke højde for at man kan få spær i forskellige længder og at afstanden spærrene skal sættes op med skal gemmes til vejledningen
-        int raftersAmount = getRaftersAmount(orderId, carpLength, billsOfMaterials);
+        // FINDER SPÆR //TODO: afstanden spærrene skal sættes op med skal gemmes til vejledningen
+        int raftersAmount = getRaftersAmount(orderId, carpLength, carpWidth, billsOfMaterials, connectionPool);
 
         //BEREGNING AF TAGPLADER
         calcRoofPlateAmount(orderId, carpLength, carpWidth, billsOfMaterials);
 
         //SIDSTE BRÆDDER HVOR LÆNGDEN KAN VARIERE
-        //TODO: ikke fixet med de forskellige længder og bredder carport
         //******************** BREDDE ****************
-//        25x200	mm.	trykimp.	Bræt 360 4 Stk understernbrædder	til	for	&	bag	ende //TODO: ken vel nøjes med to ved en smal carport?
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 55, orderId, 4, "Understernbredder til for & bagende"));
-        // materialeId 56 er samme men med længden 540
+        calcFasciaBoardsForCarpWidth(orderId, carpWidth, billsOfMaterials, connectionPool);
+        calcOuterFasciaBoardsForCarpWidth(orderId, carpWidth, billsOfMaterials, connectionPool);
 
-//        25x125mm.	trykimp.	Bræt 360 2 Stk oversternbrædder	til	forenden
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 57, orderId, 2, "Oversternbrædder til forenden"));
-        // materialeId 58 er samme men med længden 540
+        //TODO: ikke fixet med de forskellige længder og bredder carport
+
 
         //        19x100	mm.	trykimp.	Bræt		 360 2 Stk vandbræt	på	stern	i	forende
         billsOfMaterials.add(new BillsOfMaterial(bomId, 60, orderId, 2, "Vandbræt på stern i forende"));
         // materialeId 8 l: 480,  materialeId 9 l: 240,  materialeId 10 l: 210,  materialeId 59 l: 540
-
 
         // ******************* LÆNGDE *******************
 //        25x200	mm.	trykimp.	Bræt 540 4 Stk understernbrædder	til	siderne
@@ -84,60 +80,70 @@ public class RequestCalculator {
         billsOfMaterials.add(new BillsOfMaterial(bomId, 59, orderId, 4, "Vandbræt på stern i sider"));
         // materialeId 8 l: 480,  materialeId 9 l: 240,  materialeId 10 l: 210,  materialeId 60 l: 360
 
-
-        //DELE HVOR ANTALLET KAN VARIERE
-
-        //Universal 190 mm ses nederst på side 4, og der skal være lige mange som der er spær. En højre og en venstre
-        int universalRight = raftersAmount;
-        int universalLeft = universalRight;
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 15, orderId, universalRight, "Til montering af spær på rem"));
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 16, orderId, universalLeft, "Til montering af spær på rem"));
-
-//        firkantskiver	40x40x11mm 12 Stk Til montering	af	rem	på	stolper
-        // TODO: 2 pr stolpe når der ikke er skur med, så, beregningen duer ikke når der er skur på
-        int squareWasher = coloumnAmount * 2;
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 25, orderId, squareWasher, "Til montering af rem på stolper"));
-
-        // TODO: 3 pr stolpe når der ikke er skur med, så, beregningen duer ikke når der er skur på
-//        bræddebolt	10	x	120	mm.	 18 Stk Til	montering	af	rem	på	stolper
-        int carriageBolt = coloumnAmount * 3;
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 24, orderId, carriageBolt, "Til montering af rem på stolper"));
-
-        //**Skur**
-//        45x95	mm.	Reglar ub. 270 12 stk Løsholter til skur gavle ---ikke nogen i DB med den længde. id 7 er 360 cm
-        int noggingGables = 12;
-        if(shedWidth <= 2700){
-            noggingGables = 6;
-        }
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 7, orderId, noggingGables, "Løsholter til skur gavle"));
-
-//        45x95	mm.	Reglar ub. 240 4 stk Løsholter	til	skur sider
-        double noggingSidesFactor = (double) shedLength / 2400;
-        int nSFactor = (int) Math.ceil(noggingSidesFactor);
-        int noggingSides = nSFactor * 4;
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 6, orderId, noggingSides, "Løsholter til skur sider"));
-
-//        vinkelbeslag 35 32 Stk Til montering af løsholter i skur //2*samlede antal løsholter
-        int angleFitting = (noggingGables + noggingSides) * 2;
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 19, orderId, angleFitting, "Til montering af løsholter i skur"));
-
-//        19x100 mm. trykimp. Bræt 210 200 stk Til beklædning af skur 1 på 2
-        //beklædning af skuret: skurets omkreds divideret med en faktor der passer
-        int cladding = (shedLength * 2 + shedWidth * 2) / 80;
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 10, orderId, cladding, "Til beklædning af skur 1 på 2"));
-
-
         //DELE DER ALTID SKAL MED
-        addMiscallaneous(orderId, shedWidth, billsOfMaterials);
+        addMiscallaneous(orderId, shedWidth, raftersAmount, carportColoumnAmount, shedLength, billsOfMaterials);
 
         //SÆTTE IND I DATABASEN
-        BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
-        billsOfMaterialMapper.insertBOMList(billsOfMaterials);
-
-
+        List<BillsOfMaterial> bomListWithId = UserFacade.insertBOMList(billsOfMaterials, connectionPool);
     }
 
-    private void addMiscallaneous(int orderId, int shedWidth, List<BillsOfMaterial> billsOfMaterials) {
+    private void calcOuterFasciaBoardsForCarpWidth(int orderId, int carpWidth, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
+//henter alle længder af oversternbrædder fra 'lageret', sorteret med de korteste først
+        List<Materials> materialsList = UserFacade.getMaterialsByType("25x125 mm. trykimp. Bræt", connectionPool);
+        int materialId = 0;
+        int fasciaBoardAmount = 0;
+        //vælger den bedste længde til opgaven. her bare den første der er længere end carporten, de skal stikke 2,5 cm udover i hve ende, deraf de 50
+        for (Materials materials : materialsList) {
+            if (materials.getLength() >= carpWidth + 50) {
+                materialId = materials.getMaterialId();
+                fasciaBoardAmount = 1;
+                break;
+            }
+        }
+        //Hvis ingen af oversternbrædderne var længere end carporten, tager vi en tur til på samme måde,
+        if (materialId == 0) {
+            for (Materials materials : materialsList) {
+                if (materials.getLength() > (carpWidth + 50) / 2) {
+                    materialId = materials.getMaterialId();
+                    fasciaBoardAmount = 2;
+                    break;
+                }
+            }
+        }
+        //        25x125mm.	trykimp.	Bræt 360 2 Stk oversternbrædder	til	forenden
+        billsOfMaterials.add(new BillsOfMaterial(bomId, materialId, orderId, fasciaBoardAmount, "Oversternbrædder til forenden"));
+        // materialeId 58 er samme men med længden 540
+    }
+
+    private void calcFasciaBoardsForCarpWidth(int orderId, int carpWidth, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
+        //henter alle længder af understernbrædder fra 'lageret', sorteret med de korteste først
+        List<Materials> materialsList = UserFacade.getMaterialsByType("25x200 mm. trykimp. Bræt (Birk)", connectionPool);
+        int materialId = 0;
+        int fasciaBoardAmount = 0;
+        //vælger den bedste længde til opgaven. her bare den første der er længere end carporten, de skal stikke 2,5 cm udover i hve ende, deraf de 50
+        for (Materials materials : materialsList) {
+            if (materials.getLength() >= carpWidth + 50) {
+                materialId = materials.getMaterialId();
+                fasciaBoardAmount = 2;
+                break;
+            }
+        }
+        //Hvis ingen af understernbrædderne var længere end carporten, tager vi en tur til på samme måde,
+        if (materialId == 0) {
+            for (Materials materials : materialsList) {
+                if (materials.getLength() > (carpWidth + 50) / 2) {
+                    materialId = materials.getMaterialId();
+                    fasciaBoardAmount = 4;
+                    break;
+                }
+            }
+        }
+//        25x200	mm.	trykimp.	Bræt 360 4 Stk understernbrædder	til	for	&	bag	ende
+        billsOfMaterials.add(new BillsOfMaterial(bomId, materialId, orderId, fasciaBoardAmount, "Understernbredder til for & bagende"));
+        // materialeId 56 er samme men med længden 540
+    }
+
+    private void addMiscallaneous(int orderId, int shedWidth, int raftersAmount, int carportColoumnAmount, int shedLength, List<BillsOfMaterial> billsOfMaterials) {
         //        plastmo	bundskruer	200	stk. 3 pakke Skruer	til	tagplader
         billsOfMaterials.add(new BillsOfMaterial(bomId, 22, orderId, 3, "Skruer til tagplader"));
 
@@ -150,7 +156,7 @@ public class RequestCalculator {
 //        4,0	x	50	mm.	beslagskruer	250 stk. 3 pakke Til	montering	af	universalbeslag	+	hulbånd
         billsOfMaterials.add(new BillsOfMaterial(bomId, 21, orderId, 3, "Til montering af universalbeslag + hulbånd"));
 
-        if(shedWidth > 0) {
+        if (shedWidth > 0) {
 //        38x73	mm.	Lægte ubh. 420 1 stk Til z på bagside af dør
             billsOfMaterials.add(new BillsOfMaterial(bomId, 13, orderId, 1, "Til z på bagside af dør"));
 //        4,5 x 70 mm. Skruer 400 stk. 2 pk. Til montering af yderste beklædning
@@ -162,6 +168,49 @@ public class RequestCalculator {
 //        t	hængsel	390	mm 2 Stk Til skurdør
             billsOfMaterials.add(new BillsOfMaterial(bomId, 18, orderId, 2, "Til skurdør"));
         }
+        //DELE HVOR ANTALLET KAN VARIERE
+
+        //Universal 190 mm ses nederst på side 4, og der skal være lige mange som der er spær. En højre og en venstre
+        int universalRight = raftersAmount;
+        int universalLeft = universalRight;
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 15, orderId, universalRight, "Til montering af spær på rem"));
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 16, orderId, universalLeft, "Til montering af spær på rem"));
+
+//        firkantskiver	40x40x11mm 12 Stk Til montering	af	rem	på	stolper
+        // 2 pr carportstolpe, ikke dem der kun er til skur
+        int squareWasher = carportColoumnAmount * 2;
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 25, orderId, squareWasher, "Til montering af rem på stolper"));
+
+        // 3 pr carportstolpe, ikke dem der kun er til skur
+//        bræddebolt	10	x	120	mm.	 18 Stk Til	montering	af	rem	på	stolper
+        int carriageBolt = carportColoumnAmount * 3;
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 24, orderId, carriageBolt, "Til montering af rem på stolper"));
+
+        //**Skur**
+//        45x95	mm.	Reglar ub. 270 12 stk Løsholter til skur gavle ---ikke nogen i DB med den længde. id 7 er 360 cm
+        if (shedWidth > 0) {
+            int noggingGables = 12;
+            if (shedWidth <= 3600) {
+                noggingGables = 6;
+            }
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 7, orderId, noggingGables, "Løsholter til skur gavle"));
+
+//        45x95	mm.	Reglar ub. 240 4 stk Løsholter	til	skur sider
+            double noggingSidesFactor = (double) shedLength / 2400;
+            int nSFactor = (int) Math.ceil(noggingSidesFactor);
+            int noggingSides = nSFactor * 4;
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 6, orderId, noggingSides, "Løsholter til skur sider"));
+
+//        vinkelbeslag 35 32 Stk Til montering af løsholter i skur //2*samlede antal løsholter
+            int angleFitting = (noggingGables + noggingSides) * 2;
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 19, orderId, angleFitting, "Til montering af løsholter i skur"));
+
+//        19x100 mm. trykimp. Bræt 210 200 stk Til beklædning af skur 1 på 2
+            //beklædning af skuret: skurets omkreds divideret med en faktor der passer
+            int cladding = (shedLength * 2 + shedWidth * 2) / 80;
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 10, orderId, cladding, "Til beklædning af skur 1 på 2"));
+        }
+        System.out.println();
     }
 
     private void calcRoofPlateAmount(int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials) {
@@ -195,7 +244,7 @@ public class RequestCalculator {
         }
     }
 
-    private int getRaftersAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials) {
+    private int getRaftersAmount(int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
 
         //        Ny længde = Længde på carport - tykkelse på spær - (tykkelse på understernbrædder * 2)
 //        (fordi det første spærs tykkelse ikke er medregnet når mellemrummene lægges sammen, og der er er understernbræt på foran og bagved)
@@ -220,52 +269,68 @@ public class RequestCalculator {
 
         double raftersDistance = (double) newLength / spaceAmountBetweenRafters;
 
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 54, orderId, raftersAmount, "Spær, monteres på rem"));
-        return raftersAmount;
-    }
-
-    private void calcRemAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials) throws DatabaseException {
-        int remAmount = 0;
-        ConnectionPool connectionPool = new ConnectionPool();
-        MaterialsMapper materialsMapper = new MaterialsMapper(connectionPool);
-        //henter alle længder af remme fra 'lageret', sorteret med de korteste først
-        List<Materials> materialsList = materialsMapper.getMaterialsByType("45x195 spærtræ ubh.");
+        //Finde den rette længde på spærrene
+        List<Materials> materialsList = UserFacade.getMaterialsByType("45x195 spærtræ ubh.", connectionPool);
         int materialId = 0;
         //vælger den bedste længde til opgaven. her bare den første der er længere end carporten
         for (Materials materials : materialsList) {
-            if(materials.getLength() > carpLength) {
+            if (materials.getLength() >= carpWidth) {
                 materialId = materials.getMaterialId();
                 break;
             }
         }
-        //TODO, bruge materialID nedenfor. Hvordan beregningen skal være oppe i løkken, afhænger af hvilke længder vi synes skal ligge i DB
-        if (carpLength <= REMBREAKPOINT) {
-            remAmount = 2;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, remAmount, "Remme i sider, sadles ned i stolper"));
-
-        } else {
-            remAmount = 4;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 5, orderId, remAmount, "Remme i sider, sadles ned i stolper"));
-        }
+        billsOfMaterials.add(new BillsOfMaterial(bomId, materialId, orderId, raftersAmount, "Spær, monteres på rem"));
+        return raftersAmount;
     }
 
-    private int getColoumnAmount(Inquiry inquiry, int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials) {
-        int coloumnAmount = 0;
-        if (carpLength <= COLUMNBREAKPOINT) {
-            // Stolpe = materialID 4
-            coloumnAmount = 4;
-        } else {
-            coloumnAmount = 6;
+    private void calcRemAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
+        int remAmount = 0;
+        //henter alle længder af remme fra 'lageret', sorteret med de korteste først
+        List<Materials> materialsList = UserFacade.getMaterialsByType("45x195 spærtræ ubh.", connectionPool);
+        int materialId = 0;
+        //vælger den bedste længde til opgaven. her bare den første der er længere end carporten
+        for (Materials materials : materialsList) {
+            if (materials.getLength() > carpLength) {
+                materialId = materials.getMaterialId();
+                remAmount = 2;
+                break;
+            }
         }
-        //HVis der er skur, så 5 stolper ekstra, hvis skuret er i halv bredde, så kun 4 ekstra. Den ene stolpe er til skurdøren.
-        if(inquiry.getShedWidth() <= carpWidth/2) {
-            coloumnAmount += 4;
+        //Hvis ingen af remmene var længere end carporten, tager vi en tur til på samme måde,
+        // men ser hvilken rem der er længere end den halve længde af carporten,
+        // således at samlingen af de to remme kan ligge ved midterstolpen
+        if (materialId == 0) {
+            for (Materials materials : materialsList) {
+                if (materials.getLength() > carpLength / 2) {
+                    materialId = materials.getMaterialId();
+                    remAmount = 4;
+                    break;
+                }
+            }
         }
-        else if(inquiry.getShedLength() > 0) {
-            coloumnAmount += 5;
-        }
+        billsOfMaterials.add(new BillsOfMaterial(bomId, materialId, orderId, remAmount, "Remme i sider, sadles ned i stolper"));
+    }
 
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
-        return coloumnAmount;
+    private int getCarportColoumnAmount(Inquiry inquiry, int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials) {
+        int carportColoumnAmount = 0;
+        if (carpLength <= COLUMNBREAKPOINT) {
+            carportColoumnAmount = 4;
+        } else {
+            carportColoumnAmount = 6;
+        }
+        return carportColoumnAmount;
+    }
+
+    private int getShedColoumnAmount(Inquiry inquiry, int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials) {
+        //HVis der er skur, så 5 stolper ekstra, hvis skuret er i halv bredde, så kun 4 ekstra. Den ene stolpe er til skurdøren.
+        int shedColoumnAmount = 0;
+        if (inquiry.getShedWidth() > 0) {
+            if (inquiry.getShedWidth() <= carpWidth / 2) {
+                shedColoumnAmount = 4;
+            } else {
+                shedColoumnAmount = 5;
+            }
+        }
+        return shedColoumnAmount;
     }
 }

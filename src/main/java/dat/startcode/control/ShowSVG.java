@@ -29,21 +29,44 @@ public class ShowSVG extends Command{
         int carpWidth = inquiry.getCarpWidth()/10;
         int carpLength = inquiry.getCarpLength()/10;
 
-        SVG svg = new SVG(0, 0, "0 0 600 840", 100, 100 );
+        SVG svg = new SVG(0, 0, "0 0 "+ carpWidth + " " + carpLength, 800, 640 );
 
         // tegn carport bredde og længde
         svg.addRect(0, 0, carpWidth, carpLength);
 
-        //tegn remme
-
         // tegn spær
-        for (int x = 0; x < carpLength/50; x++)
-        {
-            svg.addRect(10 + 50 * x, 0, carpLength, 4.5);
+        for (int x = 0; x < carpLength/50; x++) {
+            svg.addRect(50 + 50 * x, 0, carpWidth, 4.5);
         }
 
+        //tegn remme
+        svg.addRect(0, 35, 4.5, carpLength);
+        svg.addRect(0, carpWidth-35, 4.5, carpLength);
+
         // tegn kryds
-        svg.addStripedLine(0,0,carpLength, carpWidth);
+        svg.addStripedLine(50,35+4.5, carpLength-50, carpWidth-35);
+        svg.addStripedLine(50, carpWidth-35, carpLength-50, 35+4.5);
+
+        // tegn stolper
+        if (carpLength < 300){
+            svg.addRect(50-2.5, 35-2.5, 9.7, 9.7);
+            svg.addRect(carpLength-50-2.5, 35-2.5, 9.7, 9.7);
+            svg.addRect(50-2.5, carpWidth-35-2.5, 9.7, 9.7);
+            svg.addRect(carpLength-50-2.5, carpWidth-35-2.5, 9.7, 9.7);
+        }else {
+
+            svg.addRect(100 - 2.5, 35 - 2.5, 9.7, 9.7);
+            svg.addRect(carpLength - 50 - 2.5, 35 - 2.5, 9.7, 9.7);
+            svg.addRect(100 - 2.5, carpWidth - 35 - 2.5, 9.7, 9.7);
+            svg.addRect(carpLength - 50 - 2.5, carpWidth - 35 - 2.5, 9.7, 9.7);
+        }
+
+        if (carpLength > 455){
+            int x = (carpLength-100-50)/2;
+            svg.addRect(x+100, 35-2.5, 9.7, 9.7);
+            svg.addRect(x+100, carpWidth-35-2.5, 9.7, 9.7);
+        }
+
 
         request.setAttribute("svg", svg.toString());
         return "svg";

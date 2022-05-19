@@ -52,16 +52,20 @@ public class UserOrdersDTO {
         this.inquiry_id = inquiry_id;
     }
 
-    public double getCost_price() {
-        return cost_price;
+    public String getCost_price() {
+        String costPriceString = String.valueOf(cost_price).replace('.', ',');
+//        String costPriceString = String.format("%.2f",cost_price);
+        return costPriceString;
     }
 
     public void setCost_price(double cost_price) {
         this.cost_price = cost_price;
     }
 
-    public double getFinal_price() {
-        return final_price;
+    public String getFinal_price() {
+        String finalPriceString = String.valueOf(final_price).replace('.', ',');
+//        finalPriceString = finalPriceString.substring(0, finalPriceString.indexOf(',')+3);
+        return finalPriceString;
     }
 
     public void setFinal_price(double final_price) {

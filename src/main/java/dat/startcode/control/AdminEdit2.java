@@ -1,5 +1,6 @@
 package dat.startcode.control;
 
+import dat.startcode.logic.RequestCalculator;
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Order;
@@ -59,20 +60,27 @@ public class AdminEdit2 extends Command {
 
         inquiry = (Inquiry) session.getAttribute("inquiry");
 
-        Inquiry brandSpankingNewInquiry = new Inquiry(inquiry.getInquiryId(), carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength);
+        inquiry = new Inquiry(inquiry.getInquiryId(), carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength);
 
-        boolean succes = UserFacade.updateInquiryByInquiryId(brandSpankingNewInquiry, connectionPool);
+        boolean succes = UserFacade.updateInquiryByInquiryId(inquiry, connectionPool);
 
         if (succes)
-            session.setAttribute("inquiry", brandSpankingNewInquiry);
+            session.setAttribute("inquiry", inquiry);
 
         //endregion
 
-        //region opdater final price
+        //region opdater cost- og finalprice
         Order order = (Order) session.getAttribute("order");
         double finalPrice = Double.parseDouble(request.getParameter("finalPrice"));
 
-        //TODO: Delete og genbergn stykliste! før costprice updateres...
+        //Delete og genbergn stykliste! ellers opdateres costPrice ikke
+        UserFacade.deleteBoMbyID(order.getOrderId(), connectionPool);
+        //TODO: Dette skal igennem UserFacade!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        RequestCalculator rc = new RequestCalculator();
+        rc.calculate(order.getOrderId(), inquiry, connectionPool);
+        //TODO: Dette skal igennem UserFacade!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        //Nu hvor styklisten er opdateret kan der regnes på costPrice
         double costPrice = UserFacade.updateOrderCostPriceById(order.getOrderId(), connectionPool);
         succes = UserFacade.updateOrderFinalPriceById(order.getOrderId(), finalPrice, connectionPool);
         order = UserFacade.getOrderById(order.getOrderId(), connectionPool); //opdater orderen således at prisen opdateres på refresh

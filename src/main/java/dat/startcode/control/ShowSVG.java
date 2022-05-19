@@ -33,20 +33,23 @@ public class ShowSVG extends Command{
         double remThickness = 4.5;
         double columnThickness = 9.7;
 
-        SVG svg = new SVG(0, 0, "0 0 "+ carpWidth + " " + carpLength, 800, 640 );
+        SVG svg2 = new SVG(100, 100, "0 0 "+ carpWidth + " " + carpLength, 800, 640 );
+        SVG svg1 = new SVG(0, 0, "0 0 "+ carpWidth + " " + carpLength, 1000, 1000 );
 
-        drawCarportOutline(svg, carpWidth, carpLength);
-        drawShed(svg, carpWidth, carpLength, shedWidth, shedLength);
-        drawRafters(svg,carpWidth, carpLength, rafterThickness);
-        drawRems(svg, carpWidth, carpLength, rafterThickness);
-        drawCross(svg, carpWidth, carpLength, remThickness);
-        drawColumn(svg, carpWidth, carpLength, columnThickness);
+        drawCarportRoof(svg2, carpWidth, carpLength);
+        drawShed(svg2, carpWidth, carpLength, shedWidth, shedLength);
+        drawRafters(svg2,carpWidth, carpLength, rafterThickness);
+        drawRems(svg2, carpWidth, carpLength, rafterThickness);
+        drawCross(svg2, carpWidth, carpLength, remThickness);
+        drawColumnWithoutShed(svg2, carpWidth, carpLength, columnThickness);
+        svg1.addSvg(drawArrows(svg2, carpWidth, carpLength));
 
-        request.setAttribute("svg", svg.toString());
+        request.setAttribute("svg", svg1.toString());
         return "svg";
     }
 
-    public void drawCarportOutline (SVG svg, int carpWidth, int carpLength){
+
+    public void drawCarportRoof(SVG svg, int carpWidth, int carpLength){
         svg.addRect(0, 0, carpWidth, carpLength);
     }
 
@@ -56,6 +59,7 @@ public class ShowSVG extends Command{
         }
     }
 
+    // TODO: få antal spær fra styklisten og divider carpLength med det for at få afstand
     public void drawRafters(SVG svg, int carpWidth, int carpLength, double remThickness){
         for (int x = 0; x < carpLength/50; x++) {
             svg.addRect(50 + 50 * x, 0, carpWidth, remThickness);
@@ -72,7 +76,7 @@ public class ShowSVG extends Command{
         svg.addStripedLine(50, carpWidth-35, carpLength-50, 35+remThickness);
     }
 
-    public void drawColumn (SVG svg, int carpWidth, int carpLength, double columnThickness){
+    public void drawColumnWithoutShed(SVG svg, int carpWidth, int carpLength, double columnThickness){
         int frontDistance = 0;
 
         if (carpLength < 300){
@@ -93,6 +97,28 @@ public class ShowSVG extends Command{
             svg.addRect(x+100, 35-2.5, 9.7, 9.7);
             svg.addRect(x+100, carpWidth-35-2.5, 9.7, 9.7);
         }
+
+    }
+
+    public void drawColumnWithShed(SVG svg, int carpWidth, int carpLength, double columnThickness) {
+        int frontDistance = 0;
+
+        if (carpLength < 300) {
+            frontDistance = 50;
+            svg.addRect(frontDistance - 2.5, 35 - 2.5, columnThickness, columnThickness);
+            svg.addRect(frontDistance - 2.5, carpWidth - 35 - 2.5, columnThickness, columnThickness);
+        } else {
+            frontDistance = 100;
+            svg.addRect(frontDistance - 2.5, 35 - 2.5, 9.7, 9.7);
+            svg.addRect(frontDistance - 2.5, carpWidth - 35 - 2.5, 9.7, 9.7);
+        }
+    }
+
+    private SVG drawArrows(SVG svg, int carpWidth, int carpLength) {
+        SVG svg3 = new SVG(0, 0, "0 0 "+ carpWidth + " " + carpLength, 1000, 1000 );
+        svg3.addRect(0,0,1000, 1000);
+        svg3.addArrows(0,0, 0, carpWidth);
+        return svg3;
     }
 
 

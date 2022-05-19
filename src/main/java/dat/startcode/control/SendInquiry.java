@@ -13,6 +13,8 @@ import dat.startcode.model.services.UserFacade;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Time;
 import java.sql.Timestamp;
 
@@ -76,7 +78,14 @@ public class SendInquiry extends Command {
 
         //Udregn og tilføj cost_price til databasen
         double costPrice = UserFacade.updateOrderCostPriceById(orderId, connectionPool);
-        UserFacade.updateOrderFinalPriceById(orderId, costPrice * 1.3, connectionPool);
+
+        // blackmagickz (finalPrice er costprice*1,3)
+        BigDecimal bdFinalPrice = new BigDecimal(costPrice*1.3).setScale(2, RoundingMode.HALF_UP);
+
+        // omdan BigDecimal tilbage til double
+        double finalPrice = bdFinalPrice.doubleValue();
+
+        UserFacade.updateOrderFinalPriceById(orderId, finalPrice, connectionPool);
 
         return "confirmInquiry";        //TODO: nice to have: sætte nogle krav til skur mål
     }

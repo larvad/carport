@@ -70,6 +70,8 @@
                             <td>${userOrdersDTO.username}</td>
                             <td>${userOrdersDTO.phone_no}</td>
                             <td>${userOrdersDTO.inquiry_id}</td>
+<%--                            <td>${userOrdersDTO.cost_price.toString().substring(0, userOrdersDTO.cost_price.toString().indexOf('.')+3).replace('.', ',')} kr</td>--%>
+<%--                            <td>${userOrdersDTO.final_price.toString().substring(0, userOrdersDTO.final_price.toString().indexOf('.')+3).replace('.', ',')} kr</td>--%>
                             <td>${userOrdersDTO.cost_price} kr</td>
                             <td>${userOrdersDTO.final_price} kr</td>
                             <td>

@@ -48,8 +48,12 @@ public class ShowSVG extends Command{
         drawShed(svg2, carpWidth, carpLength, shedWidth, shedLength);
         drawRafters(svg2,carpWidth, carpLength);
         drawRems(svg2, carpWidth, carpLength);
-        drawCross(svg2, carpWidth, carpLength);
-        drawColumnWithoutShed(svg2, carpWidth, carpLength);
+        drawCross(svg2, carpWidth, carpLength, shedWidth, shedLength);
+        if (shedLength > 0) {
+            drawColumnWithShed(svg2, carpWidth, carpLength, shedWidth, shedLength);
+        }else{
+            drawColumnWithoutShed(svg2, carpWidth, carpLength);
+        }
         drawArrows(svg1, carpWidth, carpLength);
         svg1.addSvg(svg2);
 
@@ -64,7 +68,7 @@ public class ShowSVG extends Command{
 
     private void drawShed(SVG svg, int carpWidth, int carpLength, int shedWidth, int shedLength) {
         if (shedLength > 0){
-            svg.addRectBold(carpLength-30-shedLength, 35, shedWidth, shedLength);
+            svg.addRectBold(carpLength-ROOFBACKDISTANCE-shedLength, ROOFSIDEDISTANCE, shedWidth, shedLength);
         }
     }
 
@@ -80,9 +84,14 @@ public class ShowSVG extends Command{
         svg.addRect(0, carpWidth-ROOFSIDEDISTANCE, REMTHICKNESS, carpLength);
     }
 
-    public void drawCross (SVG svg, int carpWidth, int carpLength){
-        svg.addStripedLine(50,ROOFSIDEDISTANCE + REMTHICKNESS, carpLength-50, carpWidth-ROOFSIDEDISTANCE);
-        svg.addStripedLine(50, carpWidth-ROOFSIDEDISTANCE, carpLength-50, ROOFSIDEDISTANCE + REMTHICKNESS);
+    public void drawCross (SVG svg, int carpWidth, int carpLength, int shedWidth, int shedLength){
+        if (shedLength > 0){
+            svg.addStripedLine(50,ROOFSIDEDISTANCE + REMTHICKNESS, carpLength - ROOFBACKDISTANCE - shedLength, carpWidth-ROOFSIDEDISTANCE);
+            svg.addStripedLine(50, carpWidth-ROOFSIDEDISTANCE, carpLength - ROOFBACKDISTANCE - shedLength, ROOFSIDEDISTANCE + REMTHICKNESS);
+        }else {
+            svg.addStripedLine(50, ROOFSIDEDISTANCE + REMTHICKNESS, carpLength - 50, carpWidth - ROOFSIDEDISTANCE);
+            svg.addStripedLine(50, carpWidth - ROOFSIDEDISTANCE, carpLength - 50, ROOFSIDEDISTANCE + REMTHICKNESS);
+        }
     }
 
     public void drawColumnWithoutShed(SVG svg, int carpWidth, int carpLength){
@@ -105,8 +114,74 @@ public class ShowSVG extends Command{
 
     }
 
-    public void drawColumnWithShed(SVG svg, int carpWidth, int carpLength, double columnThickness) {
-
+    public void drawColumnWithShed(SVG svg, int carpWidth, int carpLength, int shedWidth, int shedLength) {
+        if (carpLength < 300) {
+            if (shedWidth > (carpWidth - 60) / 2) {
+                svg.addRect(ROOFFRONTDISTANCE1 - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(ROOFFRONTDISTANCE1 - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, ROOFSIDEDISTANCE - 2.5 + (carpWidth - 60) / 2, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5 + (carpWidth - 60) / 2, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            } else {
+                svg.addRect(ROOFFRONTDISTANCE1 - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(ROOFFRONTDISTANCE1 - 2.5, ROOFSIDEDISTANCE - 2.5 + carpWidth, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, ROOFSIDEDISTANCE - 2.5 + shedWidth, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5 + shedWidth, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(ROOFFRONTDISTANCE1 - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            }
+        } else {
+            if (shedWidth > (carpWidth - 60) / 2) {
+                svg.addRect(ROOFFRONTDISTANCE2 - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(ROOFFRONTDISTANCE2 - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, ROOFSIDEDISTANCE - 2.5 + (carpWidth - 60) / 2, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5 + (carpWidth - 60) / 2, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            } else {
+                svg.addRect(ROOFFRONTDISTANCE2 - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(ROOFFRONTDISTANCE2 - 2.5, ROOFSIDEDISTANCE - 2.5 + carpWidth, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, ROOFSIDEDISTANCE - 2.5 + shedWidth, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5 + shedWidth, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(ROOFFRONTDISTANCE2 - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            }
+        }
+        if (carpLength > 455) {
+            int x = (carpLength - ROOFFRONTDISTANCE2 - ROOFBACKDISTANCE) / 2;
+            if (x > shedLength) {
+                svg.addRect(x + ROOFFRONTDISTANCE2, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(x + ROOFFRONTDISTANCE2, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            }
+            if (shedWidth > (carpWidth - 60) / 2) {
+                svg.addRect(ROOFFRONTDISTANCE2 - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(ROOFFRONTDISTANCE2 - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, ROOFSIDEDISTANCE - 2.5 + (carpWidth - 60) / 2, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5 + (carpWidth - 60) / 2, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            } else {
+                svg.addRect(ROOFFRONTDISTANCE2 - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(ROOFFRONTDISTANCE2 - 2.5, ROOFSIDEDISTANCE - 2.5 + carpWidth, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5 - shedLength, ROOFSIDEDISTANCE - 2.5 + shedWidth, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5 + shedWidth, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(ROOFFRONTDISTANCE2 - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+                svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            }
+        }
     }
 
     private SVG drawArrows(SVG svg, int carpWidth, int carpLength) {

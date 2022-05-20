@@ -85,10 +85,6 @@ public class UserFacade {
         return orderMapper.getStatusByUserId(userID);
     }
 
-    public static Order insertEarlyOrderIntoDB(int userID, int inquiryID, ConnectionPool connectionPool) throws DatabaseException {
-        OrderMapper orderMapper = new OrderMapper(connectionPool);
-        return orderMapper.insertEarlyOrderIntoDB(userID, inquiryID);
-    }
     public static List<BomDTO> showBOMTraeOgTagplader(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
         return billsOfMaterialMapper.showBOMTraeOgTagplader(orderId);

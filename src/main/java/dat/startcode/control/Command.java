@@ -28,6 +28,8 @@ abstract class Command
         commands.put("redirect", new Redirect());
         commands.put("showSVG", new ShowSVG());
         commands.put("createBOM", new CreateBOM());
+        commands.put("profileUpdate", new ProfileUpdate());
+
     }
 
 

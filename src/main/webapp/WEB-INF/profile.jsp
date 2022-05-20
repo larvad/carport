@@ -25,15 +25,15 @@
 
                                 <div class="d-flex justify-content-between align-items-center mb-5">
                                     <div>
-                                        <h5 class="mb-0">INVOICE <span class="textOrder">ORDER ID #${requestScope.statusDTO.orderID}</span></h5>
+                                        <h5 class="mb-0">INVOICE <span class="textOrder">ORDER ID #${sessionScope.statusDTO.orderID}</span></h5>
                                     </div>
                                 </div>
                                 <div class="statusContent">
 
                                     <ul id="progressbar-2" class="d-flex justify-content-between mx-0 mt-0 mb-5 ">
-                                        <li class="step0<c:if test="${requestScope.statusDTO.statusID >= 1}"> active </c:if> text-center" id="step1"></li>
-                                        <li class="step0 <c:if test="${requestScope.statusDTO.statusID >= 2}"> active </c:if> text-center" id="step2"></li>
-                                        <li class="step0 text-muted text-end" id="step4"></li>
+                                        <li class="step0<c:if test="${sessionScope.statusDTO.statusID >= 1}"> active </c:if> text-center" id="step1"></li>
+                                        <li class="step0 <c:if test="${sessionScope.statusDTO.statusID >= 2}"> active </c:if> text-center" id="step2"></li>
+                                        <li class="step0 <c:if test="${sessionScope.statusDTO.statusID == 3}"> active </c:if> text-muted text-end" id="step4"></li>
                                     </ul>
                                     <div class="d-flex text">
                                         <div class="d-lg-flex align-items-center">
@@ -44,7 +44,7 @@
                                             </div>
                                         </div>
                                         <div class="d-lg-flex align-items-center move move2">
-                                            <c:if test="${requestScope.statusDTO.statusID == 1}">
+                                            <c:if test="${sessionScope.statusDTO.statusID == 1}">
                                                 <div class="status-header">
                                                     <div class="loader"></div>
                                                 </div>
@@ -53,7 +53,7 @@
                                                     <p class="fw-bold mb-0">Bekræftigelse</p>
                                                 </div>
                                             </c:if>
-                                            <c:if test="${requestScope.statusDTO.statusID == 2}">
+                                            <c:if test="${sessionScope.statusDTO.statusID >= 2}">
                                                 <div class="status-header">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16" style="color: green">
                                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
@@ -66,18 +66,18 @@
                                             </c:if>
                                         </div>
                                         <div class="d-lg-flex align-items-center move">
-                                            <c:if test="${requestScope.statusDTO.statusID == 2}">
+                                            <c:if test="${sessionScope.statusDTO.statusID == 2}">
                                                 <div class="status-header">
                                                     <div class="loader"></div>
                                                 </div>
                                             </c:if>
-                                                <c:if test="${requestScope.statusDTO.statusID >= 1}">
+                                                <c:if test="${sessionScope.statusDTO.statusID <= 2}">
                                                 <div>
                                                     <p class="fw-bold mb-1">Afventer</p>
                                                     <p class="fw-bold mb-0">Betaling</p>
                                                 </div>
                                                 </c:if>
-                                            <c:if test="${requestScope.statusDTO.statusID == 3}">
+                                            <c:if test="${sessionScope.statusDTO.statusID == 3}">
                                                 <div class="status-header">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16" style="color: green">
                                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
@@ -89,7 +89,7 @@
                                                 </div>
                                             </c:if>
                                             <div class="d-lg-flex align-items-center">
-                                                <c:if test="${requestScope.statusDTO.statusID >= 2}">
+                                                <c:if test="${sessionScope.statusDTO.statusID >= 2}">
                                                     <div class="adminBox">
                                                         <img src="../images/jensjensen.jpg">
                                                         <div class="p2">
@@ -100,7 +100,7 @@
                                                         </div>
                                                     </div>
                                                 </c:if>
-                                                <c:if test="${requestScope.statusDTO.statusID < 2}">
+                                                <c:if test="${sessionScope.statusDTO.statusID < 2}">
                                                     <div class="adminBox adminBox2">
                                                         <img src="../images/afventerPb.jpg">
                                                         <div class="p2">
@@ -112,15 +112,24 @@
                                         </div>
                                     </div>
                                 </div>
-                                <c:if test="${requestScope.statusDTO.statusID >= 2}">
+                                <c:if test="${sessionScope.statusDTO.statusID >= 2}">
                                     <div class="listAndPay">
                                         <div class="leftSide">
                                             <h2>Pris-total</h2>
                                             <h3>DKK 51232 </h3>
                                         </div>
                                         <div class="rightSide">
-                                            <div class="btn btn-layer1 btnList">Se tegning</div>
-                                            <div class="btn btn-layer1 btnList btn-layer5">Betal</div>
+                                            <form action="fc/showSVG?command=showSVG" method="post">
+                                                <input type="hidden" name="drawing" value="${sessionScope.statusDTO.orderID}"/>
+                                                <input type="submit" class="btn btn-layer1 btnList" value="SE TEGNING"/>
+                                            </form>
+                                            <form action="fc/profileUpdate?command=profileUpdate" method="post">
+                                                <input type="hidden" name="update" value="3"/>
+                                                <input type="submit" class="btn btn-layer1 btnList btn-layer5" value="Betal"/>
+                                            </form>
+
+<%--                                            <div class="btn btn-layer1 btnList">Se tegning</div>--%>
+<%--                                            <div class="btn btn-layer1 btnList btn-layer5">Betal</div>--%>
                                         </div>
                                     </div>
                                 </c:if>

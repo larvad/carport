@@ -49,6 +49,10 @@ public class UserFacade {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         return orderMapper.setOrderStatusByOrderId(orderId);
     }
+    public static boolean setOrderStatusByOrderId2(int orderId ,ConnectionPool connectionPool) throws DatabaseException {
+        OrderMapper orderMapper = new OrderMapper(connectionPool);
+        return orderMapper.setOrderStatusByOrderId2(orderId);
+    }
 
     public static boolean deleteOrderByOrderId(int orderId,ConnectionPool connectionPool) throws DatabaseException{
         OrderMapper orderMapper = new OrderMapper(connectionPool);

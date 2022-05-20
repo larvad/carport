@@ -31,9 +31,6 @@
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                 </ul>
                 <div class="buttonsRight">
-                    <c:if test="${sessionScope.user.roleId == 2 }">
-                        <a class="nav-item nav-link" href="${pageContext.request.contextPath}/fc/admin?command=admin">Big Money</a>
-                    </c:if>
                     <c:if test="${sessionScope.user == null }">
                     <div class="dropdown dropdown-color">
                         <button class="btn btn-secondary dropdown-toggle btn-layer1" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -56,9 +53,14 @@
                     </div>
                     <a class="btn btn-layer2" href="${pageContext.request.contextPath}/createUser.jsp">Opret bruger</a>
                     </c:if>
+                    <c:if test="${sessionScope.user.roleId == 1 }">
+                    <a class="profilKnap" href="${pageContext.request.contextPath}/fc/profile?command=profile">Min profil</a>
+                    </c:if>
+                    <c:if test="${sessionScope.user.roleId == 2 }">
+                        <a class="profilKnap" href="${pageContext.request.contextPath}/fc/admin?command=admin">Small Money</a>
+                    </c:if>
                     <c:if test="${sessionScope.user != null }">
-                        <a class="profilKnap" href="${pageContext.request.contextPath}/fc/profile?command=profile">Min profil</a>
-                    <a class="btn btn-layer1" href="${pageContext.request.contextPath}/fc/logout?command=logout">Log out</a>
+                        <a class="btn btn-layer1" href="${pageContext.request.contextPath}/fc/logout?command=logout">Log out</a>
                     </c:if>
                 </div>
             </div>

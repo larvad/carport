@@ -13,6 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowSVG extends Command{
 
+    private final double RAFTERTHICKNESS = 4.5;
+    private final double REMTHICKNESS = 4.5;
+    private final double COLUMNTHICKNESS = 9.7;
+    private final int ROOFSIDEDISTANCE = 30;
+    private final int ROOFBACKDISTANCE = 50;
+    private int roofFrontDistance = 100;
+    private final int ROOFFRONTDISTANCE1 = 50;
+    private final int ROOFFRONTDISTANCE2 = 100;
+
     private ConnectionPool connectionPool;
 
     public ShowSVG() {
@@ -29,20 +38,19 @@ public class ShowSVG extends Command{
         int carpLength = inquiry.getCarpLength()/10;
         int shedWidth = inquiry.getShedWidth()/10;
         int shedLength = inquiry.getShedLength()/10;
-        double rafterThickness = 4.5;
-        double remThickness = 4.5;
-        double columnThickness = 9.7;
 
-        SVG svg1 = new SVG(0, 0, "0 0 "+ carpWidth + " " + carpLength, 1000, 1000 );
-        SVG svg2 = new SVG(100, 100, "0 0 "+ carpWidth + " " + carpLength, 800, 640 );
+        // SVG svg1 = new SVG(0, 0, "0 0 "+ carpWidth + " " + carpLength, 1000, 1000 );
+        SVG svg1 = new SVG(0, 0, "0 0 1000 1000", 1000, 1000 );
+        SVG svg2 = new SVG(100, 100, "0 0 "+ carpLength + " " + carpWidth, carpLength, carpWidth );
+
 
         drawCarportRoof(svg2, carpWidth, carpLength);
         drawShed(svg2, carpWidth, carpLength, shedWidth, shedLength);
-        drawRafters(svg2,carpWidth, carpLength, rafterThickness);
-        drawRems(svg2, carpWidth, carpLength, rafterThickness);
-        drawCross(svg2, carpWidth, carpLength, remThickness);
-        drawColumnWithoutShed(svg2, carpWidth, carpLength, columnThickness);
-        drawArrows(svg2, carpWidth, carpLength);
+        drawRafters(svg2,carpWidth, carpLength);
+        drawRems(svg2, carpWidth, carpLength);
+        drawCross(svg2, carpWidth, carpLength);
+        drawColumnWithoutShed(svg2, carpWidth, carpLength);
+        drawArrows(svg1, carpWidth, carpLength);
         svg1.addSvg(svg2);
 
         request.setAttribute("svg", svg1.toString());
@@ -61,63 +69,49 @@ public class ShowSVG extends Command{
     }
 
     // TODO: få antal spær fra styklisten og divider carpLength med det for at få afstand
-    public void drawRafters(SVG svg, int carpWidth, int carpLength, double remThickness){
+    public void drawRafters(SVG svg, int carpWidth, int carpLength){
         for (int x = 0; x < carpLength/50; x++) {
-            svg.addRect(50 + 50 * x, 0, carpWidth, remThickness);
+            svg.addRect(50 + 50 * x, 0, carpWidth, RAFTERTHICKNESS);
         }
     }
 
-    public void drawRems (SVG svg, int carpWidth, int carpLength, double rafterThickness){
-        svg.addRect(0, 35, rafterThickness, carpLength);
-        svg.addRect(0, carpWidth-35, rafterThickness, carpLength);
+    public void drawRems (SVG svg, int carpWidth, int carpLength){
+        svg.addRect(0, ROOFSIDEDISTANCE, REMTHICKNESS, carpLength);
+        svg.addRect(0, carpWidth-ROOFSIDEDISTANCE, REMTHICKNESS, carpLength);
     }
 
-    public void drawCross (SVG svg, int carpWidth, int carpLength, double remThickness){
-        svg.addStripedLine(50,35+remThickness, carpLength-50, carpWidth-35);
-        svg.addStripedLine(50, carpWidth-35, carpLength-50, 35+remThickness);
+    public void drawCross (SVG svg, int carpWidth, int carpLength){
+        svg.addStripedLine(50,ROOFSIDEDISTANCE + REMTHICKNESS, carpLength-50, carpWidth-ROOFSIDEDISTANCE);
+        svg.addStripedLine(50, carpWidth-ROOFSIDEDISTANCE, carpLength-50, ROOFSIDEDISTANCE + REMTHICKNESS);
     }
 
-    public void drawColumnWithoutShed(SVG svg, int carpWidth, int carpLength, double columnThickness){
-        int frontDistance = 0;
-
+    public void drawColumnWithoutShed(SVG svg, int carpWidth, int carpLength){
         if (carpLength < 300){
-            frontDistance = 50;
-            svg.addRect(frontDistance-2.5, 35-2.5, columnThickness, columnThickness);
-            svg.addRect(carpLength-50-2.5, 35-2.5, columnThickness, columnThickness);
-            svg.addRect(frontDistance-2.5, carpWidth-35-2.5, columnThickness, columnThickness);
-            svg.addRect(carpLength-50-2.5, carpWidth-35-2.5, columnThickness, columnThickness);
+            svg.addRect(ROOFFRONTDISTANCE1-2.5, ROOFSIDEDISTANCE-2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            svg.addRect(carpLength-ROOFBACKDISTANCE-2.5, ROOFSIDEDISTANCE-2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            svg.addRect(ROOFFRONTDISTANCE1-2.5, carpWidth-ROOFSIDEDISTANCE-2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            svg.addRect(carpLength-ROOFBACKDISTANCE-2.5, carpWidth-ROOFSIDEDISTANCE-2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
         }else {
-            frontDistance = 100;
-            svg.addRect(frontDistance - 2.5, 35 - 2.5, 9.7, 9.7);
-            svg.addRect(carpLength - 50 - 2.5, 35 - 2.5, 9.7, 9.7);
-            svg.addRect(frontDistance - 2.5, carpWidth - 35 - 2.5, 9.7, 9.7);
-            svg.addRect(carpLength - 50 - 2.5, carpWidth - 35 - 2.5, 9.7, 9.7);
+            svg.addRect(ROOFFRONTDISTANCE2 - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            svg.addRect(ROOFFRONTDISTANCE2 - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            svg.addRect(carpLength - ROOFBACKDISTANCE - 2.5, carpWidth - ROOFSIDEDISTANCE - 2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
         }
         if (carpLength > 455){
-            int x = (carpLength-100-50)/2;
-            svg.addRect(x+100, 35-2.5, 9.7, 9.7);
-            svg.addRect(x+100, carpWidth-35-2.5, 9.7, 9.7);
+            int x = (carpLength-ROOFFRONTDISTANCE2-ROOFBACKDISTANCE)/2;
+            svg.addRect(x + ROOFFRONTDISTANCE2, ROOFSIDEDISTANCE-2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
+            svg.addRect(x + ROOFFRONTDISTANCE2, carpWidth-ROOFSIDEDISTANCE-2.5, COLUMNTHICKNESS, COLUMNTHICKNESS);
         }
 
     }
 
     public void drawColumnWithShed(SVG svg, int carpWidth, int carpLength, double columnThickness) {
-        int frontDistance = 0;
 
-        if (carpLength < 300) {
-            frontDistance = 50;
-            svg.addRect(frontDistance - 2.5, 35 - 2.5, columnThickness, columnThickness);
-            svg.addRect(frontDistance - 2.5, carpWidth - 35 - 2.5, columnThickness, columnThickness);
-        } else {
-            frontDistance = 100;
-            svg.addRect(frontDistance - 2.5, 35 - 2.5, 9.7, 9.7);
-            svg.addRect(frontDistance - 2.5, carpWidth - 35 - 2.5, 9.7, 9.7);
-        }
     }
 
     private SVG drawArrows(SVG svg, int carpWidth, int carpLength) {
-        svg.addRect(0,0,1000, 1000);
-        svg.addArrows(0,0, 0, carpWidth);
+        svg.addArrows(50 + 6,100, 50 + 6, carpWidth + 100);
+        svg.addArrows(100, carpWidth + 150 + 6, carpLength + 100, carpWidth + 150 +6 );
         return svg;
     }
 

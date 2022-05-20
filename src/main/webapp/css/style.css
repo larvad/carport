@@ -49,6 +49,10 @@ th, td {
     border: 3px solid #ffcc03 !important;
     color: #ffcc03 !important;
 }
+.btn-layer1:hover {
+    background-color: #ffcc03 !important;
+    color: black !important;
+}
 .btn-layer2 {
     background-color: #ffcc03 !important;
     width: 200px !important;
@@ -463,6 +467,9 @@ th, td {
  }
  p .bold {
      font-family: "Arial Black", Gadget, sans-serif;
+ }
+ .profilKnap:hover {
+     color: #ffcc03;
  }
 
 

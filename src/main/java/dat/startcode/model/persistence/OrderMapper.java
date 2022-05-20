@@ -2,6 +2,8 @@ package dat.startcode.model.persistence;
 
 import dat.startcode.model.dto.StatusDTO;
 import dat.startcode.model.dto.UserOrdersDTO;
+import dat.startcode.model.entities.BillsOfMaterial;
+import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.exceptions.DatabaseException;
 
@@ -88,6 +90,7 @@ public class OrderMapper {
         return userOrdersDTOList;
     }
 
+
     public boolean setOrderStatusByOrderId(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
@@ -151,7 +154,6 @@ public class OrderMapper {
                 ps.setInt(2, userId);
                 ps.setInt(3, status);
 
-
                 int rowsAffected = ps.executeUpdate();
                 if (rowsAffected == 1) {
 
@@ -170,6 +172,7 @@ public class OrderMapper {
 
         return newOrderId;
     }
+
     public StatusDTO getStatusByUserId(int userId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
@@ -198,6 +201,43 @@ public class OrderMapper {
     }
 
 
+    public Order insertEarlyOrderIntoDB(int userID, int inquiryID) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+        int newOrderID = 0;
+        String sql = "INSERT INTO carport.order (order_id, user_id, inquiry_id," +
+                " cost_price, final_price, status_id, timestamp) values (?, ?, ?, ?, ?, ?, NOW())";
+
+        Order earlyOrder = null;
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setInt(1, 0);
+                ps.setInt(2, userID);
+                ps.setInt(3, inquiryID);
+                ps.setInt(4, 0);
+                ps.setInt(5, 0);
+                ps.setInt(6, 1);
+
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected == 1) {
+
+                }
+                ResultSet idResultset = ps.getGeneratedKeys();
+                if (idResultset.next()) {
+                    newOrderID = idResultset.getInt(1);
+                    earlyOrder = new Order(newOrderID, userID, inquiryID, "", 0, 0, 1, null);
+
+                } else {
+                    throw new DatabaseException("");
+                }
+            }
+        } catch (SQLException | DatabaseException ex) {
+            throw new DatabaseException(ex, "Forespørgsel kunne ikke sættes i databasen");
+        }
+
+        return earlyOrder;
+    }
+
+
     public boolean updateOrderFinalPriceById(int orderId, double price) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
@@ -221,6 +261,60 @@ public class OrderMapper {
             throw new DatabaseException(ex, "Orderen kunne ikke sættes i databasen");
         }
 
+        return result;
+    }
+
+    public double calcNewCostPrice(int order_id) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        double costPrice = -1;
+
+        String sql = "SELECT SUM(price*quantity) as cost_price FROM carport.materials " +
+                "INNER JOIN carport.bills_of_material " +
+                "USING(material_id) " +
+                "WHERE order_id = ?;";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, order_id);
+
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+
+                    costPrice = rs.getDouble("cost_price");
+                }
+                if (costPrice < 0) {
+                    throw new DatabaseException("Fejl. Kunne ikke beregne ny cost_price");
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DatabaseException(ex, "Something went wrong with the database");
+        }
+        return costPrice;
+    }
+
+    public boolean updateOrderCostPriceById(int orderId, double price) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        boolean result = false;
+
+        String sql = "UPDATE carport.order SET cost_price = ? WHERE carport.order.order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setDouble(1, price);
+                ps.setInt(2, orderId);
+
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected == 1) {
+                    result = true;
+                } else {
+                    throw new DatabaseException("Mere/mindre end 1 row affected da order med id = " + orderId + ". Skulle updates! (check evt. databasen for fejl)");
+                }
+            }
+        } catch (SQLException | DatabaseException ex) {
+            throw new DatabaseException(ex, "Orderen kunne ikke sættes i databasen");
+        }
 
         return result;
     }

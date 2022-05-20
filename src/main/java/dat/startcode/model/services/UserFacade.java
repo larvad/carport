@@ -1,17 +1,17 @@
 package dat.startcode.model.services;
 
 import dat.startcode.model.dto.StatusDTO;
+import dat.startcode.model.dto.BomDTO;
 import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Materials;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
+import dat.startcode.model.dto.BomDTO;
+import dat.startcode.model.entities.*;
 import dat.startcode.model.exceptions.DatabaseException;
-import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.persistence.MaterialsMapper;
-import dat.startcode.model.persistence.RequestMapper;
-import dat.startcode.model.persistence.UserMapper;
+import dat.startcode.model.persistence.*;
 import dat.startcode.model.dto.UserOrdersDTO;
-import dat.startcode.model.persistence.OrderMapper;
+
 import java.util.List;
 
 public class UserFacade {
@@ -84,7 +84,28 @@ public class UserFacade {
     public static StatusDTO getStatusDTOByUserID (int userID, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         return orderMapper.getStatusByUserId(userID);
+    }
 
+    public static List<BomDTO> showBOMTraeOgTagplader(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
+        return billsOfMaterialMapper.showBOMTraeOgTagplader(orderId);
+    }
+
+    public static List<BomDTO> showBOMSkruerOgBeslag(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
+        return billsOfMaterialMapper.showBOMSkruerOgBeslag(orderId);
+    }
+
+    public static boolean deleteBoMbyID(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
+        return billsOfMaterialMapper.deleteBoMbyId(orderId);
+    }
+
+    public static double updateOrderCostPriceById(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+        OrderMapper orderMapper = new OrderMapper(connectionPool);
+        double costPrice = orderMapper.calcNewCostPrice(orderId);
+        boolean success = orderMapper.updateOrderCostPriceById(orderId, costPrice);
+        return costPrice;
     }
 }
 

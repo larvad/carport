@@ -5,17 +5,17 @@ import dat.startcode.model.dto.StatusDTO;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.persistence.OrderMapper;
 import dat.startcode.model.services.UserFacade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class Profile extends Command{
+public class ProfileUpdate extends Command {
 
     private ConnectionPool connectionPool;
-    public Profile() {
+
+    public ProfileUpdate() {
         this.connectionPool = ApplicationStart.getConnectionPool();
     }
 
@@ -28,10 +28,9 @@ public class Profile extends Command{
         int userId = user.getUserId();
 
         StatusDTO statusDTO = UserFacade.getStatusDTOByUserID(userId, connectionPool);
-        if (request.getParameter("statusDTO") == null) {
-
-            session.setAttribute("statusDTO", statusDTO);
-        }
+        UserFacade.setOrderStatusByOrderId2(statusDTO.getOrderID(), connectionPool);
+        statusDTO = UserFacade.getStatusDTOByUserID(userId, connectionPool);
+        session.setAttribute("statusDTO", statusDTO);
 
         return "profile";
     }

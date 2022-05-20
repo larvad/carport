@@ -113,6 +113,29 @@ public class OrderMapper {
 
         return true;
     }
+    public boolean setOrderStatusByOrderId2(int orderId) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        boolean result = false;
+
+        String sql = "UPDATE carport.order SET status_id = 3 WHERE carport.order.order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, orderId);
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected == 1) {
+                    result = true;
+                } else {
+                    throw new DatabaseException("Mere/mindre end 1 row affected da order med id = " + orderId + ". Skulle updates! (check evt. databasen for fejl)");
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DatabaseException("Kunne ikke opdatere order status for order med id = " + orderId);
+        }
+
+        return true;
+    }
 
     public boolean deleteOrderByOrderId(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");

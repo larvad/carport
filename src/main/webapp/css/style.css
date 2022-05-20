@@ -5,6 +5,16 @@ table {
     border: 1px solid silver;
     padding:15px;
 }
+.verticalSpans {
+    display: -moz-inline-block;
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1em;
+}
+.footer {
+    font-family: "Arial Black", Gadget, sans-serif !important;
+}
 
 th, td {
     border: 1px solid silver;
@@ -228,11 +238,11 @@ th, td {
 }
 
 .loader {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #003d76; /* Blue */
+    border: 12px solid #f3f3f3; /* Light grey */
+    border-top: 12px solid #003d76; /* Blue */
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 60px;
+    height: 60px;
     animation: spin 2s linear infinite;
 
 }
@@ -241,9 +251,10 @@ th, td {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-.hej {
-    margin-top: 70px;
+.status-header {
+    padding-right: 20px;
 }
+
 .card-stepper {
     z-index: 0;
 }
@@ -327,7 +338,7 @@ th, td {
 #progressbar-2 li:nth-child(3):after {
     left: 1%;
     width: 100%;
-    background: #c5cae9 !important;
+    background: rgba(255, 255, 255, 0.24) !important;
 }
 
 #progressbar-2 li:nth-child(4) {
@@ -353,7 +364,105 @@ th, td {
 .confirm>img {
     margin-left: 50px;
 }
+.text .move{
+    margin-left: 255px;
+}
+.text .move2{
+    margin-left: 275px;
+}
+.statusContent {
+
+}
+.box1 h1 {
+    font-family: "Arial Black", Gadget, sans-serif;
+    text-align: center;
+    font-size: 60px;
+    text-transform: uppercase;
+    margin-bottom: 70px;
+
+}
+.adminBox {
+    margin-left: 50px;
+    width: 230px;
+    height: 230px;
+    margin-top: -150px;
+    font-size: 14px;
+    text-align: center;
+}
+.adminBox2{
+    margin-left: 75px;
+
+}
+.adminBox .p2 {
+    margin-top: 8px;
+
+}
+.adminBox>img {
+    width: 150px;
+    height: auto;
 
 
+}
+.textOrder {
+
+    font-family: "Arial Black", Gadget, sans-serif;
+    color: #003d76;
+}
+
+.vh-100 {
+    margin-bottom: 100px !important;
+    border-color: green !important;
+}
+
+.listAndPay {
+    margin-top: 20px;
+    height: 200px;
+    background-color: #003d76;
+}
+
+.btnList {
+
+    margin-right: 20px;
+    width: 200px !important;
+    margin-top: 125px;
+
+}
+.listAndPay .rightSide {
+    position: relative;
+    left: 750px;
+    bottom: 160px;
+
+}
+.btn-layer5 {
+    background-color: green !important;
+    color: white !important;
+    border-color: green !important;
+}
+.listAndPay {
+    font-family: "Arial Black", Gadget, sans-serif;
+    color: white;
+    text-transform: uppercase;
+}
+.listAndPay h2 {
+    position: relative;
+    top: 25px;
+    left: 40px;
+    font-size: 50px;
+
+}.listAndPay h3 {
+    position: relative;
+    top: 40px;
+    left: 40px;
+    font-size: 30px;
+
+}
+ .p2 p {
+     text-align: left !important;
+     padding-left: 40px;
+     font-size: 12px;
+ }
+ p .bold {
+     font-family: "Arial Black", Gadget, sans-serif;
+ }
 
 

@@ -1,13 +1,10 @@
 package dat.startcode.model.persistence;
 
+import dat.startcode.model.dto.StatusDTO;
 import dat.startcode.model.dto.UserOrdersDTO;
-import dat.startcode.model.entities.BillsOfMaterial;
-import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Order;
-import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 
-import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -172,6 +169,32 @@ public class OrderMapper {
 
 
         return newOrderId;
+    }
+    public StatusDTO getStatusByUserId(int userId) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        StatusDTO statusDTO = null;
+
+        String sql = "SELECT * FROM carport.order " +
+                "WHERE user_id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, userId);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+
+                    int orderId = rs.getInt("order_id");
+                    int statusId = rs.getInt("status_id");
+                    statusDTO = new StatusDTO(orderId, statusId);
+                } else {
+                    throw new DatabaseException("Fejl. Kunne ikke finde orderen.");
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DatabaseException(ex, "Something went wrong with the database");
+        }
+        return statusDTO;
     }
 
 

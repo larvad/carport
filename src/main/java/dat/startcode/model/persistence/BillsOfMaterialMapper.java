@@ -125,7 +125,7 @@ public class BillsOfMaterialMapper {
                 throw new DatabaseException("kunne ikke finde nogle orde med det Id");
             }
         } catch (SQLException ex) {
-            throw new DatabaseException(ex, "Could not insert BOM into database");
+            throw new DatabaseException(ex, "Kunne ikke vise træ og tagplader");
         }
         return bomDTOList;
     }
@@ -157,7 +157,7 @@ public class BillsOfMaterialMapper {
                 throw new DatabaseException("kunne ikke finde nogle orde med det Id");
             }
         } catch (SQLException ex) {
-            throw new DatabaseException(ex, "Could not insert BOM into database");
+            throw new DatabaseException(ex, "Kunne ikke vise skruer og beslag");
         }
         return bomDTOList;
     }

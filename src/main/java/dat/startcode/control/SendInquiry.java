@@ -77,8 +77,6 @@ public class SendInquiry extends Command {
         request.setAttribute("inquiry", inquiry);
 
         //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
-//        RequestCalculator requestCalculator = new RequestCalculator();
-//        requestCalculator.calculate(orderId, inquiry, connectionPool);
         UserFacade.calculate(orderId, inquiry, connectionPool);
 
         //Udregn og tilføj cost_price til databasen

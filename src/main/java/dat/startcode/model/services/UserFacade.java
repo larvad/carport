@@ -123,6 +123,11 @@ public class UserFacade {
         BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
         return billsOfMaterialMapper.insertBOMList(billsOfMaterials);
     }
+
+    public static Materials getRoofTopTile(String roofType, ConnectionPool connectionPool) throws DatabaseException {
+        MaterialsMapper materialsMapper = new MaterialsMapper(connectionPool);
+        return  materialsMapper.getRoofTopTile(roofType);
+    }
 }
 
 //TODO: lave UserFacade om til Facade, og rykke den op i persistence mappen. Lade alle vores klasser i control køre deres metoder over facaden.

@@ -92,6 +92,6 @@ public class SendInquiry extends Command {
 
         UserFacade.updateOrderFinalPriceById(orderId, finalPrice, connectionPool);
 
-        return "confirmInquiry";        //TODO: nice to have: sætte nogle krav til skur mål
+        return "confirmInquiry";
     }
 }

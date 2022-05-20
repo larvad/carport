@@ -149,5 +149,44 @@ public class MaterialsMapper {
         return materialsList;
     }
 
+    public Materials getRoofTopTile(String roofType) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        //Splitter typen for at få farven på teglstenene, så der kan sendes samme farve rygsten med. Skråstregerne da ( er et reserveret tegn.
+        String[] roofTypeArray = roofType.split("\\(");
+        String color = "%(" + roofTypeArray[1] + "%";
+
+        Materials topTile = null;
+
+        String sql = "SELECT * FROM carport.materials WHERE carport.materials.type LIKE '%Rygsten%' AND carport.materials.type LIKE ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, color);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+
+                    int materialId = rs.getInt("material_id");
+                    String type = rs.getString("type");
+                    int height = rs.getInt("height");
+                    int width = rs.getInt("width");
+                    int length = rs.getInt("length");
+                    String unit = rs.getString("unit");
+                    int categoryId = rs.getInt("category_id");
+                    int angle = rs.getInt("angle");
+                    int rollLength = rs.getInt("roll_length");
+                    int amountInBox = rs.getInt("amount_in_box");
+                    double price = rs.getDouble("price");
+                    topTile = new Materials(materialId, type, height, width, length, unit, categoryId, price);
+                }
+                else {
+                    throw new DatabaseException("Fejl. Materialet var ikke i databasen?");
+                }
+            }
+        } catch (SQLException | DatabaseException ex) {
+            throw new DatabaseException(ex, "Something went wrong with the database");
+        }
+        return topTile;
+    }
 }
 

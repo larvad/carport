@@ -16,8 +16,6 @@ public class RequestCalculator {
      Derfor følgende breakpoint */
     //STOLPER
     private final int COLUMNBREAKPOINT = 4550;
-    //REMME
-    private final int REMBREAKPOINT = 4800 - 200;
     //SPÆR
     private final int MAXDISTANCERAFTERS = 600;
     private final int RAFTERSTHICKNESS = 45;
@@ -49,42 +47,180 @@ public class RequestCalculator {
         // FINDER REMME
         calcRemAmount(orderId, carpLength, billsOfMaterials, connectionPool);
 
-        // FINDER SPÆR //TODO: afstanden spærrene skal sættes op med skal gemmes til vejledningen
+        // FINDER SPÆR //TODO: afstanden spærrene skal sættes op med skal gemmes til vejledningen/tegningen
         int raftersAmount = getRaftersAmount(orderId, carpLength, carpWidth, billsOfMaterials, connectionPool);
 
         //BEREGNING AF TAGPLADER
-        calcRoofPlateAmount(orderId, carpLength, carpWidth, billsOfMaterials);
+        int slope = inquiry.getRoofSlope();
+        if (slope == 0) { //Fladt tag
+            calcRoofPlateAmount(orderId, carpLength, carpWidth, billsOfMaterials);
+        } else { //Tag med rejsning
+            calcRoofTiles(orderId, inquiry, connectionPool, carpLength, carpWidth, billsOfMaterials, slope);
+        }
 
         //SIDSTE BRÆDDER HVOR LÆNGDEN KAN VARIERE
-        //******************** BREDDE ****************
+        //******************** til carportens bredde ****************
         calcFasciaBoardsForCarpWidth(orderId, carpWidth, billsOfMaterials, connectionPool);
         calcOuterFasciaBoardsForCarpWidth(orderId, carpWidth, billsOfMaterials, connectionPool);
-
-        //TODO: ikke fixet med de forskellige længder og bredder carport
-
-
-        //        19x100	mm.	trykimp.	Bræt		 360 2 Stk vandbræt	på	stern	i	forende
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 60, orderId, 2, "Vandbræt på stern i forende"));
-        // materialeId 8 l: 480,  materialeId 9 l: 240,  materialeId 10 l: 210,  materialeId 59 l: 540
-
-        // ******************* LÆNGDE *******************
-//        25x200	mm.	trykimp.	Bræt 540 4 Stk understernbrædder	til	siderne
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 56, orderId, 4, "Understernbrædder til siderne"));
-        // materialeId 55 l: 360
-
-//        25x125mm.	trykimp.	Bræt 540 4 Stk oversternbrædder	til	siderne
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 58, orderId, 4, "Oversternbrædder til siderne"));
-        // materialeId 57 l: 360
-
-//        19x100	mm.	trykimp.	Bræt		 540 4 Stk vandbræt	på	stern	i	sider
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 59, orderId, 4, "Vandbræt på stern i sider"));
-        // materialeId 8 l: 480,  materialeId 9 l: 240,  materialeId 10 l: 210,  materialeId 60 l: 360
+        calcWaterBoardForCarpWidth(orderId, carpWidth, billsOfMaterials, connectionPool);
+        // ******************* til carpotens længde *******************
+        calcFasciaBoardForCarpLength(orderId, carpLength, billsOfMaterials, connectionPool);
+        calcOuterFasciaBoardForCarpLength(orderId, carpLength, billsOfMaterials, connectionPool);
+        calcWaterBoardForCarpLength(orderId, carpLength, billsOfMaterials, connectionPool);
 
         //DELE DER ALTID SKAL MED
         addMiscallaneous(orderId, shedWidth, raftersAmount, carportColoumnAmount, shedLength, billsOfMaterials);
 
         //SÆTTE IND I DATABASEN
         List<BillsOfMaterial> bomListWithId = UserFacade.insertBOMList(billsOfMaterials, connectionPool);
+    }
+
+    private void calcRoofTiles(int orderId, Inquiry inquiry, ConnectionPool connectionPool, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials, int slope) throws DatabaseException {
+        //Henter valgte tagsten fra databasen
+        List<Materials> roofTilesList = UserFacade.getMaterialsByType(inquiry.getRoofType(), connectionPool);
+        int roofTileId = roofTilesList.get(0).getMaterialId();
+        //Beregner tagstenenes areal, til beregning af hvor mange der skal bruges
+        int squareTile = roofTilesList.get(0).getLength() * roofTilesList.get(0).getWidth();
+        //Hvor meget taget skal stikke ud over carporten
+        int roofOverlay = 50 + 50;
+        double halfCarpWidth = (carpWidth + roofOverlay) / 2;
+        //Trigonometri, finder hypotenusen ud fra en vinkel og en side, for at finde ud af hvor lang den løftede side på taget er
+        double slopeInRadians = Math.toRadians(slope);
+        double roofWidthDouble = halfCarpWidth / Math.cos(slopeInRadians);
+        int roofWidth = (int) Math.ceil(roofWidthDouble);
+        int roofLength = carpLength + roofOverlay;
+        int squareRoof = roofLength * roofWidth;
+        //Tagstenene overlapper hinanden
+        double overlapFactor = 1.5;
+        double roofTileAmountDouble = (squareRoof / squareTile) * overlapFactor;
+        int roofTileAmount = (int) Math.ceil(roofTileAmountDouble);
+        billsOfMaterials.add(new BillsOfMaterial(bomId, roofTileId, orderId, roofTileAmount, "Tagsten til taget"));
+        //Rygningstenene
+        //Finder rygningssten i samme farve som teglstenene
+        Materials rooftopTiles = UserFacade.getRoofTopTile(inquiry.getRoofType(), connectionPool);
+        int roofTopTileID = rooftopTiles.getMaterialId();
+        //Beregner hvor mange rygningssten der skal bruges
+        int topTileLength = rooftopTiles.getLength();
+        double roofTopTileAmountDouble = (roofLength / topTileLength) * overlapFactor;
+        int roofTopTileAmount = (int) Math.ceil(roofTopTileAmountDouble);
+        billsOfMaterials.add(new BillsOfMaterial(bomId, roofTopTileID, orderId, roofTopTileAmount, "Rygsten til taget"));
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 31, orderId, roofTopTileAmount, "Rygstensbeslag"));
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 32, orderId, 1, "Tagstensbinder"));
+        //Nogle brædder til at bygge tag
+        int roofBoardAmount = 10;
+        billsOfMaterials.add(new BillsOfMaterial(bomId, 57, orderId, roofBoardAmount, "Brædder til taget"));
+    }
+
+    private void calcWaterBoardForCarpLength(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
+//henter alle længder af vandbræt fra 'lageret', sorteret med de korteste først
+        List<Materials> materialsList = UserFacade.getMaterialsByType("19x100mm. trykimp. Bræt", connectionPool);
+        int materialId = 0;
+        int waterBoardAmount = 0;
+        //vælger den bedste længde til opgaven. her bare den første der er længere end carporten, de skal stikke 2,5 cm udover i hve ende, deraf de 50
+        for (Materials materials : materialsList) {
+            if (materials.getLength() >= carpLength + 50) {
+                materialId = materials.getMaterialId();
+                waterBoardAmount = 1;
+                break;
+            }
+        }
+        //Hvis ingen af vandbrættene var længere end carporten, tager vi en tur til på samme måde,
+        if (materialId == 0) {
+            for (Materials materials : materialsList) {
+                if (materials.getLength() > (carpLength + 50) / 2) {
+                    materialId = materials.getMaterialId();
+                    waterBoardAmount = 2;
+                    break;
+                }
+            }
+        }
+//        19x100	mm.	trykimp.	Bræt		 540 4 Stk vandbræt	på	stern	i	sider
+        billsOfMaterials.add(new BillsOfMaterial(bomId, materialId, orderId, waterBoardAmount, "Vandbræt på stern i sider"));
+        // materialeId 8 l: 480,  materialeId 9 l: 240,  materialeId 10 l: 210,  materialeId 60 l: 360
+    }
+
+    private void calcOuterFasciaBoardForCarpLength(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
+//henter alle længder af oversternbrædder fra 'lageret', sorteret med de korteste først
+        List<Materials> materialsList = UserFacade.getMaterialsByType("25x125 mm. trykimp. Bræt", connectionPool);
+        int materialId = 0;
+        int fasciaBoardAmount = 0;
+        //vælger den bedste længde til opgaven. her bare den første der er længere end carporten, de skal stikke 2,5 cm udover i hve ende, deraf de 50
+        for (Materials materials : materialsList) {
+            if (materials.getLength() >= carpLength + 50) {
+                materialId = materials.getMaterialId();
+                fasciaBoardAmount = 1;
+                break;
+            }
+        }
+        //Hvis ingen af oversternbrædderne var længere end carporten, tager vi en tur til på samme måde,
+        if (materialId == 0) {
+            for (Materials materials : materialsList) {
+                if (materials.getLength() > (carpLength + 50) / 2) {
+                    materialId = materials.getMaterialId();
+                    fasciaBoardAmount = 2;
+                    break;
+                }
+            }
+        }
+        //        25x125mm.	trykimp.	Bræt 540 4 Stk oversternbrædder	til	siderne
+        billsOfMaterials.add(new BillsOfMaterial(bomId, materialId, orderId, fasciaBoardAmount, "Oversternbrædder til siderne"));
+        // materialeId 57 l: 360
+    }
+
+    private void calcFasciaBoardForCarpLength(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
+//henter alle længder af understernbrædder fra 'lageret', sorteret med de korteste først
+        List<Materials> materialsList = UserFacade.getMaterialsByType("25x200 mm. trykimp. Bræt (Birk)", connectionPool);
+        int materialId = 0;
+        int fasciaBoardAmount = 0;
+        //vælger den bedste længde til opgaven. her bare den første der er længere end carporten, de skal stikke 2,5 cm udover i hve ende, deraf de 50
+        for (Materials materials : materialsList) {
+            if (materials.getLength() >= carpLength + 50) {
+                materialId = materials.getMaterialId();
+                fasciaBoardAmount = 1;
+                break;
+            }
+        }
+        //Hvis ingen af understernbrædderne var længere end carporten, tager vi en tur til på samme måde,
+        if (materialId == 0) {
+            for (Materials materials : materialsList) {
+                if (materials.getLength() > (carpLength + 50) / 2) {
+                    materialId = materials.getMaterialId();
+                    fasciaBoardAmount = 2;
+                    break;
+                }
+            }
+        }
+        //        25x200	mm.	trykimp.	Bræt 540 4 Stk understernbrædder	til	siderne
+        billsOfMaterials.add(new BillsOfMaterial(bomId, materialId, orderId, fasciaBoardAmount, "Understernbrædder til siderne"));
+        // materialeId 55 l: 360
+    }
+
+    private void calcWaterBoardForCarpWidth(int orderId, int carpWidth, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
+//henter alle længder af vandbræt fra 'lageret', sorteret med de korteste først
+        List<Materials> materialsList = UserFacade.getMaterialsByType("19x100mm. trykimp. Bræt", connectionPool);
+        int materialId = 0;
+        int waterBoardAmount = 0;
+        //vælger den bedste længde til opgaven. her bare den første der er længere end carporten, de skal stikke 2,5 cm udover i hve ende, deraf de 50
+        for (Materials materials : materialsList) {
+            if (materials.getLength() >= carpWidth + 50) {
+                materialId = materials.getMaterialId();
+                waterBoardAmount = 1;
+                break;
+            }
+        }
+        //Hvis ingen af vandbrættene var længere end carporten, tager vi en tur til på samme måde,
+        if (materialId == 0) {
+            for (Materials materials : materialsList) {
+                if (materials.getLength() > (carpWidth + 50) / 2) {
+                    materialId = materials.getMaterialId();
+                    waterBoardAmount = 2;
+                    break;
+                }
+            }
+        }
+        //        19x100 mm. trykimp. Bræt 360 2 Stk vandbræt på stern i forende
+        billsOfMaterials.add(new BillsOfMaterial(bomId, materialId, orderId, waterBoardAmount, "Vandbræt på stern i forende"));
+        // materialeId 8 l: 480,  materialeId 9 l: 240,  materialeId 10 l: 210,  materialeId 59 l: 540
     }
 
     private void calcOuterFasciaBoardsForCarpWidth(int orderId, int carpWidth, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
@@ -210,7 +346,6 @@ public class RequestCalculator {
             int cladding = (shedLength * 2 + shedWidth * 2) / 80;
             billsOfMaterials.add(new BillsOfMaterial(bomId, 10, orderId, cladding, "Til beklædning af skur 1 på 2"));
         }
-        System.out.println();
     }
 
     private void calcRoofPlateAmount(int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials) {

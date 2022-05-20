@@ -1,5 +1,6 @@
 package dat.startcode.model.services;
 
+import dat.startcode.model.dto.StatusDTO;
 import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Materials;
 import dat.startcode.model.entities.Order;
@@ -74,9 +75,16 @@ public class UserFacade {
         return requestMapper.getRequestById(inquiryId);
     }
 
+
     public static boolean updateOrderFinalPriceById(int orderId, double price, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         return orderMapper.updateOrderFinalPriceById(orderId, price);
+    }
+
+    public static StatusDTO getStatusDTOByUserID (int userID, ConnectionPool connectionPool) throws DatabaseException {
+        OrderMapper orderMapper = new OrderMapper(connectionPool);
+        return orderMapper.getStatusByUserId(userID);
+
     }
 }
 

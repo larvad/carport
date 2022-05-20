@@ -72,26 +72,34 @@
 </div>
 
 <!-- Footer -->
-<div class="container mt-3">
-    <hr/>
-    <div class="row mt-4">
-        <div class="col">
-            Nørgaardsvej 30<br/>
-            2800 Lyngby
-        </div>
-        <div class="col">
-            <jsp:invoke fragment="footer"/><br/>
-            <p>&copy; 2022 Cphbusiness</p>
-        </div>
-        <div class="col">
-            Datamatikeruddannelsen<br/>
-            2. semester forår 2022
-        </div>
-    </div>
 
+<div class="footerClass">
+    <section class="">
+        <footer class="text-center text-white" style="background-color: #003d76">
+            <div class="container p-4 pb-0">
+                <section class="verticalSpans">
+                    <div>
+                        <p>
+                            Nørgaardsvej 30<br/>
+                            2800 Lyngby
+                        </p>
+                        <p>
+                            <jsp:invoke fragment="footer"/>
+                        </p>
+                        <p>
+                            Datamatikeruddannelsen<br/>
+                            2. semester forår 2022
+                        </p>
+                    </div>
+                </section>
+            </div>
+            <div class="text-center p-3" style="background-color: rgba(0,0,0,0.2)">
+                &copy; 2022 Cphbusiness
+            </div>
+        </footer>
+    </section>
 </div>
 
-</div>
 
 <!-- Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

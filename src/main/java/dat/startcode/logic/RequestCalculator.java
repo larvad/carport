@@ -154,6 +154,7 @@ public class RequestCalculator {
     private void calcRoofPlateAmount(int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials) {
         //bølgerne på tagpladerne går på langs med pladernes længde. Og bølgerne skal følge tagets hældning, så vandet kan løbe af skuret.
 
+
         // taget skal gå 5 cm ud over sternbredderne på alle leder, derfor lægges 10 cm til
         int roofLength = carpLength + 100;
         int roofWidth = carpWidth + 100;

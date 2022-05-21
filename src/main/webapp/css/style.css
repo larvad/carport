@@ -73,6 +73,11 @@ th, td {
     width: 400px !important;
     height: 60px !important;
 }
+.btn-layer3:hover {
+    background-color: #ffcc03 !important;
+    border-color: #ffcc03 !important;
+    color: black !important;
+}
 .btn-layer4 {
     width: 200px !important;
     border-color: #003d76 !important;
@@ -619,8 +624,8 @@ input[type=radio]:checked {
 input[type=checkbox] {
 
     border: 20px solid #f3f3f3;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
 }
 input[type=checkbox]:checked {
     color: #003d76 !important;
@@ -628,7 +633,29 @@ input[type=checkbox]:checked {
     background-color: #003d76 !important;
 }
 .checkBox {
-  margin-left: 500px;
+  margin-left: 600px;
+}
+.checkBox .radioText {
+    padding-left: 15px !important;
+    padding-top: 10px !important;
+    text-transform: uppercase;
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 20px;
+    margin-bottom: 50px;
+}
+.designButton {
+    margin-top: 30px;
+    margin-left: 425px;
+}
+.card-body h6 {
+    text-align: center;
+    font-family: "Arial Black", Gadget, sans-serif;
+    text-transform: uppercase;
+}
+.details {
+    margin-top: 50px;
+    margin-bottom: 100px;
+    margin-left: 475px;
 }
 
 

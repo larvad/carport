@@ -130,19 +130,16 @@
                                                 <input type="submit" class="btn btn-layer1 btnList" value="SE TEGNING"/>
                                             </form>
                                             <c:if test="${sessionScope.statusDTO.statusID == 2}">
-                                            <form action="fc/profileUpdate?command=profileUpdate" method="post">
-                                                <input type="submit" class="btn btn-layer1 btnList btn-layer5" value="Betal"/>
-                                            </form>
+                                                <form action="fc/profileUpdate?command=profileUpdate" method="post">
+                                                    <input type="submit" class="btn btn-layer1 btnList btn-layer5" value="Betal"/>
+                                                </form>
                                             </c:if>
                                             <c:if test="${sessionScope.statusDTO.statusID == 3}">
-                                            <form action="fc/profileUpdate?command=profileUpdate" method="post">
+                                            <form action="fc/createBOM?command=createBOM" method="post">
+                                                <input type="hidden" name="BOM" value="${sessionScope.statusDTO.orderID}">
                                                 <input type="submit" class="btn btn-layer1 btnList btn-layer5 btn-layer6" value="Se stykliste"/>
                                             </form>
                                             </c:if>
-
-
-<%--                                            <div class="btn btn-layer1 btnList">Se tegning</div>--%>
-<%--                                            <div class="btn btn-layer1 btnList btn-layer5">Betal</div>--%>
                                         </div>
                                     </div>
                                 </c:if>

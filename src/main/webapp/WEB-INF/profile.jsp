@@ -16,7 +16,7 @@
         <section class="vh-100">
             <div class="container py-5 h-100 box1">
                 <div class="row d-flex justify-content-center align-items-center">
-                    <h1>Min bestilling</h1>
+                    <h1 class="headerProfile">Min bestilling</h1>
 
                     <div class="col-12">
                         <div class="card card-stepper text-black" style="border-radius: 16px;">

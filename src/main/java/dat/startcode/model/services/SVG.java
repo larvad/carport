@@ -19,8 +19,10 @@ public class SVG {
             " preserveAspectRatio=\"xMinYMin\">";
 
     private final String rectTemplate = "<rect x=\"%f\" y=\"%f\" height=\"%f\" width=\"%f\" style=\"stroke:#000000; fill: #ffffff\" />";
-    private final String lineTemplate = "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"black\" stroke-dasharray=\"4\" />";
+    private final String lineTemplateStriped = "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"black\" stroke-dasharray=\"4\" />";
+    private final String lineTemplate = "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"black\" />";
     private final String rectTemplateBold = "<rect x=\"%f\" y=\"%f\" height=\"%f\" width=\"%f\" style=\"stroke:#000000; fill: #ffffff\" stroke-width=\"4\" stroke-dasharray=\"4\" />";
+    private final String textTemplate = "<text style=\"text-anchor: middle\" transform=\"translate(%d, %d) rotate(%d)\">%d cm</text>";
     private final String arrowTemplate = "<defs> " +
             "        <marker " +
             "                id=\"beginArrow\" " +
@@ -42,9 +44,10 @@ public class SVG {
             "        </marker> " +
             "    </defs> " +
             "    <line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" " +
-            "          style=\"stroke: #006600; " +
+            "          style=\"stroke: #000000; " +
             "\tmarker-start: url(#beginArrow); " +
             "\tmarker-end: url(#endArrow); \"/>";
+
 
     public SVG (int x, int y, String viewBox, int width, int height) {
         this.x = x;
@@ -63,12 +66,20 @@ public class SVG {
         svg.append(String.format(Locale.US, rectTemplateBold, x, y, height, width));
     }
 
-    public void addStripedLine(double x1, double y1, double x2, double y2){
+    public void addLine(double x1, double y1, double x2, double y2){
         svg.append(String.format(Locale.US, lineTemplate, x1, y1, x2, y2));
+    }
+
+    public void addStripedLine(double x1, double y1, double x2, double y2){
+        svg.append(String.format(Locale.US, lineTemplateStriped, x1, y1, x2, y2));
     }
 
     public void addArrows(double x1, double y1, double x2, double y2){
         svg.append(String.format(Locale.US, arrowTemplate, x1, y1, x2, y2));
+    }
+
+    public void addText(int x, int y, int rotate, int text){
+        svg.append(String.format(Locale.US, textTemplate, x, y, rotate, text));
     }
 
     public void addSvg(SVG innerSVG)

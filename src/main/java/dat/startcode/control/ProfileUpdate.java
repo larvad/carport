@@ -32,6 +32,7 @@ public class ProfileUpdate extends Command {
         statusDTO = UserFacade.getStatusDTOByUserID(userId, connectionPool);
         session.setAttribute("statusDTO", statusDTO);
 
+
         return "profile";
     }
 }

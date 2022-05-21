@@ -2,6 +2,7 @@ package dat.startcode.control;
 
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.dto.StatusDTO;
+import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
@@ -33,6 +34,9 @@ public class Profile extends Command{
             session.setAttribute("statusDTO", statusDTO);
         }
 
+        Order order = UserFacade.getOrderById(statusDTO.getOrderID(), connectionPool);
+        session.setAttribute("finalPrice", (int) order.getFinalPrice());
+        session.setAttribute("requestID", order.getRequestId());
         return "profile";
     }
 }

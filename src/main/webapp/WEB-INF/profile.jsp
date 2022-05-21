@@ -25,7 +25,7 @@
 
                                 <div class="d-flex justify-content-between align-items-center mb-5">
                                     <div>
-                                        <h5 class="mb-0">INVOICE <span class="textOrder">ORDER ID #${sessionScope.statusDTO.orderID}</span></h5>
+                                        <h5 class="mb-0">INVOICE <span class="textOrder">REQUEST #${sessionScope.requestID}</span></h5>
                                     </div>
                                 </div>
                                 <div class="statusContent">
@@ -115,18 +115,31 @@
                                 <c:if test="${sessionScope.statusDTO.statusID >= 2}">
                                     <div class="listAndPay">
                                         <div class="leftSide">
-                                            <h2>Pris-total</h2>
-                                            <h3>DKK 51232 </h3>
+                                            <c:if test="${sessionScope.statusDTO.statusID == 2}">
+                                                <h2>Pris-total</h2>
+                                                <h3>${sessionScope.finalPrice} DKK</h3>
+                                            </c:if>
+                                            <c:if test="${sessionScope.statusDTO.statusID == 3}">
+                                                <h2>Order #${sessionScope.statusDTO.orderID}</h2>
+                                                <h3>Betaling gennemført</h3>
+                                            </c:if>
                                         </div>
                                         <div class="rightSide">
                                             <form action="fc/showSVG?command=showSVG" method="post">
                                                 <input type="hidden" name="drawing" value="${sessionScope.statusDTO.orderID}"/>
                                                 <input type="submit" class="btn btn-layer1 btnList" value="SE TEGNING"/>
                                             </form>
+                                            <c:if test="${sessionScope.statusDTO.statusID == 2}">
                                             <form action="fc/profileUpdate?command=profileUpdate" method="post">
-                                                <input type="hidden" name="update" value="3"/>
                                                 <input type="submit" class="btn btn-layer1 btnList btn-layer5" value="Betal"/>
                                             </form>
+                                            </c:if>
+                                            <c:if test="${sessionScope.statusDTO.statusID == 3}">
+                                            <form action="fc/profileUpdate?command=profileUpdate" method="post">
+                                                <input type="submit" class="btn btn-layer1 btnList btn-layer5 btn-layer6" value="Se stykliste"/>
+                                            </form>
+                                            </c:if>
+
 
 <%--                                            <div class="btn btn-layer1 btnList">Se tegning</div>--%>
 <%--                                            <div class="btn btn-layer1 btnList btn-layer5">Betal</div>--%>
@@ -140,8 +153,6 @@
             </div>
         </section>
         </c:if>
-
-
 
 
     </jsp:body>

@@ -6,7 +6,6 @@
 
 <t:pagetemplate>
     <jsp:attribute name="header">
-             Skræddersy din egen carport
     </jsp:attribute>
 
     <jsp:attribute name="footer">
@@ -15,9 +14,13 @@
 
     <jsp:body>
 
-        <h3><p>Her kan du se en tegning om din carport</p></h3>
-        <br><br><br>
-        ${requestScope.svg}
+        <div class="showSVG">
+            <h1>Carport tegning</h1>
+            <div class="SVG">
+                    ${requestScope.svg}
+            </div>
+
+        </div>
 
     </jsp:body>
 </t:pagetemplate>

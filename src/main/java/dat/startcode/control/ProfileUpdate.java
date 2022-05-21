@@ -33,6 +33,6 @@ public class ProfileUpdate extends Command {
         session.setAttribute("statusDTO", statusDTO);
 
 
-        return "profile";
+        return "completingOrder";
     }
 }

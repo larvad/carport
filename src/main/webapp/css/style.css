@@ -441,6 +441,19 @@ th, td {
     background-color: green !important;
     color: white !important;
     border-color: green !important;
+    position: relative;
+    left: 235px;
+    bottom: 166px;
+}
+.btn-layer5:hover {
+    background-color: #efc90d !important;
+    color: #000000 !important;
+    border-color: #ffcc03 !important;
+}
+.btn-layer6 {
+
+    border-color: purple !important;
+    background-color: purple!important;
 }
 .listAndPay {
     font-family: "Arial Black", Gadget, sans-serif;

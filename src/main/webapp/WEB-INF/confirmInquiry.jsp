@@ -6,9 +6,6 @@
 
 <t:pagetemplate>
     <jsp:attribute name="header">
-             <h5>Tak for din skræddesyede carport forespørgsel hos FOG</h5>
-        <h5>En af vores medarbejdere vil kontakte Dig snart</h5><br>
-        <h5>Her kan du se carportens detaljer</h5>
 
     </jsp:attribute>
 
@@ -16,11 +13,12 @@
     </jsp:attribute>
 
     <jsp:body>
-        <div class="card confirm" style="width: 20rem;">
-            <img src="${pageContext.request.contextPath}/images/logo.svg" width="100px;" class="rounded mx-auto d-block"
+        <h1 class="carportTitle">Tak for din bestilling!</h1>
+        <div class="card confirm details" style="width: 20rem;">
+            <img src="${pageContext.request.contextPath}/images/logo.svg" width="100px;" style="margin-top:15px;" class="rounded mx-auto d-block"
                  class="img-fluid" class="card-img-top" alt="...">
             <div class="card-body">
-                <h6 class="card-title">Skræddesy din egen carport </h6>
+                <h6 class="card-title">Carport Detaljer </h6>
                 <p class="card-text"></p>
             </div>
             <ul class="list-group list-group-flush">

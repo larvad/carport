@@ -110,8 +110,8 @@
                             <div class="form-check checkBox">
                                 <input class="form-check-input" name="checkboxShed" type="checkbox"  id="flexCheckDefault"
                                        onchange="visSkur()">
-                                <label class="form-check-label" for="flexCheckDefault">
-
+                                <label class="form-check-label radioText" for="flexCheckDefault">
+                                    skur
                                 </label>
                             </div>
                             <br><br>
@@ -158,8 +158,8 @@
                         <br><br>
                         <div class="container">
                             <input type="hidden" name="command" value="sendInquiry"/>
-                            <button type="submit" class="btn btn-primary" formaction="fc/sendInquiry" formmethod="post"
-                                    value="submit">Forespørgsel
+                            <button type="submit" class="btn btn-layer3 designButton" formaction="fc/sendInquiry" formmethod="post"
+                                    value="submit">Send carport
                             </button>
                         </div>
                     </div>

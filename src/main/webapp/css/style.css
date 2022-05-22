@@ -1,5 +1,7 @@
 /* CSS stylesheet  for application */
+* {
 
+}
 table {
     border-collapse: collapse;
     border: 1px solid silver;
@@ -584,6 +586,8 @@ th, td {
 .carportDesigner {
     margin-bottom: 100px;
     color: #003d76;
+    width: 100%;
+    overflow-x: hidden;
 }
 .carportDesigner h1 {
     font-family: "Arial Black", Gadget, sans-serif;
@@ -616,6 +620,8 @@ input[type=radio]:checked {
     font-size: 20px;
 }
 .radioButtons #inlineRadio1 {
+}
+.radioButtons #inlineRadio2 {
     margin-left: 20px;
 }
 .skurTitle {
@@ -646,6 +652,7 @@ input[type=checkbox]:checked {
 .designButton {
     margin-top: 30px;
     margin-left: 425px;
+
 }
 .card-body h6 {
     text-align: center;
@@ -660,5 +667,10 @@ input[type=checkbox]:checked {
 .headerProfile {
     color: #003d76;
 }
+.leftCircle {
+    margin-left: 20px;
 
-
+}
+.profile {
+    overflow-x: hidden;
+}

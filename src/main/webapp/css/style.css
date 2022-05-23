@@ -539,18 +539,17 @@ th, td {
      text-transform: uppercase;
  }
  .showSVG {
-     text-align: center;
-     font-family: "Arial Black", Gadget, sans-serif;
      text-transform: uppercase;
      margin-top: 50px;
 
  }
  .showSVG h1 {
+     text-align: center;
+     font-family: "Arial Black", Gadget, sans-serif;
      font-size: 45px;
  }
 .showSVG .SVG {
     margin-top: -30px;
-    margin-left: 200px;
 }
 .stykliste {
     margin-bottom: 100px;

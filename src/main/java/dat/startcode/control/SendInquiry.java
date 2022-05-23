@@ -1,21 +1,17 @@
 package dat.startcode.control;
 
-import dat.startcode.logic.RequestCalculator;
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.entities.Inquiry;
-import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Time;
-import java.sql.Timestamp;
 
 public class SendInquiry extends Command {
     private ConnectionPool connectionPool;
@@ -67,20 +63,20 @@ public class SendInquiry extends Command {
             throw new RuntimeException(e);
         }
 
-        inquiry = UserFacade.insertInquiryIntoDB(carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength, connectionPool);
+        inquiry = Facade.insertInquiryIntoDB(carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength, connectionPool);
 
         //Generér OderId
         int userId = user.getUserId();
         int inquiryID = inquiry.getInquiryId();
-        int orderId = UserFacade.insertOrderIntoDB(inquiryID, userId,1, connectionPool);
+        int orderId = Facade.insertOrderIntoDB(inquiryID, userId,1, connectionPool);
 
         request.setAttribute("inquiry", inquiry);
 
         //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
-        UserFacade.calculate(orderId, inquiry, connectionPool);
+        Facade.calculate(orderId, inquiry, connectionPool);
 
         //Udregn og tilføj cost_price til databasen
-        double costPrice = UserFacade.updateOrderCostPriceById(orderId, connectionPool);
+        double costPrice = Facade.updateOrderCostPriceById(orderId, connectionPool);
 
         // blackmagickz (finalPrice er costprice*1,3)
         BigDecimal bdFinalPrice = new BigDecimal(costPrice * 1.3).setScale(2, RoundingMode.HALF_UP);
@@ -88,7 +84,7 @@ public class SendInquiry extends Command {
         // omdan BigDecimal tilbage til double
         double finalPrice = bdFinalPrice.doubleValue();
 
-        UserFacade.updateOrderFinalPriceById(orderId, finalPrice, connectionPool);
+        Facade.updateOrderFinalPriceById(orderId, finalPrice, connectionPool);
 
         return "confirmInquiry";
     }

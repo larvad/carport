@@ -1,17 +1,11 @@
 package dat.startcode.control;
 
-import dat.startcode.logic.RequestCalculator;
 import dat.startcode.model.config.ApplicationStart;
-import dat.startcode.model.entities.Materials;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.persistence.RequestMapper;
-import dat.startcode.model.services.UserFacade;
-import javax.servlet.ServletContext;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
-import java.util.List;
 
 public class CreateCarport extends Command {
     private ConnectionPool connectionPool;
@@ -28,8 +22,8 @@ public class CreateCarport extends Command {
 //
 //
 //        try {
-//            flatRoofMaterialsList = UserFacade.showFlatRoofMaterial(connectionPool);
-//            raisedRoofMaterialsList = UserFacade.showRaisedRoofMaterial(connectionPool);
+//            flatRoofMaterialsList = Facade.showFlatRoofMaterial(connectionPool);
+//            raisedRoofMaterialsList = Facade.showRaisedRoofMaterial(connectionPool);
 //
 //        } catch (DatabaseException e) {
 //            e.printStackTrace();

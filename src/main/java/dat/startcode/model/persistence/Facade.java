@@ -1,4 +1,4 @@
-package dat.startcode.model.services;
+package dat.startcode.model.persistence;
 
 import dat.startcode.model.dto.StatusDTO;
 import dat.startcode.model.dto.BomDTO;
@@ -6,16 +6,14 @@ import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Materials;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
-import dat.startcode.model.dto.BomDTO;
 import dat.startcode.logic.RequestCalculator;
 import dat.startcode.model.entities.*;
 import dat.startcode.model.exceptions.DatabaseException;
-import dat.startcode.model.persistence.*;
 import dat.startcode.model.dto.UserOrdersDTO;
 
 import java.util.List;
 
-public class UserFacade {
+public class Facade {
     public static User login(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
         UserMapper userMapper = new UserMapper(connectionPool);
         return userMapper.login(email, password);
@@ -37,7 +35,7 @@ public class UserFacade {
     }
 
     public static Inquiry insertInquiryIntoDB(int carpWidth, int carpLength, String roofType, int roofSlope, int shedWidth, int shedLength, ConnectionPool connectionPool) throws DatabaseException {
-        RequestMapper requestMapper = new RequestMapper(connectionPool);
+        InquiryMapper requestMapper = new InquiryMapper(connectionPool);
         return requestMapper.insertInquiryIntoDB(carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength);
     }
 
@@ -66,7 +64,7 @@ public class UserFacade {
     }
 
     public static boolean updateInquiryByInquiryId(Inquiry inquiry, ConnectionPool connectionPool) throws DatabaseException {
-        RequestMapper requestMapper = new RequestMapper(connectionPool);
+        InquiryMapper requestMapper = new InquiryMapper(connectionPool);
         return requestMapper.updateInquiryByInquiryId(inquiry);
     }
 
@@ -76,7 +74,7 @@ public class UserFacade {
     }
 
     public static Inquiry getRequestById(int inquiryId, ConnectionPool connectionPool) throws DatabaseException {
-        RequestMapper requestMapper = new RequestMapper(connectionPool);
+        InquiryMapper requestMapper = new InquiryMapper(connectionPool);
         return requestMapper.getRequestById(inquiryId);
     }
 
@@ -134,4 +132,4 @@ public class UserFacade {
     }
 }
 
-//TODO: lave UserFacade om til Facade, og rykke den op i persistence mappen. Lade alle vores klasser i control køre deres metoder over facaden.
+//TODO: lave Facade om til Facade, og rykke den op i persistence mappen. Lade alle vores klasser i control køre deres metoder over facaden.

@@ -14,12 +14,12 @@ import java.util.logging.Logger;
 public class BillsOfMaterialMapper {
     ConnectionPool connectionPool;
 
-    public BillsOfMaterialMapper(ConnectionPool connectionPool) {
+    protected BillsOfMaterialMapper(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
 
-    public BillsOfMaterial getBillsOfMaterialById(int bomId) throws DatabaseException {
+    protected BillsOfMaterial getBillsOfMaterialById(int bomId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         BillsOfMaterial billsOfMaterial = null;
@@ -49,7 +49,7 @@ public class BillsOfMaterialMapper {
     }
 
 
-    public List<BillsOfMaterial> insertBOMList(List<BillsOfMaterial> billsOfMaterialList) throws DatabaseException {
+    protected List<BillsOfMaterial> insertBOMList(List<BillsOfMaterial> billsOfMaterialList) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         List<BillsOfMaterial> billsOfMaterialListWithID = new ArrayList<>();
 
@@ -98,7 +98,7 @@ public class BillsOfMaterialMapper {
     }
 
 
-    public List<BomDTO> showBOMTraeOgTagplader(int orderId) throws DatabaseException {
+    protected List<BomDTO> showBOMTraeOgTagplader(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         List<BomDTO> bomDTOList = new ArrayList<>();
 
@@ -130,7 +130,7 @@ public class BillsOfMaterialMapper {
         return bomDTOList;
     }
 
-    public List<BomDTO> showBOMSkruerOgBeslag(int orderId) throws DatabaseException {
+    protected List<BomDTO> showBOMSkruerOgBeslag(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         List<BomDTO> bomDTOList = new ArrayList<>();
 
@@ -162,7 +162,7 @@ public class BillsOfMaterialMapper {
         return bomDTOList;
     }
 
-    public boolean deleteBoMbyId(int orderId) throws DatabaseException {
+    protected boolean deleteBoMbyId(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         boolean result = false;

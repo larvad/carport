@@ -1,11 +1,10 @@
 package dat.startcode.control;
 
-import dat.startcode.logic.RequestCalculator;
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.dto.UserOrdersDTO;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +21,7 @@ public class Admin extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
-        List<UserOrdersDTO> userOrdersDTOList = UserFacade.getAdminPageTableData(connectionPool);
+        List<UserOrdersDTO> userOrdersDTOList = Facade.getAdminPageTableData(connectionPool);
         request.setAttribute("userOrdersDTOList", userOrdersDTOList);
 
         return "admin";

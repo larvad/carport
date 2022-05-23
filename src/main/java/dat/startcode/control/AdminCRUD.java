@@ -5,8 +5,7 @@ import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.persistence.OrderMapper;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,18 +28,18 @@ public class AdminCRUD extends Command {
 
         switch(mode){
             case "godkend":
-                succes = UserFacade.setOrderStatusByOrderId(orderId, connectionPool);
+                succes = Facade.setOrderStatusByOrderId(orderId, connectionPool);
                 break;
             case "slet":
-                succes = UserFacade.deleteOrderByOrderId(orderId, connectionPool);
+                succes = Facade.deleteOrderByOrderId(orderId, connectionPool);
                 break;
             case "rediger":
-                Order order = UserFacade.getOrderById(orderId, connectionPool);
-                inquiry = UserFacade.getRequestById(order.getRequestId(), connectionPool);
+                Order order = Facade.getOrderById(orderId, connectionPool);
+                inquiry = Facade.getRequestById(order.getRequestId(), connectionPool);
                 request.setAttribute("inquiry", inquiry);
                 return "adminEditCarport";
             case "opdater":
-                succes = UserFacade.updateInquiryByInquiryId(inquiry,connectionPool);
+                succes = Facade.updateInquiryByInquiryId(inquiry,connectionPool);
 
         }
 

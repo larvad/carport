@@ -5,8 +5,8 @@ import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
+import dat.startcode.model.persistence.Facade;
 import dat.startcode.model.services.SVG;
-import dat.startcode.model.services.UserFacade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,8 +32,8 @@ public class ShowSVG extends Command{
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
         int orderId = Integer.parseInt(request.getParameter("drawing"));
-        Order order = UserFacade.getOrderById(orderId, connectionPool);
-        Inquiry inquiry = UserFacade.getRequestById(order.getRequestId(), connectionPool);
+        Order order = Facade.getOrderById(orderId, connectionPool);
+        Inquiry inquiry = Facade.getRequestById(order.getRequestId(), connectionPool);
         int carpWidth = inquiry.getCarpWidth()/10;
         int carpLength = inquiry.getCarpLength()/10;
         int shedWidth = inquiry.getShedWidth()/10;

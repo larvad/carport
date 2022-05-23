@@ -5,7 +5,7 @@ import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +24,8 @@ public class AdminEdit extends Command {
 
         int orderId = Integer.parseInt(request.getParameter("edit")); // henter orderId fra button value
 
-        Order order = UserFacade.getOrderById(orderId, connectionPool);
-        Inquiry inquiry = UserFacade.getRequestById(order.getRequestId(), connectionPool);
+        Order order = Facade.getOrderById(orderId, connectionPool);
+        Inquiry inquiry = Facade.getRequestById(order.getRequestId(), connectionPool);
 
         session.setAttribute("inquiry", inquiry);
         session.setAttribute("order", order);

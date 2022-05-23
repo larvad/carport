@@ -4,7 +4,7 @@ import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.dto.BomDTO;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,10 +21,10 @@ public class CreateBOM extends Command {
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
         int orderId = Integer.parseInt(request.getParameter("BOM"));
-        List<BomDTO> BOMtagogtræ = UserFacade.showBOMTraeOgTagplader(orderId,connectionPool);
+        List<BomDTO> BOMtagogtræ = Facade.showBOMTraeOgTagplader(orderId,connectionPool);
         request.setAttribute("BOMtagogtræ",BOMtagogtræ);
 
-        List<BomDTO> bomSkruerOgBeslag = UserFacade.showBOMSkruerOgBeslag(orderId,connectionPool);
+        List<BomDTO> bomSkruerOgBeslag = Facade.showBOMSkruerOgBeslag(orderId,connectionPool);
         request.setAttribute("BOMSkruerOgBeslag",bomSkruerOgBeslag);
 
         return "ShowBOM";

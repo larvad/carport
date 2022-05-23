@@ -3,7 +3,7 @@ package dat.startcode.control;
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ public class AdminApprove extends Command{
 
         String ChangeStatusID = request.getParameter("changeStatus");
 
-        order = UserFacade.setOrderStatusByOrderId(orderId, connectionPool);
+        order = Facade.setOrderStatusByOrderId(orderId, connectionPool);
 
         Admin admin = new Admin();
 

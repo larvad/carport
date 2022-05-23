@@ -11,6 +11,8 @@ import dat.startcode.model.services.UserFacade;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class AdminEdit2 extends Command {
     private ConnectionPool connectionPool;
@@ -81,6 +83,10 @@ public class AdminEdit2 extends Command {
 
         //Nu hvor styklisten er opdateret kan der regnes på costPrice
         double costPrice = UserFacade.calcOrderCostPriceById(order.getOrderId(), connectionPool);
+        BigDecimal bdCostPrice = new BigDecimal(costPrice).setScale(2, RoundingMode.HALF_UP);
+        costPrice = bdCostPrice.doubleValue();
+        UserFacade.updateOrderCostPriceById(order.getOrderId(), costPrice, connectionPool);
+
         succes = UserFacade.updateOrderFinalPriceById(order.getOrderId(), finalPrice, connectionPool);
         order = UserFacade.getOrderById(order.getOrderId(), connectionPool); //opdater orderen således at prisen opdateres på refresh
         if (succes)

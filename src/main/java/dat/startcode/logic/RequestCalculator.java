@@ -6,8 +6,7 @@ import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
 
 import dat.startcode.model.entities.Inquiry;
-import dat.startcode.model.persistence.MaterialsMapper;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,12 +71,12 @@ public class RequestCalculator {
         addMiscallaneous(orderId, shedWidth, raftersAmount, carportColoumnAmount, shedLength, billsOfMaterials);
 
         //SÆTTE IND I DATABASEN
-        List<BillsOfMaterial> bomListWithId = UserFacade.insertBOMList(billsOfMaterials, connectionPool);
+        List<BillsOfMaterial> bomListWithId = Facade.insertBOMList(billsOfMaterials, connectionPool);
     }
 
     private void calcRoofTiles(int orderId, Inquiry inquiry, ConnectionPool connectionPool, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials, int slope) throws DatabaseException {
         //Henter valgte tagsten fra databasen
-        List<Materials> roofTilesList = UserFacade.getMaterialsByType(inquiry.getRoofType(), connectionPool);
+        List<Materials> roofTilesList = Facade.getMaterialsByType(inquiry.getRoofType(), connectionPool);
         int roofTileId = roofTilesList.get(0).getMaterialId();
         //Beregner tagstenenes areal, til beregning af hvor mange der skal bruges
         int squareTile = roofTilesList.get(0).getLength() * roofTilesList.get(0).getWidth();
@@ -97,7 +96,7 @@ public class RequestCalculator {
         billsOfMaterials.add(new BillsOfMaterial(bomId, roofTileId, orderId, roofTileAmount, "Tagsten til taget"));
         //Rygningstenene
         //Finder rygningssten i samme farve som teglstenene
-        Materials rooftopTiles = UserFacade.getRoofTopTile(inquiry.getRoofType(), connectionPool);
+        Materials rooftopTiles = Facade.getRoofTopTile(inquiry.getRoofType(), connectionPool);
         int roofTopTileID = rooftopTiles.getMaterialId();
         //Beregner hvor mange rygningssten der skal bruges
         int topTileLength = rooftopTiles.getLength();
@@ -113,7 +112,7 @@ public class RequestCalculator {
 
     private void calcWaterBoardForCarpLength(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
 //henter alle længder af vandbræt fra 'lageret', sorteret med de korteste først
-        List<Materials> materialsList = UserFacade.getMaterialsByType("19x100mm. trykimp. Bræt", connectionPool);
+        List<Materials> materialsList = Facade.getMaterialsByType("19x100mm. trykimp. Bræt", connectionPool);
         int materialId = 0;
         int waterBoardAmount = 0;
         //vælger den bedste længde til opgaven. her bare den første der er længere end carporten, de skal stikke 2,5 cm udover i hve ende, deraf de 50
@@ -141,7 +140,7 @@ public class RequestCalculator {
 
     private void calcOuterFasciaBoardForCarpLength(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
 //henter alle længder af oversternbrædder fra 'lageret', sorteret med de korteste først
-        List<Materials> materialsList = UserFacade.getMaterialsByType("25x125 mm. trykimp. Bræt", connectionPool);
+        List<Materials> materialsList = Facade.getMaterialsByType("25x125 mm. trykimp. Bræt", connectionPool);
         int materialId = 0;
         int fasciaBoardAmount = 0;
         //vælger den bedste længde til opgaven. her bare den første der er længere end carporten, de skal stikke 2,5 cm udover i hve ende, deraf de 50
@@ -169,7 +168,7 @@ public class RequestCalculator {
 
     private void calcFasciaBoardForCarpLength(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
 //henter alle længder af understernbrædder fra 'lageret', sorteret med de korteste først
-        List<Materials> materialsList = UserFacade.getMaterialsByType("25x200 mm. trykimp. Bræt (Birk)", connectionPool);
+        List<Materials> materialsList = Facade.getMaterialsByType("25x200 mm. trykimp. Bræt (Birk)", connectionPool);
         int materialId = 0;
         int fasciaBoardAmount = 0;
         //vælger den bedste længde til opgaven. her bare den første der er længere end carporten, de skal stikke 2,5 cm udover i hve ende, deraf de 50
@@ -197,7 +196,7 @@ public class RequestCalculator {
 
     private void calcWaterBoardForCarpWidth(int orderId, int carpWidth, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
 //henter alle længder af vandbræt fra 'lageret', sorteret med de korteste først
-        List<Materials> materialsList = UserFacade.getMaterialsByType("19x100mm. trykimp. Bræt", connectionPool);
+        List<Materials> materialsList = Facade.getMaterialsByType("19x100mm. trykimp. Bræt", connectionPool);
         int materialId = 0;
         int waterBoardAmount = 0;
         //vælger den bedste længde til opgaven. her bare den første der er længere end carporten, de skal stikke 2,5 cm udover i hve ende, deraf de 50
@@ -225,7 +224,7 @@ public class RequestCalculator {
 
     private void calcOuterFasciaBoardsForCarpWidth(int orderId, int carpWidth, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
 //henter alle længder af oversternbrædder fra 'lageret', sorteret med de korteste først
-        List<Materials> materialsList = UserFacade.getMaterialsByType("25x125 mm. trykimp. Bræt", connectionPool);
+        List<Materials> materialsList = Facade.getMaterialsByType("25x125 mm. trykimp. Bræt", connectionPool);
         int materialId = 0;
         int fasciaBoardAmount = 0;
         //vælger den bedste længde til opgaven. her bare den første der er længere end carporten, de skal stikke 2,5 cm udover i hve ende, deraf de 50
@@ -253,7 +252,7 @@ public class RequestCalculator {
 
     private void calcFasciaBoardsForCarpWidth(int orderId, int carpWidth, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
         //henter alle længder af understernbrædder fra 'lageret', sorteret med de korteste først
-        List<Materials> materialsList = UserFacade.getMaterialsByType("25x200 mm. trykimp. Bræt (Birk)", connectionPool);
+        List<Materials> materialsList = Facade.getMaterialsByType("25x200 mm. trykimp. Bræt (Birk)", connectionPool);
         int materialId = 0;
         int fasciaBoardAmount = 0;
         //vælger den bedste længde til opgaven. her bare den første der er længere end carporten, de skal stikke 2,5 cm udover i hve ende, deraf de 50
@@ -405,7 +404,7 @@ public class RequestCalculator {
         double raftersDistance = (double) newLength / spaceAmountBetweenRafters;
 
         //Finde den rette længde på spærrene
-        List<Materials> materialsList = UserFacade.getMaterialsByType("45x195 spærtræ ubh.", connectionPool);
+        List<Materials> materialsList = Facade.getMaterialsByType("45x195 spærtræ ubh.", connectionPool);
         int materialId = 0;
         //vælger den bedste længde til opgaven. her bare den første der er længere end carporten
         for (Materials materials : materialsList) {
@@ -421,7 +420,7 @@ public class RequestCalculator {
     private void calcRemAmount(int orderId, int carpLength, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
         int remAmount = 0;
         //henter alle længder af remme fra 'lageret', sorteret med de korteste først
-        List<Materials> materialsList = UserFacade.getMaterialsByType("45x195 spærtræ ubh.", connectionPool);
+        List<Materials> materialsList = Facade.getMaterialsByType("45x195 spærtræ ubh.", connectionPool);
         int materialId = 0;
         //vælger den bedste længde til opgaven. her bare den første der er længere end carporten
         for (Materials materials : materialsList) {

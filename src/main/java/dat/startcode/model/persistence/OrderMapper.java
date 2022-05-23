@@ -17,11 +17,11 @@ import java.util.logging.Logger;
 public class OrderMapper {
     ConnectionPool connectionPool;
 
-    public OrderMapper(ConnectionPool connectionPool) {
+    protected OrderMapper(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
-    public Order getOrderByOrderId(int orderId) throws DatabaseException {
+    protected Order getOrderByOrderId(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         Order order = null;
@@ -53,7 +53,7 @@ public class OrderMapper {
         return order;
     }
 
-    public List<UserOrdersDTO> getUserOrderDTOs() throws DatabaseException {
+    protected List<UserOrdersDTO> getUserOrderDTOs() throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         List<UserOrdersDTO> userOrdersDTOList = new ArrayList<>();
@@ -90,7 +90,7 @@ public class OrderMapper {
         return userOrdersDTOList;
     }
 
-    public boolean setOrderStatusByOrderId(int orderId) throws DatabaseException {
+    protected boolean setOrderStatusByOrderId(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         boolean result = false;
@@ -113,7 +113,7 @@ public class OrderMapper {
 
         return true;
     }
-    public boolean setOrderStatusByOrderId2(int orderId) throws DatabaseException {
+    protected boolean setOrderStatusByOrderId2(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         boolean result = false;
@@ -137,7 +137,7 @@ public class OrderMapper {
         return true;
     }
 
-    public boolean deleteOrderByOrderId(int orderId) throws DatabaseException {
+    protected boolean deleteOrderByOrderId(int orderId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         boolean result = false;
@@ -161,7 +161,7 @@ public class OrderMapper {
         return true;
     }
 
-    public int insertOrderIntoDB(int inquiryId, int userId, int status) throws DatabaseException {
+    protected int insertOrderIntoDB(int inquiryId, int userId, int status) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         Order order = null;
@@ -192,7 +192,7 @@ public class OrderMapper {
         return newOrderId;
     }
 
-    public StatusDTO getStatusByUserId(int userId) throws DatabaseException {
+    protected StatusDTO getStatusByUserId(int userId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         StatusDTO statusDTO = null;
@@ -219,7 +219,7 @@ public class OrderMapper {
         return statusDTO;
     }
 
-    public boolean updateOrderFinalPriceById(int orderId, double price) throws DatabaseException {
+    protected boolean updateOrderFinalPriceById(int orderId, double price) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         boolean result = false;
@@ -244,7 +244,7 @@ public class OrderMapper {
         return result;
     }
 
-    public double calcNewCostPrice(int order_id) throws DatabaseException {
+    protected double calcNewCostPrice(int order_id) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         double costPrice = -1;
@@ -273,7 +273,7 @@ public class OrderMapper {
         return costPrice;
     }
 
-    public boolean updateOrderCostPriceById(int orderId, double price) throws DatabaseException {
+    protected boolean updateOrderCostPriceById(int orderId, double price) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         boolean result = false;

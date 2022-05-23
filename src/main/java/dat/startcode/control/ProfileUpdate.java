@@ -5,7 +5,7 @@ import dat.startcode.model.dto.StatusDTO;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,9 +27,9 @@ public class ProfileUpdate extends Command {
         User user = (User) session.getAttribute("user");
         int userId = user.getUserId();
 
-        StatusDTO statusDTO = UserFacade.getStatusDTOByUserID(userId, connectionPool);
-        UserFacade.setOrderStatusByOrderId2(statusDTO.getOrderID(), connectionPool);
-        statusDTO = UserFacade.getStatusDTOByUserID(userId, connectionPool);
+        StatusDTO statusDTO = Facade.getStatusDTOByUserID(userId, connectionPool);
+        Facade.setOrderStatusByOrderId2(statusDTO.getOrderID(), connectionPool);
+        statusDTO = Facade.getStatusDTOByUserID(userId, connectionPool);
         session.setAttribute("statusDTO", statusDTO);
 
 

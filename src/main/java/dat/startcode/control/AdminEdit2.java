@@ -1,16 +1,17 @@
 package dat.startcode.control;
 
-import dat.startcode.logic.RequestCalculator;
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class AdminEdit2 extends Command {
     private ConnectionPool connectionPool;
@@ -61,7 +62,7 @@ public class AdminEdit2 extends Command {
 
         inquiry = new Inquiry(inquiry.getInquiryId(), carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength);
 
-        boolean succes = UserFacade.updateInquiryByInquiryId(inquiry, connectionPool);
+        boolean succes = Facade.updateInquiryByInquiryId(inquiry, connectionPool);
 
         if (succes)
             session.setAttribute("inquiry", inquiry);
@@ -73,16 +74,17 @@ public class AdminEdit2 extends Command {
         double finalPrice = Double.parseDouble(request.getParameter("finalPrice"));
 
         //Delete og genbergn stykliste! ellers opdateres costPrice ikke
-        UserFacade.deleteBoMbyID(order.getOrderId(), connectionPool);
-        //TODO: Dette skal igennem UserFacade!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        RequestCalculator rc = new RequestCalculator();
-        rc.calculate(order.getOrderId(), inquiry, connectionPool);
-        //TODO: Dette skal igennem UserFacade!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        Facade.deleteBoMbyID(order.getOrderId(), connectionPool);
+        Facade.calculate(order.getOrderId(), inquiry, connectionPool);
 
         //Nu hvor styklisten er opdateret kan der regnes på costPrice
-        double costPrice = UserFacade.calcOrderCostPriceById(order.getOrderId(), connectionPool);
-        succes = UserFacade.updateOrderFinalPriceById(order.getOrderId(), finalPrice, connectionPool);
-        order = UserFacade.getOrderById(order.getOrderId(), connectionPool); //opdater orderen således at prisen opdateres på refresh
+        double costPrice = Facade.calcOrderCostPriceById(order.getOrderId(), connectionPool);
+        BigDecimal bdCostPrice = new BigDecimal(costPrice).setScale(2, RoundingMode.HALF_UP);
+        costPrice = bdCostPrice.doubleValue();
+        Facade.updateOrderCostPriceById(order.getOrderId(), costPrice, connectionPool);
+
+        succes = Facade.updateOrderFinalPriceById(order.getOrderId(), finalPrice, connectionPool);
+        order = Facade.getOrderById(order.getOrderId(), connectionPool); //opdater orderen således at prisen opdateres på refresh
         if (succes)
             session.setAttribute("order", order);
         //endregion

@@ -3,8 +3,7 @@ package dat.startcode.persistence;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.persistence.UserMapper;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,27 +59,27 @@ class UserMapperTest
     void login() throws DatabaseException
     {
         User expectedUser = new User("Bo Bobsen","1234",2,1,"b@b.dk",11223344,"adresse 1");
-        User actualUser = UserFacade.login("b@b.dk","1234", connectionPool);
+        User actualUser = Facade.login("b@b.dk","1234", connectionPool);
         assertEquals(expectedUser, actualUser);
     }
 
     @Test
     void invalidPasswordLogin() throws DatabaseException
     {
-        assertThrows(DatabaseException.class, () -> UserFacade.login("user","123", connectionPool));
+        assertThrows(DatabaseException.class, () -> Facade.login("user","123", connectionPool));
     }
 
     @Test
     void invalidUserNameLogin() throws DatabaseException
     {
-        assertThrows(DatabaseException.class, () -> UserFacade.login("bob","1234", connectionPool));
+        assertThrows(DatabaseException.class, () -> Facade.login("bob","1234", connectionPool));
     }
 
     @Test
     void createUser() throws DatabaseException
     {
-        User newUser = UserFacade.createUser("Mango", "m@m.dk", "1234",666,"adresse 3", connectionPool);
-        User logInUser = UserFacade.login("m@m.dk","1234", connectionPool);
+        User newUser = Facade.createUser("Mango", "m@m.dk", "1234",666,"adresse 3", connectionPool);
+        User logInUser = Facade.login("m@m.dk","1234", connectionPool);
         User expectedUser = new User("Mango","1234",1,3,"m@m.dk",666,"adresse 3");
         assertEquals(expectedUser, newUser);
         assertEquals(expectedUser, logInUser);

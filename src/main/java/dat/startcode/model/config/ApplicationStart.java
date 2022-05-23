@@ -3,7 +3,7 @@ package dat.startcode.model.config;
 import dat.startcode.model.entities.Materials;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -45,8 +45,8 @@ public class ApplicationStart implements ServletContextListener
 
 
         try {
-            flatRoofMaterialsList = UserFacade.showFlatRoofMaterial(connectionPool);
-            raisedRoofMaterialsList = UserFacade.showRaisedRoofMaterial(connectionPool);
+            flatRoofMaterialsList = Facade.showFlatRoofMaterial(connectionPool);
+            raisedRoofMaterialsList = Facade.showRaisedRoofMaterial(connectionPool);
 
         } catch (DatabaseException e) {
             e.printStackTrace();

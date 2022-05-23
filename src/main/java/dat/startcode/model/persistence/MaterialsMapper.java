@@ -15,12 +15,12 @@ import java.util.logging.Logger;
 public class MaterialsMapper {
     ConnectionPool connectionPool;
 
-    public MaterialsMapper(ConnectionPool connectionPool) {
+    protected MaterialsMapper(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
 
-    public Materials getMaterialsById(int materialId) throws DatabaseException {
+    protected Materials getMaterialsById(int materialId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         Materials materials = null;
@@ -55,7 +55,7 @@ public class MaterialsMapper {
         return materials;
     }
 
-    public List<Materials> ShowFlatRoofMaterials() throws DatabaseException{
+    protected List<Materials> ShowFlatRoofMaterials() throws DatabaseException{
         Logger.getLogger("web").log(Level.INFO, "");
 
         List<Materials> getFlatRoofMaterials = new ArrayList<>();
@@ -83,7 +83,7 @@ public class MaterialsMapper {
         return getFlatRoofMaterials;
     }
 
-    public List<Materials> ShowRaisedRoofMaterials() throws DatabaseException{
+    protected List<Materials> ShowRaisedRoofMaterials() throws DatabaseException{
         Logger.getLogger("web").log(Level.INFO, "");
 
         List<Materials> getRaisedRoofMaterials = new ArrayList<>();
@@ -111,7 +111,7 @@ public class MaterialsMapper {
         return getRaisedRoofMaterials;
     }
 
-    public List<Materials> getMaterialsByType(String type) throws DatabaseException {
+    protected List<Materials> getMaterialsByType(String type) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         List<Materials> materialsList = new ArrayList<>();
@@ -149,7 +149,7 @@ public class MaterialsMapper {
         return materialsList;
     }
 
-    public Materials getRoofTopTile(String roofType) throws DatabaseException {
+    protected Materials getRoofTopTile(String roofType) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         //Splitter typen for at få farven på teglstenene, så der kan sendes samme farve rygsten med. Skråstregerne da ( er et reserveret tegn.

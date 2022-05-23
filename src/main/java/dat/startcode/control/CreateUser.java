@@ -4,12 +4,11 @@ import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 public class CreateUser extends Command {
 
@@ -59,7 +58,7 @@ public class CreateUser extends Command {
 //        }
 
             //Opretter brugeren i databasen
-            User user = UserFacade.createUser(fullname, email, password, phoneNo, adress, connectionPool);
+            User user = Facade.createUser(fullname, email, password, phoneNo, adress, connectionPool);
             session = request.getSession();
             session.setAttribute("user", user);
 
@@ -70,7 +69,7 @@ public class CreateUser extends Command {
             String email = request.getParameter("email2");
             String password = request.getParameter("password2");
 
-            User user = UserFacade.login(email, password, connectionPool);
+            User user = Facade.login(email, password, connectionPool);
             session = request.getSession();
             session.setAttribute("user", user);
 

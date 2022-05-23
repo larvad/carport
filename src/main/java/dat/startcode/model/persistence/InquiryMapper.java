@@ -7,15 +7,15 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class RequestMapper {
+public class InquiryMapper {
     ConnectionPool connectionPool;
 
-    public RequestMapper(ConnectionPool connectionPool) {
+    protected InquiryMapper(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
 
-    public Inquiry getRequestById(int inquiryId) throws DatabaseException {
+    protected Inquiry getRequestById(int inquiryId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         Inquiry inquiry = null;
@@ -47,7 +47,7 @@ public class RequestMapper {
         return inquiry;
     }
 
-    public Inquiry insertInquiryIntoDB(int carpWidth, int carpLength, String roofType,
+    protected Inquiry insertInquiryIntoDB(int carpWidth, int carpLength, String roofType,
                                        int roofSlope, int shedWidth, int shedLength) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         int newInquiryID = 0;
@@ -85,7 +85,7 @@ public class RequestMapper {
     }
 
 
-    public boolean updateInquiryByInquiryId(Inquiry inquiry) throws DatabaseException{
+    protected boolean updateInquiryByInquiryId(Inquiry inquiry) throws DatabaseException{
         Logger.getLogger("web").log(Level.INFO, "");
 
         boolean result = false;

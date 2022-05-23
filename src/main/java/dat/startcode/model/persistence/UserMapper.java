@@ -7,15 +7,14 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UserMapper implements IUserMapper {
+public class UserMapper {
     ConnectionPool connectionPool;
 
-    public UserMapper(ConnectionPool connectionPool) {
+    protected UserMapper(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
-    @Override
-    public User login(String email, String password) throws DatabaseException {
+    protected User login(String email, String password) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         User user = null;
@@ -46,8 +45,7 @@ public class UserMapper implements IUserMapper {
         return user;
     }
 
-    @Override
-    public User createUser(String username, String email, String password, int phoneNr, String adresse) throws DatabaseException {
+    protected User createUser(String username, String email, String password, int phoneNr, String adresse) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         User user = null;
         int newId = 0;

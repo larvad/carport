@@ -5,7 +5,7 @@ import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
-import dat.startcode.model.services.UserFacade;
+import dat.startcode.model.persistence.Facade;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -63,25 +63,25 @@ public class SendInquiry extends Command {
             throw new RuntimeException(e);
         }
 
-        inquiry = UserFacade.insertInquiryIntoDB(carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength, connectionPool);
+        inquiry = Facade.insertInquiryIntoDB(carpWidth, carpLength, roofType, roofSlope, shedWidth, shedLength, connectionPool);
 
         //Generér OderId
         int userId = user.getUserId();
         int inquiryID = inquiry.getInquiryId();
-        int orderId = UserFacade.insertOrderIntoDB(inquiryID, userId,1, connectionPool);
+        int orderId = Facade.insertOrderIntoDB(inquiryID, userId,1, connectionPool);
 
         request.setAttribute("inquiry", inquiry);
 
         //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
-        UserFacade.calculate(orderId, inquiry, connectionPool);
+        Facade.calculate(orderId, inquiry, connectionPool);
 
         //Udregn costPrice og afrund til 2 decimaler
-        double costPrice = UserFacade.calcOrderCostPriceById(orderId, connectionPool);
+        double costPrice = Facade.calcOrderCostPriceById(orderId, connectionPool);
         BigDecimal bdCostPrice = new BigDecimal(costPrice).setScale(2, RoundingMode.HALF_UP);
         costPrice = bdCostPrice.doubleValue();
 
         //Tilføj cost_price til databasen
-        UserFacade.updateOrderCostPriceById(orderId, costPrice, connectionPool);
+        Facade.updateOrderCostPriceById(orderId, costPrice, connectionPool);
 
         //Afrund finalPrice til 2 decimaler (finalPrice er costprice*1,3)
         BigDecimal bdFinalPrice = new BigDecimal(costPrice * 1.3).setScale(2, RoundingMode.HALF_UP);
@@ -90,7 +90,7 @@ public class SendInquiry extends Command {
         double finalPrice = bdFinalPrice.doubleValue();
 
         //Tilføj finalPrice til databasen
-        UserFacade.updateOrderFinalPriceById(orderId, finalPrice, connectionPool);
+        Facade.updateOrderFinalPriceById(orderId, finalPrice, connectionPool);
 
         return "confirmInquiry";
     }

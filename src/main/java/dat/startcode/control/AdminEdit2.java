@@ -10,6 +10,8 @@ import dat.startcode.model.persistence.Facade;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class AdminEdit2 extends Command {
     private ConnectionPool connectionPool;
@@ -76,7 +78,11 @@ public class AdminEdit2 extends Command {
         Facade.calculate(order.getOrderId(), inquiry, connectionPool);
 
         //Nu hvor styklisten er opdateret kan der regnes på costPrice
-        double costPrice = Facade.updateOrderCostPriceById(order.getOrderId(), connectionPool);
+        double costPrice = Facade.calcOrderCostPriceById(order.getOrderId(), connectionPool);
+        BigDecimal bdCostPrice = new BigDecimal(costPrice).setScale(2, RoundingMode.HALF_UP);
+        costPrice = bdCostPrice.doubleValue();
+        Facade.updateOrderCostPriceById(order.getOrderId(), costPrice, connectionPool);
+
         succes = Facade.updateOrderFinalPriceById(order.getOrderId(), finalPrice, connectionPool);
         order = Facade.getOrderById(order.getOrderId(), connectionPool); //opdater orderen således at prisen opdateres på refresh
         if (succes)

@@ -104,11 +104,15 @@ public class Facade {
         return billsOfMaterialMapper.deleteBoMbyId(orderId);
     }
 
-    public static double updateOrderCostPriceById(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+    public static double calcOrderCostPriceById(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
         double costPrice = orderMapper.calcNewCostPrice(orderId);
-        boolean success = orderMapper.updateOrderCostPriceById(orderId, costPrice);
         return costPrice;
+    }
+
+    public static void updateOrderCostPriceById(int orderId, double costPrice, ConnectionPool connectionPool) throws DatabaseException {
+        OrderMapper orderMapper = new OrderMapper(connectionPool);
+        boolean success = orderMapper.updateOrderCostPriceById(orderId, costPrice);
     }
 
     public static List<Materials> getMaterialsByType(String type, ConnectionPool connectionPool) throws DatabaseException {
@@ -130,6 +134,8 @@ public class Facade {
         MaterialsMapper materialsMapper = new MaterialsMapper(connectionPool);
         return  materialsMapper.getRoofTopTile(roofType);
     }
+
+
 }
 
 //TODO: lave Facade om til Facade, og rykke den op i persistence mappen. Lade alle vores klasser i control køre deres metoder over facaden.

@@ -18,7 +18,6 @@ public class ShowSVG extends Command{
     private final double COLUMNTHICKNESS = 9.7;
     private final int ROOFSIDEDISTANCE = 30;
     private final int ROOFBACKDISTANCE = 50;
-    private int roofFrontDistance = 100;
     private final int ROOFFRONTDISTANCE1 = 50;
     private final int ROOFFRONTDISTANCE2 = 100;
 
@@ -40,8 +39,8 @@ public class ShowSVG extends Command{
         int shedLength = inquiry.getShedLength()/10;
 
         // SVG svg1 = new SVG(0, 0, "0 0 "+ carpWidth + " " + carpLength, 1000, 1000 );
-        SVG svg1 = new SVG(0, 0, "0 0 1000 1000", 1000, 1000 );
-        SVG svg2 = new SVG(100, 100, "0 0 "+ carpLength + " " + carpWidth, carpLength, carpWidth );
+        SVG svg1 = new SVG(0, 0, "0 0 "+ (carpLength+150) + " " + (carpWidth+150), 1000, 1000 );
+        SVG svg2 = new SVG(150, 100, "0 0 "+ carpLength + " " + carpWidth, carpLength, carpWidth );
 
 
         drawCarportRoof(svg2, carpWidth, carpLength);
@@ -186,7 +185,28 @@ public class ShowSVG extends Command{
 
     private SVG drawArrows(SVG svg, int carpWidth, int carpLength) {
         svg.addArrows(50 + 6,100, 50 + 6, carpWidth + 100);
-        svg.addArrows(100, carpWidth + 150 + 6, carpLength + 100, carpWidth + 150 +6 );
+        svg.addLine(50,100, 80, 100);
+        svg.addLine(50, carpWidth + 100, 80, carpWidth + 100);
+        svg.addText(45,carpWidth/2+100, -90, carpWidth);
+
+        svg.addArrows(100 + 6,100+30, 100 + 6, carpWidth-60 + 100 + 30);
+        svg.addLine(100,100+30, 130, 100+30);
+        svg.addLine(100, carpWidth-60 + 100+30, 130, carpWidth-60 + 100+30);
+        svg.addText(95,carpWidth/2+100, -90, carpWidth-60);
+
+        svg.addArrows(150, carpWidth + 170 + 6, carpLength + 150, carpWidth + 170 +6 );
+        svg.addLine(150, carpWidth + 170+12, 150, carpWidth + 170+12 -30);
+        svg.addLine(150+carpLength, carpWidth + 170+12, 150+carpLength, carpWidth + 170+12 -30);
+        svg.addText(carpLength/2+150, carpWidth+170, 0, carpLength);
+
+        // TODO: regn afstand ud efter styklisten er færdig (sat til 50 nu)
+        for (int x = 0; x < carpLength/50; x++) {
+            svg.addArrows(150+x*50, carpWidth + 130 + 6, 50 + 150+x*50, carpWidth + 130 +6 );
+            svg.addLine(150 + x*50, carpWidth + 130+12, 150+x*50, carpWidth + 130+12 -30);
+            svg.addLine(150+50 +x*50, carpWidth + 130+12, 150+50+x*50, carpWidth + 130+12 -30);
+            svg.addText(175+x*50, carpWidth+125, 0, 50);
+        }
+
         return svg;
     }
 

@@ -4,7 +4,6 @@ import dat.startcode.logic.RequestCalculator;
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Order;
-import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
 import dat.startcode.model.services.UserFacade;
@@ -81,7 +80,7 @@ public class AdminEdit2 extends Command {
         //TODO: Dette skal igennem UserFacade!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         //Nu hvor styklisten er opdateret kan der regnes på costPrice
-        double costPrice = UserFacade.updateOrderCostPriceById(order.getOrderId(), connectionPool);
+        double costPrice = UserFacade.calcOrderCostPriceById(order.getOrderId(), connectionPool);
         succes = UserFacade.updateOrderFinalPriceById(order.getOrderId(), finalPrice, connectionPool);
         order = UserFacade.getOrderById(order.getOrderId(), connectionPool); //opdater orderen således at prisen opdateres på refresh
         if (succes)

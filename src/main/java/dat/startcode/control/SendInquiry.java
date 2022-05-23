@@ -1,9 +1,7 @@
 package dat.startcode.control;
 
-import dat.startcode.logic.RequestCalculator;
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.entities.Inquiry;
-import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
@@ -14,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Time;
-import java.sql.Timestamp;
 
 public class SendInquiry extends Command {
     private ConnectionPool connectionPool;
@@ -79,15 +75,21 @@ public class SendInquiry extends Command {
         //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
         UserFacade.calculate(orderId, inquiry, connectionPool);
 
-        //Udregn og tilføj cost_price til databasen
-        double costPrice = UserFacade.updateOrderCostPriceById(orderId, connectionPool);
+        //Udregn costPrice og afrund til 2 decimaler
+        double costPrice = UserFacade.calcOrderCostPriceById(orderId, connectionPool);
+        BigDecimal bdCostPrice = new BigDecimal(costPrice).setScale(2, RoundingMode.HALF_UP);
+        costPrice = bdCostPrice.doubleValue();
 
-        // blackmagickz (finalPrice er costprice*1,3)
+        //Tilføj cost_price til databasen
+        UserFacade.updateOrderCostPriceById(orderId, costPrice, connectionPool);
+
+        //Afrund finalPrice til 2 decimaler (finalPrice er costprice*1,3)
         BigDecimal bdFinalPrice = new BigDecimal(costPrice * 1.3).setScale(2, RoundingMode.HALF_UP);
 
-        // omdan BigDecimal tilbage til double
+        //Omdan BigDecimal tilbage til double
         double finalPrice = bdFinalPrice.doubleValue();
 
+        //Tilføj finalPrice til databasen
         UserFacade.updateOrderFinalPriceById(orderId, finalPrice, connectionPool);
 
         return "confirmInquiry";

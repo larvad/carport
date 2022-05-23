@@ -39,7 +39,7 @@ public class ShowSVG extends Command{
         int shedLength = inquiry.getShedLength()/10;
 
         // SVG svg1 = new SVG(0, 0, "0 0 "+ carpWidth + " " + carpLength, 1000, 1000 );
-        SVG svg1 = new SVG(0, 0, "0 0 1000 1000", 1000, 1000 );
+        SVG svg1 = new SVG(0, 0, "0 0 "+ (carpLength+150) + " " + (carpWidth+150), 1000, 1000 );
         SVG svg2 = new SVG(150, 100, "0 0 "+ carpLength + " " + carpWidth, carpLength, carpWidth );
 
 
@@ -199,10 +199,13 @@ public class ShowSVG extends Command{
         svg.addLine(150+carpLength, carpWidth + 170+12, 150+carpLength, carpWidth + 170+12 -30);
         svg.addText(carpLength/2+150, carpWidth+170, 0, carpLength);
 
-        svg.addArrows(150, carpWidth + 130 + 6, 50 + 150, carpWidth + 130 +6 );
-        svg.addLine(150, carpWidth + 130+12, 150, carpWidth + 130+12 -30);
-        svg.addLine(150+50, carpWidth + 130+12, 150+50, carpWidth + 130+12 -30);
-        svg.addText(175, carpWidth+125, 0, 50);
+        // TODO: regn afstand ud efter styklisten er færdig (sat til 50 nu)
+        for (int x = 0; x < carpLength/50; x++) {
+            svg.addArrows(150+x*50, carpWidth + 130 + 6, 50 + 150+x*50, carpWidth + 130 +6 );
+            svg.addLine(150 + x*50, carpWidth + 130+12, 150+x*50, carpWidth + 130+12 -30);
+            svg.addLine(150+50 +x*50, carpWidth + 130+12, 150+50+x*50, carpWidth + 130+12 -30);
+            svg.addText(175+x*50, carpWidth+125, 0, 50);
+        }
 
         return svg;
     }

@@ -154,6 +154,7 @@ public class MaterialsMapper {
 
         //Splitter typen for at få farven på teglstenene, så der kan sendes samme farve rygsten med. Skråstregerne da ( er et reserveret tegn.
         String[] roofTypeArray = roofType.split("\\(");
+        //Nu har vi et Stringarray med to strenge. Den sidste, index 1, er den der indeholder tagstenens farve
         String color = "%(" + roofTypeArray[1] + "%";
 
         Materials topTile = null;

@@ -90,9 +90,9 @@ public class RequestCalculator {
         int roofWidth = (int) Math.ceil(roofWidthDouble);
         int roofLength = carpLength + roofOverlay;
         int squareRoof = roofLength * roofWidth;
-        //Tagstenene overlapper hinanden
+        //Tagstenene overlapper hinanden og der er to tagsider
         double overlapFactor = 1.5;
-        double roofTileAmountDouble = (squareRoof / squareTile) * overlapFactor;
+        double roofTileAmountDouble = (squareRoof / squareTile) * overlapFactor * 2;
         int roofTileAmount = (int) Math.ceil(roofTileAmountDouble);
         billsOfMaterials.add(new BillsOfMaterial(bomId, roofTileId, orderId, roofTileAmount, "Tagsten til taget"));
         //Rygningstenene

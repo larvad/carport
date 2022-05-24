@@ -378,7 +378,7 @@ public class InquiryCalculator {
         }
     }
 
-    private int getRaftersAmount(int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
+    public int getRaftersAmount(int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
 
         //        Ny længde = Længde på carport - tykkelse på spær - (tykkelse på understernbrædder * 2)
 //        (fordi det første spærs tykkelse ikke er medregnet når mellemrummene lægges sammen, og der er er understernbræt på foran og bagved)

@@ -10,7 +10,7 @@ import dat.startcode.model.persistence.Facade;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RequestCalculator {
+public class InquiryCalculator {
     /* 100 cm udhæng foran + maks afstand på 325 cm mellem stolper + 30 cm udhæng bagtil
      Derfor følgende breakpoint */
     //STOLPER

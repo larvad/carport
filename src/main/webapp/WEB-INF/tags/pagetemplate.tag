@@ -57,7 +57,7 @@
                     <a class="profilKnap" href="${pageContext.request.contextPath}/fc/profile?command=profile">Min profil</a>
                     </c:if>
                     <c:if test="${sessionScope.user.roleId == 2 }">
-                        <a class="profilKnap" href="${pageContext.request.contextPath}/fc/admin?command=admin">Small Money</a>
+                        <a class="profilKnap" href="${pageContext.request.contextPath}/fc/admin?command=admin">Order oversigt</a>
                     </c:if>
                     <c:if test="${sessionScope.user != null }">
                         <a class="btn btn-layer1" href="${pageContext.request.contextPath}/fc/logout?command=logout">Log out</a>

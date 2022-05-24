@@ -33,9 +33,6 @@ public class CreateCarport extends Command {
 //        servletContext.setAttribute("flatRoofMaterialsList",flatRoofMaterialsList);
 //        servletContext.setAttribute("raisedRoofMaterialsList",raisedRoofMaterialsList);
 
-
-
-        //TODO: CHECK om redskabsrum er 30cm mindre i brede og længe! ellers send kunde tilbage i børnehaven.
         return "createCarport";
     }
 }

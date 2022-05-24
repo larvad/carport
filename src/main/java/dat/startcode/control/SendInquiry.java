@@ -72,7 +72,7 @@ public class SendInquiry extends Command {
 
         request.setAttribute("inquiry", inquiry);
 
-        //Få orderIDet ind i RequestCalculator + kald beregning, som laver BOM
+        //Få orderIDet ind i InquiryCalculator + kald beregning, som laver BOM
         Facade.calculate(orderId, inquiry, connectionPool);
 
         //Udregn costPrice og afrund til 2 decimaler

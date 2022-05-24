@@ -120,6 +120,17 @@
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="dropdown">
+                                                <h1 bold style="font-size: x-large">Skur Bredde</h1>
+                                                <select required="required" id="shedWidth" name="shedWidth" class="form-select "
+                                                        aria-label="Default select example" disabled="true">
+                                                    <option value="" selected>Vælg Skur Bredde</option>
+                                                    <option value="1">Fuld Bredde</option>
+                                                    <option value="2">Halv Bredde</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm">
+                                            <div class="dropdown">
                                                 <h1 bold style="font-size: x-large">Skur Længde</h1>
                                                 <select required="required" id="shedLength" name="shedLength" class="form-select "
                                                         aria-label="Default select example" disabled="true">
@@ -130,24 +141,6 @@
                                                             cm
                                                         </option>
                                                     </c:forEach>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="dropdown">
-                                                <h1 bold style="font-size: x-large">Skur Bredde</h1>
-                                                <select required="required" id="shedWidth" name="shedWidth" class="form-select "
-                                                        aria-label="Default select example" disabled="true">
-                                                    <option value="" selected>Vælg Skur Bredde</option>
-                                                    <option value="1">Fuld Bredde</option>
-                                                    <option value="2">Halv Bredde</option>
-
-    <%--                                                <c:forEach var="i" begin="210" end="720" step="30">--%>
-    <%--                                                    <option value="<c:out value="${i * 10}"></c:out>"><c:out--%>
-    <%--                                                            value="${i}"></c:out>--%>
-    <%--                                                        cm--%>
-    <%--                                                    </option>--%>
-    <%--                                                </c:forEach>--%>
                                                 </select>
                                             </div>
                                         </div>

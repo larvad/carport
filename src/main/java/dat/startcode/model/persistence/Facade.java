@@ -6,7 +6,7 @@ import dat.startcode.model.entities.Inquiry;
 import dat.startcode.model.entities.Materials;
 import dat.startcode.model.entities.Order;
 import dat.startcode.model.entities.User;
-import dat.startcode.logic.RequestCalculator;
+import dat.startcode.logic.InquiryCalculator;
 import dat.startcode.model.entities.*;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.dto.UserOrdersDTO;
@@ -121,8 +121,8 @@ public class Facade {
     }
 
     public static void calculate(int orderId, Inquiry inquiry, ConnectionPool connectionPool) throws DatabaseException {
-        RequestCalculator requestCalculator = new RequestCalculator();
-        requestCalculator.calculate(orderId, inquiry, connectionPool);
+        InquiryCalculator inquiryCalculator = new InquiryCalculator();
+        inquiryCalculator.calculate(orderId, inquiry, connectionPool);
     }
 
     public static List<BillsOfMaterial> insertBOMList(List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {

@@ -35,7 +35,6 @@ public class AdminEdit2 extends Command {
 
 
         try {
-            String M18Hellcat = request.getParameter("inlineRadioOptions");
             carpWidth = Integer.parseInt(request.getParameter("carpWidth"));
             carpLength = Integer.parseInt(request.getParameter("carpLength"));
             roofType = request.getParameter("roofType");

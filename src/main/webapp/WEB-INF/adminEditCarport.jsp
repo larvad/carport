@@ -128,13 +128,13 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="dropdown">
-                                            <h1 bold style="font-size: x-large">Skur Længde</h1>
-                                            <select required="required" id="shedLength" name="shedLength"
+                                            <h1 bold style="font-size: x-large">Skur Bredde</h1>
+                                            <select required="required" id="shedWidth" name="shedWidth"
                                                     class="form-select "
-                                                    aria-label="Default select example" <c:if test="${sessionScope.inquiry.shedLength == 0}">disabled="true"</c:if>>
-                                                <option value="" selected>Vælg Skur Længde</option>
-                                                <c:forEach var="i" begin="150" end="690" step="30">
-                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == sessionScope.inquiry.shedLength/10}">selected="selected"</c:if>>
+                                                    aria-label="Default select example" <c:if test="${sessionScope.inquiry.shedWidth == 0}">disabled="true"</c:if>>
+                                                <option value="" selected>Vælg Skur Bredde</option>
+                                                <c:forEach var="i" begin="210" end="720" step="30">
+                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == sessionScope.inquiry.shedWidth/10}">selected="selected"</c:if>>
                                                         <c:out value="${i}"></c:out> cm
                                                     </option>
                                                 </c:forEach>
@@ -143,13 +143,13 @@
                                     </div>
                                     <div class="col-sm">
                                         <div class="dropdown">
-                                            <h1 bold style="font-size: x-large">Skur Bredde</h1>
-                                            <select required="required" id="shedWidth" name="shedWidth"
+                                            <h1 bold style="font-size: x-large">Skur Længde</h1>
+                                            <select required="required" id="shedLength" name="shedLength"
                                                     class="form-select "
-                                                    aria-label="Default select example" <c:if test="${sessionScope.inquiry.shedWidth == 0}">disabled="true"</c:if>>
-                                                <option value="" selected>Vælg Skur Bredde</option>
-                                                <c:forEach var="i" begin="210" end="720" step="30">
-                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == sessionScope.inquiry.shedWidth/10}">selected="selected"</c:if>>
+                                                    aria-label="Default select example" <c:if test="${sessionScope.inquiry.shedLength == 0}">disabled="true"</c:if>>
+                                                <option value="" selected>Vælg Skur Længde</option>
+                                                <c:forEach var="i" begin="150" end="690" step="30">
+                                                    <option value="<c:out value="${i * 10}"></c:out>" <c:if test="${i == sessionScope.inquiry.shedLength/10}">selected="selected"</c:if>>
                                                         <c:out value="${i}"></c:out> cm
                                                     </option>
                                                 </c:forEach>

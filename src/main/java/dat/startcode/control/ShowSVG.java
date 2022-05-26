@@ -48,7 +48,7 @@ public class ShowSVG extends Command{
 
         drawCarportRoof(svg2, carpWidth, carpLength);
         drawShed(svg2, carpWidth, carpLength, shedWidth, shedLength);
-        drawRafters(svg2,carpWidth, carpLength, raftersDistance);
+        drawRafters(svg2,carpWidth, carpLength, raftersDistance, raftersQuantity);
         drawRems(svg2, carpWidth, carpLength);
         drawCross(svg2, carpWidth, carpLength, shedWidth, shedLength);
         if (shedLength > 0) {
@@ -74,9 +74,9 @@ public class ShowSVG extends Command{
         }
     }
 
-    public void drawRafters(SVG svg, int carpWidth, int carpLength, int raftersDistance){
-        for (int x = 0; x < raftersDistance; x++) {
-            svg.addRect(50 + raftersDistance * x, 0, carpWidth, RAFTERTHICKNESS);
+    public void drawRafters(SVG svg, int carpWidth, int carpLength, int raftersDistance, int raftersQuantity){
+        for (int x = 0; x < raftersQuantity; x++) {
+            svg.addRect(raftersDistance + raftersDistance * x, 0, carpWidth, RAFTERTHICKNESS);
         }
     }
 

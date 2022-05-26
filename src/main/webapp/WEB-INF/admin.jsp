@@ -77,6 +77,7 @@
                             <td>
                             <c:if test="${userOrdersDTO.status_id == 1}">Venter</c:if>
                             <c:if test="${userOrdersDTO.status_id == 2}">Færdig</c:if>
+                            <c:if test="${userOrdersDTO.status_id == 3}">Betalt</c:if>
                             </td>
                             <td>${userOrdersDTO.timestamp}</td>
                             <td>

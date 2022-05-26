@@ -42,7 +42,7 @@ public class ShowSVG extends Command{
         int raftersQuantity = Facade.getRafterQuantityByOrderId(orderId, connectionPool);
         int raftersDistance = carpLength/raftersQuantity;
 
-        SVG svg1 = new SVG(0, 0, "0 0 "+ (carpLength+150) + " " + (carpWidth+150), 1000, 1000 );
+        SVG svg1 = new SVG(0, 0, "0 0 "+ (carpLength+200) + " " + (carpWidth+200), 1000, 1000 );
         SVG svg2 = new SVG(150, 100, "0 0 "+ carpLength + " " + carpWidth, carpLength, carpWidth );
 
 
@@ -56,7 +56,7 @@ public class ShowSVG extends Command{
         }else{
             drawColumnWithoutShed(svg2, carpWidth, carpLength);
         }
-        drawArrows(svg1, carpWidth, carpLength, raftersDistance);
+        drawArrows(svg1, carpWidth, carpLength, raftersDistance, raftersQuantity);
         svg1.addSvg(svg2);
 
         request.setAttribute("svg", svg1.toString());
@@ -185,7 +185,7 @@ public class ShowSVG extends Command{
         }
     }
 
-    private SVG drawArrows(SVG svg, int carpWidth, int carpLength, int raftersDistance) {
+    private SVG drawArrows(SVG svg, int carpWidth, int carpLength, int raftersDistance, int raftersQuantity) {
         svg.addArrows(50 + 6,100, 50 + 6, carpWidth + 100);
         svg.addLine(50,100, 80, 100);
         svg.addLine(50, carpWidth + 100, 80, carpWidth + 100);
@@ -201,11 +201,10 @@ public class ShowSVG extends Command{
         svg.addLine(150+carpLength, carpWidth + 170+12, 150+carpLength, carpWidth + 170+12 -30);
         svg.addText(carpLength/2+150, carpWidth+170, 0, carpLength);
 
-        // TODO: regn afstand ud efter styklisten er færdig (sat til 50 nu)
-        for (int x = 0; x < raftersDistance; x++) {
+        for (int x = 0; x < raftersQuantity; x++) {
             svg.addArrows(150+ x * raftersDistance, carpWidth + 130 + 6, 150+x*raftersDistance+raftersDistance, carpWidth + 130 +6 );
             svg.addLine(150+ x * raftersDistance, carpWidth + 130+12, 150+x*raftersDistance, carpWidth + 130+12 -30);
-            //svg.addLine(150+raftersDistance + x * raftersDistance, carpWidth + 130+12, 150+raftersDistance+x*raftersDistance, carpWidth + 130+12 -30);
+            svg.addLine(150+raftersDistance + x * raftersDistance, carpWidth + 130+12, 150+raftersDistance + x * raftersDistance, carpWidth + 130+12 -30);
             svg.addText(175 + x * raftersDistance, carpWidth+125, 0, raftersDistance);
         }
 

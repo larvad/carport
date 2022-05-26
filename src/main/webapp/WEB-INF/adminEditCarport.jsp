@@ -6,6 +6,7 @@
 
 <t:pagetemplate>
     <jsp:attribute name="header">
+        Rediger order
     </jsp:attribute>
 
     <jsp:attribute name="footer">
@@ -176,6 +177,7 @@
                     </div>
                 </div>
             </form>
+            <br>
         </c:if>
 
         <c:if test="${sessionScope.user == null}">

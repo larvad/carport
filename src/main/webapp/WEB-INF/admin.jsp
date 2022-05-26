@@ -6,7 +6,7 @@
 
 <t:pagetemplate>
     <jsp:attribute name="header">
-             Skræddersy din egen carport
+             Order oversigt
     </jsp:attribute>
 
     <jsp:attribute name="footer">
@@ -18,11 +18,12 @@
         <%--        <h1 class="center-Text">${requestScope.insufficient_funds}</h1>--%>
 
         <h3>Her kan du se alle ordere: </h3>
+        <br>
 
-        <div style="padding:0px 0px 5px 5px">
-            <label for="myInput">Søg: </label>
-            <input type="text" id="myInput" onkeyup="searchByUsername()" placeholder="Søg efter kundenavn...">
-        </div>
+<%--        <div style="padding:0px 0px 5px 5px">--%>
+<%--            <label for="myInput">Søg: </label>--%>
+<%--            <input type="text" id="myInput" onkeyup="searchByUsername()" placeholder="Søg efter kundenavn...">--%>
+<%--        </div>--%>
         <form method="post">
             <div class="table-responsive-xl">
                 <table class="table-responsive-sm table" id="myTable">

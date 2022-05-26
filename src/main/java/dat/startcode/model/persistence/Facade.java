@@ -135,6 +135,11 @@ public class Facade {
         return  materialsMapper.getRoofTopTile(roofType);
     }
 
+    public static int getRafterQuantityByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException{
+        BillsOfMaterialMapper billsOfMaterialMapper = new BillsOfMaterialMapper(connectionPool);
+        return billsOfMaterialMapper.getRafterQuantityByOrderId(orderId);
+    }
+
 
 }
 

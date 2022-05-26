@@ -185,4 +185,31 @@ public class BillsOfMaterialMapper {
 
         return true;
     }
+
+    protected int getRafterQuantityByOrderId(int orderId) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        int raftersQuantity = 0;
+
+        String sql = "SELECT quantity " +
+                "FROM carport.bills_of_material " +
+                "where description = 'Spær, monteres på rem' and order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, orderId);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    raftersQuantity = rs.getInt("quantity");
+                } else {
+                    throw new DatabaseException("Fejl. Kunne ikke finde antallet af remme.");
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DatabaseException(ex, "Something went wrong with the database");
+        }
+        return raftersQuantity;
+    }
+
+
 }

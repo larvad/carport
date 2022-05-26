@@ -33,19 +33,22 @@ public class ShowSVG extends Command{
         int orderId = Integer.parseInt(request.getParameter("drawing"));
         Order order = Facade.getOrderById(orderId, connectionPool);
         Inquiry inquiry = Facade.getRequestById(order.getRequestId(), connectionPool);
+
         int carpWidth = inquiry.getCarpWidth()/10;
         int carpLength = inquiry.getCarpLength()/10;
         int shedWidth = inquiry.getShedWidth()/10;
         int shedLength = inquiry.getShedLength()/10;
 
-        // SVG svg1 = new SVG(0, 0, "0 0 "+ carpWidth + " " + carpLength, 1000, 1000 );
+        int raftersQuantity = Facade.getRafterQuantityByOrderId(orderId, connectionPool);
+        int raftersDistance = carpLength/raftersQuantity;
+
         SVG svg1 = new SVG(0, 0, "0 0 "+ (carpLength+150) + " " + (carpWidth+150), 1000, 1000 );
         SVG svg2 = new SVG(150, 100, "0 0 "+ carpLength + " " + carpWidth, carpLength, carpWidth );
 
 
         drawCarportRoof(svg2, carpWidth, carpLength);
         drawShed(svg2, carpWidth, carpLength, shedWidth, shedLength);
-        drawRafters(svg2,carpWidth, carpLength);
+        drawRafters(svg2,carpWidth, carpLength, raftersDistance);
         drawRems(svg2, carpWidth, carpLength);
         drawCross(svg2, carpWidth, carpLength, shedWidth, shedLength);
         if (shedLength > 0) {
@@ -53,7 +56,7 @@ public class ShowSVG extends Command{
         }else{
             drawColumnWithoutShed(svg2, carpWidth, carpLength);
         }
-        drawArrows(svg1, carpWidth, carpLength);
+        drawArrows(svg1, carpWidth, carpLength, raftersDistance);
         svg1.addSvg(svg2);
 
         request.setAttribute("svg", svg1.toString());
@@ -71,10 +74,9 @@ public class ShowSVG extends Command{
         }
     }
 
-    // TODO: få antal spær fra styklisten og divider carpLength med det for at få afstand
-    public void drawRafters(SVG svg, int carpWidth, int carpLength){
-        for (int x = 0; x < carpLength/50; x++) {
-            svg.addRect(50 + 50 * x, 0, carpWidth, RAFTERTHICKNESS);
+    public void drawRafters(SVG svg, int carpWidth, int carpLength, int raftersDistance){
+        for (int x = 0; x < raftersDistance; x++) {
+            svg.addRect(50 + raftersDistance * x, 0, carpWidth, RAFTERTHICKNESS);
         }
     }
 
@@ -183,7 +185,7 @@ public class ShowSVG extends Command{
         }
     }
 
-    private SVG drawArrows(SVG svg, int carpWidth, int carpLength) {
+    private SVG drawArrows(SVG svg, int carpWidth, int carpLength, int raftersDistance) {
         svg.addArrows(50 + 6,100, 50 + 6, carpWidth + 100);
         svg.addLine(50,100, 80, 100);
         svg.addLine(50, carpWidth + 100, 80, carpWidth + 100);
@@ -200,11 +202,11 @@ public class ShowSVG extends Command{
         svg.addText(carpLength/2+150, carpWidth+170, 0, carpLength);
 
         // TODO: regn afstand ud efter styklisten er færdig (sat til 50 nu)
-        for (int x = 0; x < carpLength/50; x++) {
-            svg.addArrows(150+x*50, carpWidth + 130 + 6, 50 + 150+x*50, carpWidth + 130 +6 );
-            svg.addLine(150 + x*50, carpWidth + 130+12, 150+x*50, carpWidth + 130+12 -30);
-            svg.addLine(150+50 +x*50, carpWidth + 130+12, 150+50+x*50, carpWidth + 130+12 -30);
-            svg.addText(175+x*50, carpWidth+125, 0, 50);
+        for (int x = 0; x < raftersDistance; x++) {
+            svg.addArrows(150+ x * raftersDistance, carpWidth + 130 + 6, 150+x*raftersDistance+raftersDistance, carpWidth + 130 +6 );
+            svg.addLine(150+ x * raftersDistance, carpWidth + 130+12, 150+x*raftersDistance, carpWidth + 130+12 -30);
+            //svg.addLine(150+raftersDistance + x * raftersDistance, carpWidth + 130+12, 150+raftersDistance+x*raftersDistance, carpWidth + 130+12 -30);
+            svg.addText(175 + x * raftersDistance, carpWidth+125, 0, raftersDistance);
         }
 
         return svg;

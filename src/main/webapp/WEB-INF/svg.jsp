@@ -15,7 +15,7 @@
     <jsp:body>
 
         <div class="showSVG">
-            <h1>Carport tegning</h1>
+            <h1>CARPORT TEGNING</h1>
             <div class="SVG">
                     ${requestScope.svg}
             </div>

@@ -11,17 +11,17 @@ public class User
     private int userId;
     private String email;
     private int phoneNr;
-    private String adresse;
+    private String adress;
 
 
-    public User(String username, String password, int roleId, int userId, String email, int phoneNr, String adresse) {
+    public User(String username, String password, int roleId, int userId, String email, int phoneNr, String adress) {
         this.username = username;
         this.password = password;
         this.roleId = roleId;
         this.userId = userId;
         this.email = email;
         this.phoneNr = phoneNr;
-        this.adresse = adresse;
+        this.adress = adress;
     }
 
 
@@ -74,12 +74,12 @@ public class User
         this.phoneNr = phoneNr;
     }
 
-    public String getAdresse() {
-        return adresse;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setAdress(String adress) {
+        this.adress = this.adress;
     }
 
     @Override

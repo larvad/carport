@@ -365,6 +365,7 @@ public class InquiryCalculator {
 
         if (roofLength <= FLATROOFSMALLBREAKPOINT) {
             shortRoofPlatesAmount = plateAmount;
+            //TODO den skal sætte den valgte tagplade ind og ikke bare nr 29
             billsOfMaterials.add(new BillsOfMaterial(bomId, 29, orderId, shortRoofPlatesAmount, "Tagplader monteres på spær"));
         } else {
 

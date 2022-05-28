@@ -21,9 +21,9 @@ class InquiryCalculatorTest {
 
     @Test
     void getRaftersAmount() throws DatabaseException {
-        InquiryCalculator inquiryCalculator = new InquiryCalculator();
-        List<BillsOfMaterial> billsOfMaterialList = new ArrayList<>();
-        ConnectionPool connectionPool = new ConnectionPool();
+            InquiryCalculator inquiryCalculator = new InquiryCalculator();
+            List<BillsOfMaterial> billsOfMaterialList = new ArrayList<>();
+            ConnectionPool connectionPool = new ConnectionPool();
         int expectedAmount1 = 11;
         int actualAmount1 = inquiryCalculator.getRaftersAmount(0, 6000, 6000, billsOfMaterialList, connectionPool);
         assertEquals(expectedAmount1, actualAmount1);

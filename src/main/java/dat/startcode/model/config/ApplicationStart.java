@@ -53,8 +53,8 @@ public class ApplicationStart implements ServletContextListener
         }
 
         ServletContext servletContext = sce.getServletContext();
-        servletContext.setAttribute("flatRoofMaterialsList",flatRoofMaterialsList);
-        servletContext.setAttribute("raisedRoofMaterialsList",raisedRoofMaterialsList);
+        servletContext.setAttribute("flatRoofMaterialsList", flatRoofMaterialsList);
+        servletContext.setAttribute("raisedRoofMaterialsList", raisedRoofMaterialsList);
     }
 
     public static ConnectionPool getConnectionPool()

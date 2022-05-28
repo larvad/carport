@@ -143,4 +143,3 @@ public class Facade {
 
 }
 
-//TODO: lave Facade om til Facade, og rykke den op i persistence mappen. Lade alle vores klasser i control køre deres metoder over facaden.

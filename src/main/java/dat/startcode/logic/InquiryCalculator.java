@@ -52,7 +52,7 @@ public class InquiryCalculator {
         //BEREGNING AF TAGPLADER
         int slope = inquiry.getRoofSlope();
         if (slope == 0) { //Fladt tag
-            calcRoofPlateAmount(orderId, carpLength, carpWidth, billsOfMaterials);
+            calcRoofPlateAmount(orderId, carpLength, carpWidth, inquiry, billsOfMaterials, connectionPool);
         } else { //Tag med rejsning
             calcRoofTiles(orderId, inquiry, connectionPool, carpLength, carpWidth, billsOfMaterials, slope);
         }
@@ -68,7 +68,7 @@ public class InquiryCalculator {
         calcWaterBoardForCarpLength(orderId, carpLength, billsOfMaterials, connectionPool);
 
         //DELE DER ALTID SKAL MED
-        addMiscallaneous(orderId, shedWidth, raftersAmount, carportColoumnAmount, shedLength, billsOfMaterials);
+        addMiscallaneous(orderId, shedWidth, raftersAmount, carportColoumnAmount, shedLength, inquiry, billsOfMaterials);
 
         //SÆTTE IND I DATABASEN
         List<BillsOfMaterial> bomListWithId = Facade.insertBOMList(billsOfMaterials, connectionPool);
@@ -278,10 +278,11 @@ public class InquiryCalculator {
         // materialeId 56 er samme men med længden 540
     }
 
-    private void addMiscallaneous(int orderId, int shedWidth, int raftersAmount, int carportColoumnAmount, int shedLength, List<BillsOfMaterial> billsOfMaterials) {
+    private void addMiscallaneous(int orderId, int shedWidth, int raftersAmount, int carportColoumnAmount, int shedLength, Inquiry inquiry, List<BillsOfMaterial> billsOfMaterials) {
         //        plastmo	bundskruer	200	stk. 3 pakke Skruer	til	tagplader
-        billsOfMaterials.add(new BillsOfMaterial(bomId, 22, orderId, 3, "Skruer til tagplader"));
-
+        if(inquiry.getRoofSlope() == 0) {
+            billsOfMaterials.add(new BillsOfMaterial(bomId, 22, orderId, 3, "Skruer til tagplader"));
+        }
 //        hulbånd	1x20	mm.	10	mtr. 2 Rulle Til	vindkryds	på	spær
         billsOfMaterials.add(new BillsOfMaterial(bomId, 23, orderId, 2, "Til vindkryds på spær"));
 
@@ -347,7 +348,7 @@ public class InquiryCalculator {
         }
     }
 
-    private void calcRoofPlateAmount(int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials) {
+    private void calcRoofPlateAmount(int orderId, int carpLength, int carpWidth, Inquiry inquiry, List<BillsOfMaterial> billsOfMaterials, ConnectionPool connectionPool) throws DatabaseException {
         //bølgerne på tagpladerne går på langs med pladernes længde. Og bølgerne skal følge tagets hældning, så vandet kan løbe af skuret.
         // taget skal gå 5 cm ud over sternbredderne på alle leder, derfor lægges 10 cm til
         int roofLength = carpLength + 100;
@@ -362,20 +363,22 @@ public class InquiryCalculator {
         double plateAmountDouble = ((double) roofWidth - ROOFPLATEOVERLAP) / roofPlateWidthMinusOverlap;
         int plateAmount = (int) Math.ceil(plateAmountDouble);
         int shortRoofPlatesAmount = 0;
+        String roofType = inquiry.getRoofType();
+        int materialIdLong = Facade.getMaterialsByType(roofType, connectionPool).get(1).getMaterialId();
+        int materialIdShort = Facade.getMaterialsByType(roofType, connectionPool).get(0).getMaterialId();
 
         if (roofLength <= FLATROOFSMALLBREAKPOINT) {
             shortRoofPlatesAmount = plateAmount;
-            //TODO den skal sætte den valgte tagplade ind og ikke bare nr 29
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 29, orderId, shortRoofPlatesAmount, "Tagplader monteres på spær"));
+            billsOfMaterials.add(new BillsOfMaterial(bomId, materialIdShort, orderId, shortRoofPlatesAmount, "Tagplader monteres på spær"));
         } else {
 
             if (roofLength > FLATROOFBIGBREAKPOINT) {
                 shortRoofPlatesAmount = plateAmount;
-                billsOfMaterials.add(new BillsOfMaterial(bomId, 29, orderId, shortRoofPlatesAmount, "Tagplader monteres på spær"));
+                billsOfMaterials.add(new BillsOfMaterial(bomId, materialIdShort, orderId, shortRoofPlatesAmount, "Tagplader monteres på spær"));
             }
 
             int longRoofPlatesAmount = plateAmount;
-            billsOfMaterials.add(new BillsOfMaterial(bomId, 28, orderId, longRoofPlatesAmount, "Tagplader monteres på spær"));
+            billsOfMaterials.add(new BillsOfMaterial(bomId, materialIdLong, orderId, longRoofPlatesAmount, "Tagplader monteres på spær"));
         }
     }
 

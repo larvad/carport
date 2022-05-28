@@ -6,6 +6,7 @@ import dat.startcode.model.entities.Order;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
 import dat.startcode.model.persistence.Facade;
+import dat.startcode.model.services.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,8 @@ public class AdminCRUD extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 
+        Authentication.isRoleAllowed(2, request);
+
         boolean succes;
         Inquiry inquiry = null;
 
@@ -28,7 +31,7 @@ public class AdminCRUD extends Command {
 
         switch(mode){
             case "godkend":
-                succes = Facade.setOrderStatusByOrderId(orderId, connectionPool);
+                succes = Facade.setOrderStatusByOrderId(orderId,2, connectionPool);
                 break;
             case "slet":
                 succes = Facade.deleteOrderByOrderId(orderId, connectionPool);

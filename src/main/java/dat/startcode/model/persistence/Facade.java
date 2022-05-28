@@ -44,14 +44,14 @@ public class Facade {
         return orderMapper.getUserOrderDTOs();
     }
 
-    public static boolean setOrderStatusByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
+    public static boolean setOrderStatusByOrderId(int orderId, int statusId, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);
-        return orderMapper.setOrderStatusByOrderId(orderId);
+        return orderMapper.setOrderStatusByOrderId(orderId, statusId);
     }
-    public static boolean setOrderStatusByOrderId2(int orderId ,ConnectionPool connectionPool) throws DatabaseException {
-        OrderMapper orderMapper = new OrderMapper(connectionPool);
-        return orderMapper.setOrderStatusByOrderId2(orderId);
-    }
+//    public static boolean setOrderStatusByOrderId2(int orderId ,ConnectionPool connectionPool) throws DatabaseException {
+//        OrderMapper orderMapper = new OrderMapper(connectionPool);
+//        return orderMapper.setOrderStatusByOrderId2(orderId);
+//    }
 
     public static boolean deleteOrderByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         OrderMapper orderMapper = new OrderMapper(connectionPool);

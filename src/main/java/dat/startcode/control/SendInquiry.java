@@ -6,6 +6,7 @@ import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
 import dat.startcode.model.persistence.Facade;
+import dat.startcode.model.services.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,9 +35,9 @@ public class SendInquiry extends Command {
         int shedLength;
         String checkboxShed;
 
+        Authentication.isRoleAllowed(1, request);
 
         try {
-            String M18Hellcat = request.getParameter("inlineRadioOptions");
             carpWidth = Integer.parseInt(request.getParameter("carpWidth"));
             carpLength = Integer.parseInt(request.getParameter("carpLength"));
             roofType = request.getParameter("roofType");

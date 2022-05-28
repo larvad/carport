@@ -7,6 +7,7 @@ import dat.startcode.model.entities.User;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
 import dat.startcode.model.persistence.Facade;
+import dat.startcode.model.services.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,7 @@ public class Profile extends Command{
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
         HttpSession session = request.getSession();
 
+        Authentication.isRoleAllowed(1, request);
 
         User user = (User) session.getAttribute("user");
         int userId = user.getUserId();

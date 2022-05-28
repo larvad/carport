@@ -6,6 +6,7 @@ import dat.startcode.model.entities.Order;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
 import dat.startcode.model.persistence.Facade;
+import dat.startcode.model.services.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,8 @@ public class AdminEdit extends Command {
     @Override
     String execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
         HttpSession session = request.getSession();
+
+        Authentication.isRoleAllowed(2, request);
 
         int orderId = Integer.parseInt(request.getParameter("edit")); // henter orderId fra button value
 

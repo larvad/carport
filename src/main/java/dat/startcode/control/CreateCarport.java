@@ -3,6 +3,7 @@ package dat.startcode.control;
 import dat.startcode.model.config.ApplicationStart;
 import dat.startcode.model.exceptions.DatabaseException;
 import dat.startcode.model.persistence.ConnectionPool;
+import dat.startcode.model.services.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +33,8 @@ public class CreateCarport extends Command {
 //        ServletContext servletContext = request.getServletContext();
 //        servletContext.setAttribute("flatRoofMaterialsList",flatRoofMaterialsList);
 //        servletContext.setAttribute("raisedRoofMaterialsList",raisedRoofMaterialsList);
+
+        Authentication.isRoleAllowed(1, request);
 
         return "createCarport";
     }

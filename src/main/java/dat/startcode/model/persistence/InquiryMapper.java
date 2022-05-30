@@ -20,7 +20,7 @@ public class InquiryMapper {
 
         Inquiry inquiry = null;
 
-        String sql = "SELECT * FROM carport.inquiry " +
+        String sql = "SELECT * FROM inquiry " +
                 "WHERE inquiry_id = ?";
 
         try (Connection connection = connectionPool.getConnection()) {
@@ -51,7 +51,7 @@ public class InquiryMapper {
                                        int roofSlope, int shedWidth, int shedLength) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         int newInquiryID = 0;
-        String sql = "insert into carport.inquiry ( carp_width, carp_length, roof_type," +
+        String sql = "insert into inquiry ( carp_width, carp_length, roof_type," +
                 " roof_slope, shed_width, shed_length, timestamp) values (?, ?, ?, ?, ?, ?, NOW())";
 
         Inquiry inquiry = null;
@@ -90,8 +90,8 @@ public class InquiryMapper {
 
         boolean result = false;
 
-        String sql = "UPDATE carport.inquiry SET carp_width = ?, carp_length = ?, roof_type = ?, " +
-                "roof_slope = ?, shed_width = ?, shed_length = ? WHERE carport.inquiry.inquiry_id = ?";
+        String sql = "UPDATE inquiry SET carp_width = ?, carp_length = ?, roof_type = ?, " +
+                "roof_slope = ?, shed_width = ?, shed_length = ? WHERE inquiry.inquiry_id = ?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {

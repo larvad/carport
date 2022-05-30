@@ -33,12 +33,21 @@ class InquiryMapperTest {
                 // Remove all rows from all tables
                 stmt.execute("delete from carport_test.inquiry");
                 // Indsæt et par inquiries
-                stmt.execute("insert into carport_test.inquiry (request_id, carp_width, carp_length, roof_type, roof_slope, shed_width, shed_length, timestamp) " +
+                stmt.execute("insert into carport_test.inquiry (inquiry_id, carp_width, carp_length, roof_type, roof_slope, shed_width, shed_length, timestamp) " +
                         "values ('0', 6000, 7800, 'fladt', 0, 6000, 3000, NOW()),('0', 3000, 5000, 'fladt', 0, 1500, 2000, NOW())");
             }
         } catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
+        }
+    }
+
+    @Test
+    void testConnection() throws SQLException {
+        Connection connection = connectionPool.getConnection();
+        assertNotNull(connection);
+        if (connection != null) {
+            connection.close();
         }
     }
 

@@ -37,8 +37,8 @@ public class InquiryCalculator {
         List<BillsOfMaterial> billsOfMaterials = new ArrayList<>();
 
         // FINDER ANTAL STOLPER PÅ BAGGRUND AF LÆNGDEN
-        int carportColoumnAmount = getCarportColoumnAmount(inquiry, orderId, carpLength, carpWidth, billsOfMaterials);
-        int shedColoumnAmount = getShedColoumnAmount(inquiry, orderId, carpLength, carpWidth, billsOfMaterials);
+        int carportColoumnAmount = getCarportColoumnAmount(carpLength);
+        int shedColoumnAmount = getShedColoumnAmount(inquiry, carpWidth);
         int coloumnAmount = carportColoumnAmount + shedColoumnAmount;
         // Stolpe = materialID 4
         billsOfMaterials.add(new BillsOfMaterial(bomId, 4, orderId, coloumnAmount, "Stolper nedgraves 90 cm. i jord"));
@@ -449,7 +449,7 @@ public class InquiryCalculator {
         billsOfMaterials.add(new BillsOfMaterial(bomId, materialId, orderId, remAmount, "Remme i sider, sadles ned i stolper"));
     }
 
-    private int getCarportColoumnAmount(Inquiry inquiry, int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials) {
+    public int getCarportColoumnAmount(int carpLength) {
         int carportColoumnAmount = 0;
         if (carpLength <= COLUMNBREAKPOINT) {
             carportColoumnAmount = 4;
@@ -459,7 +459,7 @@ public class InquiryCalculator {
         return carportColoumnAmount;
     }
 
-    private int getShedColoumnAmount(Inquiry inquiry, int orderId, int carpLength, int carpWidth, List<BillsOfMaterial> billsOfMaterials) {
+    public int getShedColoumnAmount(Inquiry inquiry, int carpWidth) {
         //HVis der er skur, så 5 stolper ekstra, hvis skuret er i halv bredde, så kun 4 ekstra. Den ene stolpe er til skurdøren.
         int shedColoumnAmount = 0;
         if (inquiry.getShedWidth() > 0) {

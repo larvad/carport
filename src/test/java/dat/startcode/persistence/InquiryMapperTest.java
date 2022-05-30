@@ -34,7 +34,8 @@ class InquiryMapperTest {
                 stmt.execute("delete from carport_test.inquiry");
                 // Indsæt et par inquiries
                 stmt.execute("insert into carport_test.inquiry (inquiry_id, carp_width, carp_length, roof_type, roof_slope, shed_width, shed_length, timestamp) " +
-                        "values ('0', 6000, 7800, 'fladt', 0, 6000, 3000, NOW()),('0', 3000, 5000, 'fladt', 0, 1500, 2000, NOW())");
+                        "values ('0', 6000, 7800, 'B & C Dobbelt Tagsten (Rød)', 0, 6000, 3000, NOW()),('0', 3000, 5000, 'B & C Dobbelt Tagsten (Rød)', 0, 1500, 2000, NOW())");
+
             }
         } catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
@@ -54,8 +55,8 @@ class InquiryMapperTest {
     @Test
     //VIRKER IKKE, henter fra den almindelige DB og ikke test, plus problem med ID
     void getInquiryById() throws DatabaseException {
-        Inquiry newInquiry = Facade.getInquiryById(64, connectionPool);
-        Inquiry expectedInquiry = new Inquiry(68, 3000, 5000, "fladt", 0, 1500, 2000);
+        Inquiry newInquiry = Facade.getInquiryById(93, connectionPool); //+6 TIL sidste entry i databasen
+        Inquiry expectedInquiry = new Inquiry(93, 3000, 5000, "B & C Dobbelt Tagsten (Rød)", 0, 1500, 2000);
         assertEquals(expectedInquiry, newInquiry);
     }
 

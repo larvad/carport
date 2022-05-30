@@ -20,7 +20,7 @@ public class InquiryMapper {
 
         Inquiry inquiry = null;
 
-        String sql = "SELECT * FROM carport.inquiry " +
+        String sql = "SELECT * FROM inquiry " +
                 "WHERE inquiry_id = ?";
 
         try (Connection connection = connectionPool.getConnection()) {

@@ -15,7 +15,7 @@ public class InquiryMapper {
     }
 
 
-    protected Inquiry getRequestById(int inquiryId) throws DatabaseException {
+    protected Inquiry getInquiryById(int inquiryId) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
         Inquiry inquiry = null;

@@ -1,6 +1,7 @@
 package dat.startcode.model.entities;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Inquiry {
 
@@ -120,4 +121,20 @@ public class Inquiry {
                 ", timestamp=" + timestamp +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof Inquiry)) return false;
+        Inquiry inquiry = (Inquiry) o;
+        return getCarpWidth() == inquiry.getCarpWidth() && getCarpLength() == inquiry.getCarpLength() && getRoofType().equals(inquiry.getRoofType()) && getRoofSlope() == inquiry.getRoofSlope() &&
+                getShedWidth() == inquiry.getShedWidth() && getShedLength() == inquiry.getShedLength();
+    }
+
+//    @Override
+//    public int hashCode()
+//    {
+//        return Objects.hash(getUsername(), getPassword(), getRoleId());
+//    }
 }

@@ -73,9 +73,9 @@ public class Facade {
         return orderMapper.getOrderByOrderId(orderId);
     }
 
-    public static Inquiry getRequestById(int inquiryId, ConnectionPool connectionPool) throws DatabaseException {
+    public static Inquiry getInquiryById(int inquiryId, ConnectionPool connectionPool) throws DatabaseException {
         InquiryMapper requestMapper = new InquiryMapper(connectionPool);
-        return requestMapper.getRequestById(inquiryId);
+        return requestMapper.getInquiryById(inquiryId);
     }
 
 

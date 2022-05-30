@@ -28,7 +28,7 @@ public class AdminEdit extends Command {
         int orderId = Integer.parseInt(request.getParameter("edit")); // henter orderId fra button value
 
         Order order = Facade.getOrderById(orderId, connectionPool);
-        Inquiry inquiry = Facade.getRequestById(order.getRequestId(), connectionPool);
+        Inquiry inquiry = Facade.getInquiryById(order.getRequestId(), connectionPool);
 
         session.setAttribute("inquiry", inquiry);
         session.setAttribute("order", order);

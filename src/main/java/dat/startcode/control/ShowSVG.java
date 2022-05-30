@@ -32,7 +32,7 @@ public class ShowSVG extends Command{
 
         int orderId = Integer.parseInt(request.getParameter("drawing"));
         Order order = Facade.getOrderById(orderId, connectionPool);
-        Inquiry inquiry = Facade.getRequestById(order.getRequestId(), connectionPool);
+        Inquiry inquiry = Facade.getInquiryById(order.getRequestId(), connectionPool);
 
         int carpWidth = inquiry.getCarpWidth()/10;
         int carpLength = inquiry.getCarpLength()/10;

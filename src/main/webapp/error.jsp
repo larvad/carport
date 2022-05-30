@@ -36,8 +36,8 @@
             <p>Abandon ship. We have no idea how you ended up here!</p>
         </c:if>
 
-        <p>Jump back to the <a href="index.jsp">Frontpage</a>,
-            or try <a href="login.jsp">logging</a> in again.</p>
+        <p>Jump back to the <a href="${pageContext.request.contextPath}/index.jsp">Frontpage</a>,
+            or try <a href="${pageContext.request.contextPath}/createUser.jsp">logging</a> in again.</p>
 
     </jsp:body>
 </t:pagetemplate>

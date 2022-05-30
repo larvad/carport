@@ -180,11 +180,11 @@ public class MaterialsMapper {
                     double price = rs.getDouble("price");
                     topTile = new Materials(materialId, type, height, width, length, unit, categoryId, price);
                 }
-                else {
-                    throw new DatabaseException("Fejl. Materialet var ikke i databasen?");
-                }
+//                else {
+//                    throw new DatabaseException("Fejl. Materialet var ikke i databasen?");
+//                }
             }
-        } catch (SQLException | DatabaseException ex) {
+        } catch (SQLException ex) {
             throw new DatabaseException(ex, "Something went wrong with the database");
         }
         return topTile;
